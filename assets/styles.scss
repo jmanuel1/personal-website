@@ -3,6 +3,7 @@
 @import url('https://unpkg.com/primer/build/build.css');
 @import 'highlight-syntax';
 
+$primer-bg-gray: #f6f8fa;
 
 // If a user adds a custom font, this component will stop it from bleeding into GitHub components:
 .github-component {
@@ -51,4 +52,8 @@
 
 .min-height-full {
   min-height: 100vh;
+}
+
+.light-icon {
+  fill: $primer-bg-gray;
 }

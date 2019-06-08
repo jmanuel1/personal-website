@@ -1,5 +1,5 @@
 layout: sidebar # prefer to stacked
-style: dark # prefer to light, though NOTE the cards stay light
+style: dark # prefer to light, though NOTE the interest cards stay light
 
 plugins:
   - jekyll-octicons
