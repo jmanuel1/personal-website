@@ -9,7 +9,7 @@
         #
       </div>
     {% endif %}
-    <p class="f3 lh-condensed text-center {% if site.style == 'dark' %}text-white link-hover-blue{% else %}link-gray-dark{% endif %} mb-0 mt-1">{{ topic.name }}</p>
+    <p class="f3 lh-condensed text-center {% if site.style == 'dark' %}text-white link-hover-blue{% else %}link-gray-dark{% endif %} mb-0 mt-1 text-underline">{{ topic.name }}</p>
     {% if topic.description %}
       <p class="f5 text-gray text-center mb-0 mt-1">{{ topic.description }}</p>
     {% endif %}
@@ -26,7 +26,7 @@
         #
       </div>
     {% endif %}
-    <p class="f3 lh-condensed text-center mb-0 mt-1">{{ topic.name }}</p>
+    <p class="f3 lh-condensed text-center mb-0 mt-1 text-underline">{{ topic.name }}</p>
     {% if topic.description %}
       <p class="f5 text-gray text-center mb-0 mt-1">{{ topic.description }}</p>
     {% endif %}
