@@ -1,8 +1,16 @@
 <!-- My Projects access key -->
-<a href="#projects" accesskey="1" id="projects" tabindex="-1"></a>
-
-<h2 {% if site.style == 'dark' %}class="text-white"{% endif %}>My Projects</h2>
-<p class="f4 mb-4 {% if site.style == 'dark' %}text-white{% else %}text-gray{% endif %}">GitHub repositories that I've built.</p>
+<a href="#projects" accesskey="1" id="projects" tabindex="-1">
+  <h2 {% if site.style == 'dark' %}class="text-white"{% endif %}>
+    My Projects
+  </h2>
+</a>
+<p class="f4 mb-4 {% if site.style == 'dark' %}
+    text-white
+  {% else %}
+    text-gray
+    {% endif %}">
+  GitHub repositories that I've built.
+</p>
 <div class="d-sm-flex flex-wrap gutter-condensed mb-4">
   {% if site.projects.sort_by == 'stars' %}
     {% assign sort_order = 'stargazers_count', 'last' %}
@@ -11,13 +19,22 @@
   {% endif %}
 
   {% if site.projects.exclude.archived && site.projects.exclude.forks %}
-    {% assign filtered_repos = site.github.public_repositories | where:'archived', false | where:'fork', false | sort: sort_order | reverse %}
+    {% assign filtered_repos = site.github.public_repositories
+      | where:'archived', false
+      | where:'fork', false
+      | sort: sort_order
+      | reverse %}
   {% elsif site.projects.exclude.archived %}
-    {% assign filtered_repos = site.github.public_repositories | where:'archived', false | sort: sort_order | reverse %}
+    {% assign filtered_repos = site.github.public_repositories
+      | where:'archived', false
+      | sort: sort_order
+      | reverse %}
   {% elsif site.projects.exclude.forks %}
-    {% assign filtered_repos = site.github.public_repositories | where:'fork', false | sort: sort_order | reverse %}
+    {% assign filtered_repos = site.github.public_repositories
+      | where:'fork', false | sort: sort_order | reverse %}
   {% else %}
-    {% assign filtered_repos = site.github.public_repositories | sort: sort_order | reverse %}
+    {% assign filtered_repos = site.github.public_repositories
+      | sort: sort_order | reverse %}
   {% endif %}
 
   {% for repository in filtered_repos | limit: site.projects.limit %}
