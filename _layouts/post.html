@@ -22,7 +22,7 @@
           {% for service in shareable_social_media %}
             <li class="mt-sm-3">
               <a href="{{ service.share_url_prefix }}{{ page.url | prepend: site.url | prepend: site.baseurl | url_encode }}" title="Share on {{ service.name }}" class="d-flex flex-items-center">
-                <div style="width:32px">{{ service.icon_svg }}</div><span class="d-none d-sm-inline-block {% if site.style == 'dark' %}text-white{% else %}text-gray-light{% endif %}">{{ service.name }}</span>
+                <div style="width:32px" class="d-flex flex-items-center">{{ service.icon_svg }}</div><span class="d-none d-sm-inline-block {% if site.style == 'dark' %}text-white{% else %}text-gray-light{% endif %}">{{ service.name }}</span>
               </a>
             </li>
           {% endfor %}
