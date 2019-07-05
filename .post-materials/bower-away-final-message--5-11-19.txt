@@ -1,0 +1,10 @@
+Your project is now converted to Yarn! Thank you for using Bower!
+
+You should find all bower components in node_modules/@bower_components
+
+The postinstall script should also link it to old location of components
+
+It is advisable to remove postinstall script and point your tools
+to point to node_modules/@bower_components instead, though.
+
+You may also consider creating separate directory for front-end project with separate package.json
