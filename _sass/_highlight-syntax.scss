@@ -1,7 +1,12 @@
 $primer-bg-gray-dark: #24292e;
 $primer-p-3: 3px;
 
-/* https://github.com/mpchadwick/pygments-high-contrast-stylesheets/blob/gh-pages/native.css */
+$highlight-nf-blue: #659ce4;
+$highlight-nb-teal: #36a5b2;
+$highlight-m-blue:  #549ed5;
+$highlight-cp-pink: #F2A1A1;
+
+/* based on https://github.com/mpchadwick/pygments-high-contrast-stylesheets/blob/gh-pages/native.css */
 .highlight .hll { background-color: #404040; }
 .highlight .c { color: #999999; font-style: italic; }
 .highlight .err { color: #a61717; background-color: #e3d2d2; }
@@ -15,7 +20,7 @@ $primer-p-3: 3px;
 .highlight .p { color: #d0d0d0; }
 .highlight .ch { color: #999999; font-style: italic; }
 .highlight .cm { color: #999999; font-style: italic; }
-.highlight .cp { font-weight: bold; color: #e15a5a; }
+.highlight .cp { font-weight: bold; color: $highlight-cp-pink; }
 .highlight .cpf { color: #999999; font-style: italic; }
 .highlight .c1 { color: #999999; font-style: italic; }
 .highlight .cs { font-weight: bold; background-color: #520000; color: #f75050; }
@@ -36,29 +41,29 @@ $primer-p-3: 3px;
 .highlight .kr { color: #6ab825; font-weight: bold; }
 .highlight .kt { color: #6ab825; font-weight: bold; }
 .highlight .ld { color: #d0d0d0; }
-.highlight .m { color: #438dc4; }
+.highlight .m { color: $highlight-m-blue; }
 .highlight .s { color: #ed9d13; }
 .highlight .na { color: #bbbbbb; }
-.highlight .nb { color: #2594a1; }
-.highlight .nc { text-decoration: underline; color: #548bd3; }
+.highlight .nb { color: $highlight-nb-teal; }
+.highlight .nc { text-decoration: underline; color: $highlight-nf-blue; }
 .highlight .no { color: #40ffff; }
 .highlight .nd { color: #ffa500; }
 .highlight .ni { color: #d0d0d0; }
 .highlight .ne { color: #bbbbbb; }
-.highlight .nf { color: #548bd3; }
+.highlight .nf { color: $highlight-nf-blue; }
 .highlight .nl { color: #d0d0d0; }
-.highlight .nn { text-decoration: underline; color: #548bd3; }
+.highlight .nn { text-decoration: underline; color: $highlight-nf-blue; }
 .highlight .nx { color: #d0d0d0; }
 .highlight .py { color: #d0d0d0; }
 .highlight .nt { color: #6ab825; font-weight: bold; }
 .highlight .nv { color: #40ffff; }
 .highlight .ow { color: #6ab825; font-weight: bold; }
 .highlight .w { color: #878787; }
-.highlight .mb { color: #438dc4; }
-.highlight .mf { color: #438dc4; }
-.highlight .mh { color: #438dc4; }
-.highlight .mi { color: #438dc4; }
-.highlight .mo { color: #438dc4; }
+.highlight .mb { color: $highlight-m-blue; }
+.highlight .mf { color: $highlight-m-blue; }
+.highlight .mh { color: $highlight-m-blue; }
+.highlight .mi { color: $highlight-m-blue; }
+.highlight .mo { color: $highlight-m-blue; }
 .highlight .sa { color: #ed9d13; }
 .highlight .sb { color: #ed9d13; }
 .highlight .sc { color: #ed9d13; }
@@ -72,15 +77,21 @@ $primer-p-3: 3px;
 .highlight .sr { color: #ed9d13; }
 .highlight .s1 { color: #ed9d13; }
 .highlight .ss { color: #ed9d13; }
-.highlight .bp { color: #2594a1; }
-.highlight .fm { color: #548bd3; }
+.highlight .bp { color: $highlight-nb-teal; }
+.highlight .fm { color: $highlight-nf-blue; }
 .highlight .vc { color: #40ffff; }
 .highlight .vg { color: #40ffff; }
 .highlight .vi { color: #40ffff; }
 .highlight .vm { color: #40ffff; }
-.highlight .il { color: #438dc4; }
+.highlight .il { color: $highlight-m-blue; }
 
-.highlight  { width: 100%; overflow: auto; background: $primer-bg-gray-dark; padding: $primer-p-3 }
+.highlight  {
+  width: 100%;
+  overflow: auto; 
+  background: $primer-bg-gray-dark;
+  padding: $primer-p-3;
+  color: #ffffff;
+}
 
 /* Make line numbers unselectable: excludes line numbers from copy-paste user ops */
 .highlight .lineno {-webkit-user-select: none;-moz-user-select: none; -o-user-select: none;}
