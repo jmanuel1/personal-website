@@ -72,6 +72,11 @@ a {
   text-decoration: underline;
 }
 
+.dark a {
+  // And so that they are legible on a dark background
+  color: white;
+}
+
 .bg-gray-medium-dark {
   background-color: #2f363d !important;
 }
