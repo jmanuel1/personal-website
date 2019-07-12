@@ -55,19 +55,6 @@ as output by `bower list`:
 │ │ │ ├─┬ iron-meta#1.1.3
 │ │ │ │ └─┬ polymer#1.11.3
 │ │ │ │   └── webcomponentsjs#0.7.24
-│ │ │ └── polymer#1.11.3
-│ │ ├─┬ iron-iconset-svg#1.1.2
-│ │ │ ├─┬ iron-meta#1.1.3
-│ │ │ │ └─┬ polymer#1.11.3
-│ │ │ │   └── webcomponentsjs#0.7.24
-│ │ │ └─┬ polymer#1.11.3
-│ │ │   └── webcomponentsjs#0.7.24
-│ │ ├── iron-menu-behavior#1.3.1 (latest is 3.0.2)
-│ │ ├─┬ iron-resizable-behavior#1.0.6
-│ │ │ └── polymer#1.11.3
-│ │ ├─┬ paper-behaviors#1.0.13
-│ │ │ ├─┬ iron-behaviors#1.0.18
-│ │ │ │ ├─┬ iron-a11y-keys-behavior#1.1.9
 ```
 
 As you can tell, it could be quite a bit of work to do all the migration
