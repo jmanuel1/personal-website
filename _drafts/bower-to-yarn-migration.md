@@ -73,14 +73,14 @@ Step 1: Installing `bower-away`
 
 First, let's install `bower-away` globally using `yarn` or `npm`:
 
-```batchfile
-npm i -g bower-away
+```console
+project-dir> npm i -g bower-away
 ```
 
 or
 
-```batchfile
-yarn global add bower-away
+```console
+project-dir> yarn global add bower-away
 ```
 
 Step 2: The Migration Process
@@ -89,8 +89,8 @@ Step 2: The Migration Process
 In the root of your project (wherever your `bower.json`, the Bower package
 manifest, is located), run `bower-away`:
 
-```batchfile
-bower-away
+```console
+project-dir> bower-away
 ```
 
 The first time you run `bower-away`, you might get an error similar to this:
