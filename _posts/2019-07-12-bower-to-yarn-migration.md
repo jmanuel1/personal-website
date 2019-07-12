@@ -1,6 +1,7 @@
 ---
 start_date: 5/11/2019
-title: "Migrating from Bower to Yarn"
+title: Migrating from Bower to Yarn
+date: '2019-07-12 17:32:18+00:00'
 ---
 
 Migrating from Bower to Yarn
@@ -144,3 +145,4 @@ You can follow `bower-away`'s suggestions if you want, but you're done! If you
 want to learn more about `bower-away` and migration to Yarn, read the [original
 tutorial on how to migrate away from
 Bower](https://bower.io/blog/2017/how-to-migrate-away-from-bower/).
+
