@@ -1,8 +1,14 @@
+---
+name: home
+---
+
 {% include header.html %}
 
 {% if site.layout == 'stacked' %}
   <div class="container-lg py-6 p-responsive text-center">
-    <aside>{% include masthead.html metadata=true %}</aside>
+    <aside>
+      {% include masthead.html metadata=true %}
+    </aside>
 
     <main role="main">
       <section {% if site.style == 'dark' %}class="text-white"{% endif %}>
