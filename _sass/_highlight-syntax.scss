@@ -6,7 +6,8 @@ $highlight-nb-teal: #36a5b2;
 $highlight-m-blue:  #549ed5;
 $highlight-cp-pink: #F2A1A1;
 
-/* based on https://github.com/mpchadwick/pygments-high-contrast-stylesheets/blob/gh-pages/native.css */
+/* based on
+   https://github.com/mpchadwick/pygments-high-contrast-stylesheets/blob/gh-pages/native.css */
 .highlight .hll { background-color: #404040; }
 .highlight .c { color: #999999; font-style: italic; }
 .highlight .err { color: #a61717; background-color: #e3d2d2; }
@@ -93,7 +94,12 @@ $highlight-cp-pink: #F2A1A1;
   color: #ffffff;
 }
 
-/* Make line numbers unselectable: excludes line numbers from copy-paste user ops */
-.highlight .lineno {-webkit-user-select: none;-moz-user-select: none; -o-user-select: none;}
+/* Make line numbers unselectable: excludes line numbers from copy-paste user
+   ops */
+.highlight .lineno {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+}
 .lineno::-moz-selection {background-color: transparent;} /* Mozilla specific */
 .lineno::selection {background-color: transparent;} /* Other major browsers */

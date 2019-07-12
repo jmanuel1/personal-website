@@ -15,11 +15,12 @@ Kit](https://github.com/Polymer/polymer-starter-kit). A lot has changed between
 Search, becoming
 [deprecated](https://devblogs.microsoft.com/aspnet/what-happened-to-bower/).
 
-In this post, I'm going to describe how I migrated Material Search from Bower
-to Yarn. Migration can be done by resolving all of the dependencies of your
-project and adding them flattened to your new `package.json`. Doing this
-manually could be tedious. For example, here's part of the dependency tree for
-Material Search, as output by `bower list`:
+In this post, I'm going to describe how I migrated Material Search from Bower to
+another package manager called Yarn. Migration can be done by resolving all of
+the dependencies of your project and adding them flattened to your new
+`package.json` (the package manifest that Yarn uses). Doing this manually could
+be tedious. For example, here's part of the dependency tree for Material Search,
+as output by `bower list`:
 
 ```
 │ │ │ └─┬ polymer#1.11.3
@@ -98,8 +99,8 @@ yarn global add bower-away
 Step 2: The Migration Process
 -----------------------------
 
-In the root of your project (wherever your `bower.json` is located), run
-`bower-away`:
+In the root of your project (wherever your `bower.json`, the Bower package
+manifest, is located), run `bower-away`:
 
 ```batchfile
 bower-away

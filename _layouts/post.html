@@ -9,7 +9,8 @@
       {% assign service = site.data.social_media[service_shortname] %}
 
       {% if service.share_url_prefix %}
-        {% assign shareable_social_media = shareable_social_media | push: service %}
+        {% assign shareable_social_media = shareable_social_media
+          | push: service %}
       {% endif %}
     {% endfor %}
 
