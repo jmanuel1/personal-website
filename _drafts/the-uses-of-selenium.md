@@ -1,0 +1,48 @@
+---
+layout: post
+title: The Uses of Selenium
+slug: the-uses-of-selenium
+---
+
+# The Uses of Selenium
+
+Selenium is a tool that helps you interact with a web browser programatically.
+With Selenium, you can do things like loading a website, simulating clicks, and
+automating filling of forms. The power of Selenium is often used for automation
+and cross-browser testing.
+
+## Automating mundane tasks
+
+<!-- TODO: Missing content -->
+
+## Testing web frontends
+
+One of the biggest uses of Selenium is to perform integration/system testing of
+website frontends. Imagine you're developing a website, and after every set of
+changes you click through the site to make sure it still works. This testing
+tactic is fine for a simpler site, but as your website increases in complexity,
+two pain points will start to show:
+
+- Manually testing many user scenarios is time consuming.
+- Manually testing many user scenarios is error-prone since you may forget to
+  perform some tests.
+
+Whenever you experience these two [[factors]] due to a manual task, you may have
+found an opportunity for automation. Selenium lets you automate much of this
+click-and-see-what-happens testing with a programming language of your choosing.
+
+### An example
+
+I have a project called Material Search that I'm currently adding automated
+tests for. If you open up the project [[link here]] you see that there's a blue
+app header with three tabs. (Clicking on the tabs doesn't do anything). Before,
+I would test that the tabs exist and have the correct text by manually checking
+the page. Now, I use Selenium to perform that test.
+
+## Learn more
+
+Selenium is a powerful web automation framework that can make your life easier,
+whether you need to test your web app or quickly enter lots of data into a web
+form. Here's some more information about Selenium's applications:
+
+- [[links here]]
