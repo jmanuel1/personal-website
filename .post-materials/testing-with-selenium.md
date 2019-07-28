@@ -28,6 +28,9 @@ There are no Selenium type stubs. Or pytest type stubs (I'm using pytest).
 
 I've made a gulp script to automate testing.
 
+Trouble typing into an iron-input: exception "element is not interactable" from
+.send_keys().
+
 ## On pytest
 
 - http://doc.pytest.org/en/latest/fixture.html
