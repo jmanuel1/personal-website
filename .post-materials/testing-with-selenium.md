@@ -1,7 +1,7 @@
 # So now I'm using Selenium (+ Python) for sytem-level testing of Material Search.
 
 - https://gist.github.com/ChadKillingsworth/d4cb3d30b9d7fbc3fd0af93c2a133a53
-  (End-to-end Testing with Shadow DOM)
+  (End-to-end Testing with Shadow DOM) -- **Not directly about Selenium**
 - https://www.blazemeter.com/blog/6-easy-steps-testing-your-chrome-extension-selenium
 
 # Installation involves downloading the Selenium .jar, a driver, and installing the Python bindings.
