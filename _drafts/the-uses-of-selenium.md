@@ -6,13 +6,13 @@ slug: the-uses-of-selenium
 
 # The Uses of Selenium
 
-Selenium is a tool that helps you interact with a web browser programatically.
+Selenium is a tool that helps you interact with a web browser programmatically.
 With Selenium, you can do things like loading a website, simulating clicks, and
-automating filling of forms. The power of Selenium is often used for automation
-and cross-browser testing. In the words of the [Selenium
+automating the filling of forms. The power of Selenium is often used for
+automation and cross-browser testing. In the words of the [Selenium
 website](https://www.seleniumhq.org):
 
-> *Selenium automates browsers.* ...What you do with that power is entirely up
+> *Selenium automates browsers.* ... What you do with that power is entirely up
 > to you.
 
 ## Automating mundane tasks
@@ -26,17 +26,17 @@ Real Python has a [tutorial on using Selenium to track songs you listen to on
 bandcamp](https://realpython.com/modern-web-automation-with-python-and-selenium/),
 too.
 
-## Testing web frontends
+## Testing web front ends
 
 One of the biggest uses of Selenium is to perform integration/system testing of
-website frontends. Imagine you're developing a website, and after every set of
-changes you click through the site to make sure it still works. This testing
+website front ends. Imagine you're developing a website. After every set of
+changes, you click through the site to make sure it still works. This testing
 tactic is fine for a simpler site, but as your website increases in complexity,
 two pain points will start to show:
 
-- Manually testing many user scenarios is time consuming.
+- Manually testing many user scenarios is time-consuming.
 - Manually testing many user scenarios is error-prone since you may forget to
-  perform some tests.
+perform some tests.
 
 Whenever you experience these circumstances due to a manual task, you may have
 found an opportunity for automation. Selenium lets you automate much of this
@@ -49,7 +49,7 @@ Search](https://jmanuel1.github.io/material-search/#!/material-search/) that I'm
 currently adding automated tests for. If you open up the project, you see that
 there's a blue app header with three tabs. (Clicking on the tabs doesn't do
 anything). Before, I would test that the tabs exist and have the correct text by
-manually checking the page. Now, I use Selenium to perform that test.
+manually checking the page. Now, I use Selenium to perform those tests.
 
 ## Learn more
 
@@ -58,6 +58,6 @@ whether you need to test your web app or quickly enter lots of data into a web
 form. Here's some more information about some of Selenium's applications:
 
 - [6 Easy Steps to Testing Your Chrome Extension With
-  Selenium](https://www.blazemeter.com/blog/6-easy-steps-testing-your-chrome-extension-selenium)
+Selenium](https://www.blazemeter.com/blog/6-easy-steps-testing-your-chrome-extension-selenium)
 - [Getting Started with Selenium for Automated Website
-  Testing](https://wiki.saucelabs.com/display/DOCS/Getting+Started+with+Selenium+for+Automated+Website+Testing)
+Testing](https://wiki.saucelabs.com/display/DOCS/Getting+Started+with+Selenium+for+Automated+Website+Testing)
