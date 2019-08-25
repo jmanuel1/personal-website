@@ -5,8 +5,6 @@ slug: the-uses-of-selenium
 date: '2019-08-24 21:11:48-07:00'
 ---
 
-# The Uses of Selenium
-
 Selenium is a tool that helps you interact with a web browser programmatically.
 With Selenium, you can do things like loading a website, simulating clicks, and
 automating the filling of forms. The power of Selenium is often used for

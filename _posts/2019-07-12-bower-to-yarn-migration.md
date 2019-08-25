@@ -4,9 +4,6 @@ title: Migrating from Bower to Yarn
 date: '2019-07-12 17:32:18+00:00'
 ---
 
-Migrating from Bower to Yarn
-============================
-
 I've started updating one of my side projects from a few years ago. It's called
 [Material Search](https://github.com/jmanuel1/material-search). It's a
 prototype of what a material design search page could look like. I started the
