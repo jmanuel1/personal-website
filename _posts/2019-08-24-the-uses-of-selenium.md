@@ -2,6 +2,7 @@
 layout: post
 title: The Uses of Selenium
 slug: the-uses-of-selenium
+date: '2019-08-24 21:11:48-07:00'
 ---
 
 # The Uses of Selenium
@@ -61,3 +62,4 @@ form. Here's some more information about some of Selenium's applications:
 Selenium](https://www.blazemeter.com/blog/6-easy-steps-testing-your-chrome-extension-selenium)
 - [Getting Started with Selenium for Automated Website
 Testing](https://wiki.saucelabs.com/display/DOCS/Getting+Started+with+Selenium+for+Automated+Website+Testing)
+
