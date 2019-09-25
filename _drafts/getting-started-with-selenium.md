@@ -31,7 +31,7 @@ For Selenium to be useful, we'll need a *web driver*. Selenium uses this program
 to interface with a web browser and control it. For our purposes, we'll download
 the Google Chrome web driver from the [ChromeDriver download
 page](https://sites.google.com/a/chromium.org/chromedriver/downloads) into the
-`se-get-started` directory.
+`se-get-started` directory. Make sure you name it `chromedriver`!
 
 ## Creating a web page to test
 
