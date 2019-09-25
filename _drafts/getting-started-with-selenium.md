@@ -35,7 +35,22 @@ page](https://sites.google.com/a/chromium.org/chromedriver/downloads) into the
 
 ## Creating a web page to test
 
+We're going to use Selenium to test a web page, so let's create a simple example
+page. Type the following into a new file called `index.html` and save it in the
+`se-get-started` folder.
 
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Example page</title>
+  </head>
+  <body>
+    Test that this text is here!
+  </body>
+</html>
+```
 
 ## Writing a test (in Python)
 
