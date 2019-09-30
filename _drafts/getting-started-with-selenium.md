@@ -154,4 +154,24 @@ Now that we've written our test, we can try running it.
 
 ## Running the test
 
+First, we'll start a server to access our web page from. In the command line
+(still in the `se-get-started` directory), run:
+
+```shell
+> python -m http.server
+```
+
+This command will start a web server at `localhost:8000`. You can try navigating
+to that address in your web browser, if you please.
+
+Now for the climax: we'll run our test script! Since the web server is running,
+you might have to open a new command line window to run the following command:
+
+```shell
+> python test.py
+```
+
+If you didn't get any errors, then our test passed! As an exercise, try editing
+`index.html` to make the test fail.
+
 ## Next steps
