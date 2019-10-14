@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Getting Started with Selenium
+title: Getting Started with Web Testing Using Selenium
 slug: getting-started-with-selenium
 ---
 
