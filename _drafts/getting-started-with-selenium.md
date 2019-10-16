@@ -4,8 +4,15 @@ title: Getting Started with Web Testing Using Selenium
 slug: getting-started-with-selenium
 ---
 
-<!-- TODO: Introduce article -->
-<!-- NOTE: assumed use of Chrome -->
+<!-- Introduce article -->
+Have you ever wondered how to test a website? I know I had for a long time. I
+knew how to write tests for individual functions, but not for a whole user
+interface. Fortunately, I learned that Selenium would fit my testing needs.
+
+If you want to learn how to use Selenium to test your website, read on. We're
+going to write our tests in Python 3 (3.7 should work) and run them under Google
+Chrome in this tutorial, but Selenium works with many browsers and programming
+languages.
 
 ## What is Selenium?
 
