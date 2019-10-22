@@ -27,12 +27,7 @@ I won't go into possible uses for Selenium in this post. If you're interested in
 that, you can visit [the Selenium homepage](https://www.seleniumhq.org) or a
 [previous post of mine]({% post_url 2019-08-24-the-uses-of-selenium %}).
 
-## Downloading Selenium
-
-<!-- QUESTION: Do we need this step? -->
-Go to [Selenium's download page](https://www.seleniumhq.org/download/). You'll
-want to download the Selenium Standalone Server. Save the jar file you get to a
-directory called `se-get-started`.
+## Downloading a web driver
 
 For Selenium to be useful, we'll need a *web driver*. Selenium uses this program
 to interface with a web browser and control it. For our purposes, we'll download
