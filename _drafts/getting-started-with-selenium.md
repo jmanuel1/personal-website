@@ -4,7 +4,6 @@ title: Getting Started with Web Testing Using Selenium
 slug: getting-started-with-selenium
 ---
 
-<!-- Introduce article -->
 Have you ever wondered how to test a website? I know I had for a long time. I
 knew how to write tests for individual functions, but not for a whole user
 interface. Fortunately, I learned that Selenium would fit my testing needs.
@@ -34,8 +33,8 @@ that, you can visit [the Selenium homepage](https://www.seleniumhq.org) or a
 ## Downloading a web driver
 
 For Selenium to be useful, we'll need a *web driver*. Selenium uses this program
-to interface with a web browser and control it. For our purposes, we'll download
-the Google Chrome web driver from the [ChromeDriver download
+to interface with a web browser and to control it. For our purposes, we'll
+download the Google Chrome web driver from the [ChromeDriver download
 page](https://sites.google.com/a/chromium.org/chromedriver/downloads) into the
 `se-get-started` directory. Make sure you name it `chromedriver`!
 
@@ -71,7 +70,7 @@ on the command line.
 
 Time to write your first test! Create a new file in our `se-get-started` folder;
 let's call it `test.py`. We're going to write a Python script that tests whether
-or not our intended text appears on our web page.
+our intended text appears on our web page.
 
 In our test script, we'll first import a few things from the Selenium package.
 
@@ -125,8 +124,8 @@ creating a tuple which says we should use CSS selectors to find the element
 ```
 
 Now, we need an object that represents what we are waiting for and expecting to
-happen in the web browser--that there should be visible text in our chosen element.
-We can do that using `expects.text_to_be_present_in_element`.
+happen inside the web browser--that there should be visible text in our chosen
+element. We can do that using `expects.text_to_be_present_in_element`.
 
 ```python
     expectation = expects.text_to_be_present_in_element(selector, text)
@@ -163,7 +162,7 @@ Now that we've written our test, we can try running it.
 
 ## Running the test
 
-First, we'll start a server to access our web page from. In the command line
+First, we'll start a server to access our web page. In the command line
 (still in the `se-get-started` directory), run:
 
 ```shell
@@ -173,7 +172,7 @@ First, we'll start a server to access our web page from. In the command line
 This command will start a web server at `localhost:8000`. You can try navigating
 to that address in your web browser, if you please.
 
-Now for the climax: we'll run our test script! Since the web server is running,
+Now for the climax: we'll run our test script! Since the webserver is running,
 you might have to open a new command line window to run the following command
 within the `se-get-started` folder:
 
