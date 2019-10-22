@@ -14,6 +14,10 @@ going to write our tests in Python 3 (3.7 should work) and run them under Google
 Chrome in this tutorial, but Selenium works with many browsers and programming
 languages.
 
+Visit the [example code
+repository](https://github.com/jmanuel1/getting-started-with-selenium-code) to
+see completed code from this tutorial.
+
 ## What is Selenium?
 
 Selenium is a web automation tool. You can use Selenium to programmatically
@@ -67,7 +71,7 @@ on the command line.
 
 Time to write your first test! Create a new file in our `se-get-started` folder;
 let's call it `test.py`. We're going to write a Python script that tests whether
-or not text appears on our web page.
+or not our intended text appears on our web page.
 
 In our test script, we'll first import a few things from the Selenium package.
 
@@ -121,7 +125,7 @@ creating a tuple which says we should use CSS selectors to find the element
 ```
 
 Now, we need an object that represents what we are waiting for and expecting to
-happen in the web browser: there should be visible text in our chosen element.
+happen in the web browser--that there should be visible text in our chosen element.
 We can do that using `expects.text_to_be_present_in_element`.
 
 ```python
@@ -145,11 +149,14 @@ text = 'Test that this text is here!'
 wait_for_element_has_text('body', driver, text)
 ```
 
-Lastly, we'll assert that the text we expect in the body element is there.
+Lastly, we'll assert that the text we expect in the body element is there, then
+close the browser window.
 
 ```python
 body = driver.find_element_by_tag_name('body')
 assert body.text == text
+
+driver.quit()
 ```
 
 Now that we've written our test, we can try running it.
@@ -167,7 +174,8 @@ This command will start a web server at `localhost:8000`. You can try navigating
 to that address in your web browser, if you please.
 
 Now for the climax: we'll run our test script! Since the web server is running,
-you might have to open a new command line window to run the following command:
+you might have to open a new command line window to run the following command
+within the `se-get-started` folder:
 
 ```shell
 > python test.py
