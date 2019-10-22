@@ -2,6 +2,7 @@
 layout: post
 title: Getting Started with Web Testing Using Selenium
 slug: getting-started-with-selenium
+date: '2019-10-22 16:27:10-07:00'
 ---
 
 Have you ever wondered how to test a website? I know I had for a long time. I
