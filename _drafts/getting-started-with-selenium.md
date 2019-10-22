@@ -177,3 +177,13 @@ If you didn't get any errors, then our test passed! As an exercise, try editing
 `index.html` to make the test fail.
 
 ## Next steps
+
+<!-- write more tests -->
+I encourage you to try writing more tests for our little web page, like testing
+that the title is correct.
+<!-- link to tutorial & documentation -->
+Also, read the official [documentation on Selenium
+WebDriver](https://www.seleniumhq.org/docs/03_webdriver.jsp).
+<!-- applications to their own projects -->
+Finally, try using an automated testing tool like Selenium to test your own
+websites or web apps. The best way to learn is by doing!
