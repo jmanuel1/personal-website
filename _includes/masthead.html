@@ -6,97 +6,102 @@
 
 
 
-<img src="{{ user.avatar_url }}" class="circle mb-3" style="max-width: 150px;"
-  alt="Jason Manuel's face">
-<!-- Masthead access key -->
-<a href="#masthead" accesskey="0" id="masthead" tabindex="-1">
-  <h1 class="{% if site.style == 'dark' %}
+<div class="position-relative top-0 left-0"
+  style="z-index: 1; background-color: transparent">
+  <img src="{{ user.avatar_url }}" class="circle mb-3" style="max-width: 150px;"
+    alt="Jason Manuel's face">
+  <!-- Masthead access key -->
+  <a href="#masthead" accesskey="0" id="masthead" tabindex="-1">
+    <h1 class="{% if site.style == 'dark' %}
+        text-white
+      {% endif %} mb-2 lh-condensed">
+      {% if user.name %}{{ user.name }}{% else %}{{ user.login }}{% endif %}
+    </h1>
+  </a>
+  <p class="mb-3 f4 {% if site.style == 'dark' %}
       text-white
-    {% endif %} mb-2 lh-condensed">
-    {% if user.name %}{{ user.name }}{% else %}{{ user.login }}{% endif %}
-  </h1>
-</a>
-<p class="mb-3 f4 {% if site.style == 'dark' %}
-    text-white
-  {% else %}
-    text-gray
-  {% endif %}">
-  {{ user.bio }}
-</p>
+    {% else %}
+      text-gray
+    {% endif %}">
+    {{ user.bio }}
+  </p>
 
-{% if include.metadata %}
-  <div class="f4 mb-6">
-    {% if user.name %}
-      <div class="{{ metadata_styles }}">
-        {% octicon mark-github height:20 class:"mr-2 v-align-middle"
-          fill:{{ icon_color }} aria-label:GitHub %}
-        <a href="https://github.com/{{ user.login }}"
-          {% if site.style == 'dark' %}class="text-white"{% endif %}>
-          @{{ user.login }}
-        </a>
-      </div>
-    {% endif %}
-    {% if user.email %}
-      <div class="{{ metadata_styles }}">
-        {% octicon mail height:20 class:"mr-2 v-align-middle"
-          fill:{{ icon_color }} aria-label:email %}
-        <a href="mailto:{{ user.email }}"
-          {% if site.style == 'dark' %}class="text-white"{% endif %}>
-          {{ user.email }}
-        </a>
-      </div>
-    {% endif %}
-    {% if user.location %}
-      <div class="{{ metadata_styles }}
-        {% if site.style == 'dark' %}text-white{% endif %}">
-        {% octicon location height:20 class:"mr-2 v-align-middle"
-          fill:{{ icon_color }} aria-label:Location %}
-        {{ user.location }}
-      </div>
-    {% endif %}
-    {% if site.social_media %}
-      <div class="d-flex flex-wrap flex-items-start
-        {% if site.layout == 'stacked' %}
-          flex-justify-center mt-1 mt-md-3
-        {% endif %}">
-        {% for account in site.social_media %}
-          <div
-            class="{% unless forloop.last == true %}mr-3{% endunless %} mb-3">
-            {% assign service_shortname = account[0] %}
-            {% assign service = site.data.social_media[service_shortname] %}
-            <a href="{{ service.profile_url_prefix }}{{ account[1] }}"
-              class="tooltipped tooltipped-se text-white d-inline-flex
-                flex-items-center"
-              aria-label="{{ service.name }}: {{ account[1] }}">
-              {{ service.icon_svg }} <span class="pl-2">{{ service.name }}</span>
-            </a>
-          </div>
-        {% endfor %}
-      </div>
-    {% endif %}
-    {% if user.hireable %}
-      <span title="Hire me"
-        class="d-inline-block f5 rounded-2 text-white bg-green py-1 px-2">
-        Available for hire
-      </span>
-    {% endif %}
-  </div>
-{% endif %}
+  {% if include.metadata %}
+    <div class="f4 mb-6">
+      {% if user.name %}
+        <div class="{{ metadata_styles }}">
+          {% octicon mark-github height:20 class:"mr-2 v-align-middle"
+            fill:{{ icon_color }} aria-label:GitHub %}
+          <a href="https://github.com/{{ user.login }}"
+            {% if site.style == 'dark' %}class="text-white"{% endif %}>
+            @{{ user.login }}
+          </a>
+        </div>
+      {% endif %}
+      {% if user.email %}
+        <div class="{{ metadata_styles }}">
+          {% octicon mail height:20 class:"mr-2 v-align-middle"
+            fill:{{ icon_color }} aria-label:email %}
+          <a href="mailto:{{ user.email }}"
+            {% if site.style == 'dark' %}class="text-white"{% endif %}>
+            {{ user.email }}
+          </a>
+        </div>
+      {% endif %}
+      {% if user.location %}
+        <div class="{{ metadata_styles }}
+          {% if site.style == 'dark' %}text-white{% endif %}">
+          {% octicon location height:20 class:"mr-2 v-align-middle"
+            fill:{{ icon_color }} aria-label:Location %}
+          {{ user.location }}
+        </div>
+      {% endif %}
+      {% if site.social_media %}
+        <div class="d-flex flex-wrap flex-items-start
+          {% if site.layout == 'stacked' %}
+            flex-justify-center mt-1 mt-md-3
+          {% endif %}">
+          {% for account in site.social_media %}
+            <div
+              class="{% unless forloop.last == true %}mr-3{% endunless %} mb-3">
+              {% assign service_shortname = account[0] %}
+              {% assign service = site.data.social_media[service_shortname] %}
+              <a href="{{ service.profile_url_prefix }}{{ account[1] }}"
+                class="tooltipped tooltipped-se text-white d-inline-flex
+                  flex-items-center"
+                aria-label="{{ service.name }}: {{ account[1] }}">
+                {{ service.icon_svg }} <span class="pl-2">{{ service.name }}</span>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% if user.hireable %}
+        <span title="Hire me"
+          class="d-inline-block f5 rounded-2 text-white bg-green py-1 px-2">
+          Available for hire
+        </span>
+      {% endif %}
+    </div>
+  {% endif %}
 
-<details class="{% if site.style == 'dark' %}
-    text-white bg-gray-dark border-0
-  {% endif %} details-overlay Box">
-  <summary>Access Keys</summary>
-  <ul class="list-style-inside">
-    <li><kbd>0</kbd>: Go to sidebar</li>
-    {% if layout.name == 'home' %}
-      <li><kbd>1</kbd>: Go to My Projects section</li>
-      <li><kbd>2</kbd>: Go to My Interests section</li>
-      <li><kbd>3</kbd>: Go to My Thoughts section</li>
-    {% elsif layout.name == 'post' %}
-      <li><kbd>1</kbd>: Go to the home page</li>
-      <li><kbd>2</kbd>: Go to the top of the blog post</li>
-      <li><kbd>3</kbd>: Go to Share post sidebar</li>
-    {% endif %}
-  </ul>
-</details>
+  <details class="{% if site.style == 'dark' %}
+      text-white bg-gray-dark border-0
+    {% endif %} details-overlay Box">
+    <summary>Access Keys</summary>
+    <ul class="list-style-inside">
+      <li><kbd>0</kbd>: Go to sidebar</li>
+      {% if layout.name == 'home' %}
+        <li><kbd>1</kbd>: Go to My Projects section</li>
+        <li><kbd>2</kbd>: Go to My Interests section</li>
+        <li><kbd>3</kbd>: Go to My Thoughts section</li>
+      {% elsif layout.name == 'post' %}
+        <li><kbd>1</kbd>: Go to the home page</li>
+        <li><kbd>2</kbd>: Go to the top of the blog post</li>
+        <li><kbd>3</kbd>: Go to Share post sidebar</li>
+      {% endif %}
+    </ul>
+  </details>
+</div>
+
+{% include collatz.html %}
