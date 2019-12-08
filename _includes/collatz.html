@@ -76,9 +76,11 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
 <script>
   var width;
   var height;
+  var orderingDirection = 1;
   function onResize() {
     width = document.querySelector("#force").clientWidth;
     height = window.innerWidth >= 768 ? 500 : document.querySelector("aside div").clientHeight;
+    orderingDirection = window.innerWidth >= 768 ? -1 : 1;
     layout && layout.size([width - margin, height - margin]).start();
   }
 
@@ -141,7 +143,8 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
     // https://github.com/mbostock/d3/wiki/Force-Layout#wiki-drag
     d3.selectAll(".node").call(layout.drag);
     // https://github.com/mbostock/d3/wiki/Force-Layout#wiki-on
-    layout.on("tick", function() {
+    layout.on("tick", function(event) {
+      orderingForce(graph.nodes, event.alpha);
       d3.selectAll(".link")
         .attr("x1", function(d) {
           return d.source.x;
@@ -172,6 +175,24 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
     });
   }
 
+  // Apply ordering force to arrange numbers from near hailstone sequence tree root (1) at top to leaves at bottom. Order reverses in wider layouts (>=768px).
+  function orderingForce(nodes, alpha) {
+    // var numbers = nodes.map(function (node) {
+    //   return parseInt(node.name);
+    // });
+    // var average = numbers.reduce(function(a, b) {
+    //   return a + b;
+    // })/numbers.length;
+    nodes.forEach(function(node) {
+      var strength = 12.8 * alpha;
+      var diff = node.index - nodes.length / 2;
+      if (diff < 0) {
+        node.y -= orderingDirection*strength/**(-diff)*/;
+        return;
+      }
+      node.y += orderingDirection*strength/**diff*/;
+    });
+  }
   // Draws nodes on plot
   function drawNodes(nodes) {
     // used to assign nodes color by group
