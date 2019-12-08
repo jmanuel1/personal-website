@@ -57,27 +57,47 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
   svg {
     z-index: -1;
   }
+
+  @media (min-width: 768px) {
+    .bottom-md-0 {
+      bottom: 0px;
+    }
+
+    #force {
+      top: unset !important;
+    }
+  }
 </style>
 
-<div id="force" class="col-12 position-absolute top-0 right-0"></div>
+<!-- <div class="position-relative top-0 left-0"> -->
+<div id="force" class="col-12 col-md-5 col-lg-4 col-xl-3 position-absolute top-0 left-0 bottom-md-0"></div>
+<!-- </div> -->
 
 <script>
-  var width = document.querySelector("#force").clientWidth;
+  var width;
+  var height;
+  function onResize() {
+    width = document.querySelector("#force").clientWidth;
+    height = window.innerWidth >= 768 ? 500 : document.querySelector("aside div").clientHeight;
+    layout && layout.size([width - margin, height - margin]).start();
+  }
 
-  var height = 500;
-  var margin = 0;
+  window.addEventListener("resize", onResize);
+  onResize();
+
+  var margin = 48;
   var pad = margin / 2;
   var color = d3.scale.category20();
   var vis = d3.select("#chart")
     .append("svg:svg")
-    .attr("width", width)
+    .attr("width", "100%")
     .attr("height", height)
     .attr("pointer-events", "all")
     .append('svg:g')
     .call(d3.behavior.zoom().on("zoom", redraw))
     .append('svg:g');
   vis.append('svg:rect')
-    .attr('width', width)
+    .attr('width', "100%")
     .attr('height', height)
     .attr('fill', 'white');
 
@@ -88,32 +108,33 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
       " scale(" + d3.event.scale + ")");
   }
 
+  var layout;
   function drawGraph(graph) {
     var svg = d3.select("#force").append("svg")
-      .attr("width", width)
+      .attr("width", "100%")
       .attr("height", height);
     // draw plot background
     svg.append("rect")
-      .attr("width", width)
+      .attr("width", "100%")
       .attr("height", height)
       .style("fill", "rgba(0,0,0,0)");
     // create an area within svg for plotting graph
     var plot = svg.append("g")
       .attr("id", "plot")
-      .attr("transform", "translate(" + (pad + width/4) + ", " + (pad - height/4) + ")");
+      .attr("transform", "translate(" + (0) + ", " + (0) + ")");
     // https://github.com/mbostock/d3/wiki/Force-Layout#wiki-force
     console.log(graph);
-    var layout = d3.layout.force()
+    layout = d3.layout.force()
       .size([width - margin, height - margin])
-      .charge(-480)
+      .charge(-640)
       .linkDistance(function(d, i) {
         return 75;
       })
-      .gravity(0.25)
+      .gravity(0.125)
       .nodes(graph.nodes)
       .links(graph.links)
       .start();
-      console.log(layout);
+    console.log(layout);
     drawLinks(graph.links);
     drawNodes(graph.nodes);
     // add ability to drag and update layout
@@ -175,8 +196,8 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
         return 24;
       })
     g.append("text").text(function(d, i) {
-      return d.name;
-    })
+        return d.name;
+      })
       .attr("x", function(d, i) {
         return d.x;
       })
