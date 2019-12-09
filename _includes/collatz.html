@@ -148,6 +148,7 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
     d3.selectAll(".node").call(layout.drag);
     // https://github.com/mbostock/d3/wiki/Force-Layout#wiki-on
     layout.on("tick", function(event) {
+      linearizationForce(graph.nodes, event.alpha);
       orderingForce(graph.nodes, event.alpha);
       hardEdgeConstraint(graph.nodes, event.alpha);
       d3.selectAll(".link")
@@ -177,6 +178,18 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
         .attr("y", function(d) {
           return d.y;
         });
+    });
+  }
+
+  // Apply force to nodes to arrange them in a line from top-right to
+  // bottom-left
+  function linearizationForce(nodes, alpha) {
+    nodes.forEach(function(node) {
+      var strength = 6.4 * alpha;
+      var measureFromDiagonal = node.x + node.y - width;
+      var force = strength * (measureFromDiagonal > 0 ? -1 : 1)
+      node.x += force;
+      node.y += force;
     });
   }
 
