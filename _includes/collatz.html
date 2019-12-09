@@ -2,7 +2,8 @@
 Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-chart-python-force-directed/
 -->
 <!-- JavaScript Libraries //-->
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/d3.v5.min.js"></script>
+<!-- <script src="http://d3js.org/d3.v5.js"></script> -->
 
 <!-- CSS Style //-->
 <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,900|Source+Code+Pro:300" rel="stylesheet" type="text/css">
@@ -84,7 +85,7 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
     height = window.innerWidth >= 768 ? 500 : document.querySelector("aside div").clientHeight;
     orderingDirection = window.innerWidth >= 768 ? -1 : 1;
     hardEdgeDirection = window.innerWidth >= 768 ? "top" : "bottom";
-    layout && layout.size([width - margin, height - margin]).start();
+    layout && layout.force("center", d3.forceCenter((width - margin)/2, (height - margin)/2)).restart();
   }
 
   window.addEventListener("resize", onResize);
@@ -92,14 +93,14 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
 
   var margin = 48;
   var pad = margin / 2;
-  var color = d3.scale.category20();
+  // var color = d3.scale.category20();
   var vis = d3.select("#chart")
     .append("svg:svg")
     .attr("width", "100%")
     .attr("height", height)
     .attr("pointer-events", "all")
     .append('svg:g')
-    .call(d3.behavior.zoom().on("zoom", redraw))
+    .call(d3.zoom().on("zoom", redraw))
     .append('svg:g');
   vis.append('svg:rect')
     .attr('width', "100%")
@@ -130,27 +131,37 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
       .attr("transform", "translate(" + (0) + ", " + (0) + ")");
     // https://github.com/mbostock/d3/wiki/Force-Layout#wiki-force
     console.log(graph);
-    layout = d3.layout.force()
-      .size([width - margin, height - margin])
-      .charge(-640)
-      .linkDistance(function(d, i) {
-        return 75;
-      })
-      .gravity(0.125)
+    layout = d3.forceSimulation()
+      // .size([width - margin, height - margin])
+      .force("center", d3.forceCenter((width - margin)/2, (height - margin)/2))
+      // .charge(-640)
+      .force("charge", d3.forceManyBody().strength(-640))
+      // .linkDistance(function(d, i) {
+      //   return 75;
+      // })
       .nodes(graph.nodes)
-      .links(graph.links)
-      .start();
+      .force("links", d3.forceLink(graph.links).distance(75))
+      // linearizationForce(graph.nodes, event.alpha);
+      .force("linearization", linearizationForce)
+      // orderingForce(graph.nodes, event.alpha);
+      .force("ordering", orderingForce)
+      // hardEdgeConstraint(graph.nodes, event.alpha);
+      .force("hard-edge-constraint", hardEdgeConstraint)
+      // .gravity(0.125)  // QUESTION: How to achieve this???
+      // .links(graph.links) // see links force
+      // .start();
+      .restart();
     console.log(layout);
     drawLinks(graph.links);
     drawNodes(graph.nodes);
     // add ability to drag and update layout
-    // https://github.com/mbostock/d3/wiki/Force-Layout#wiki-drag
-    d3.selectAll(".node").call(layout.drag);
+    d3.selectAll(".node")
+      .call(d3.drag()
+        .on("start", dragStart)
+        .on("drag", drag)
+        .on("end", dragEnd));
     // https://github.com/mbostock/d3/wiki/Force-Layout#wiki-on
-    layout.on("tick", function(event) {
-      linearizationForce(graph.nodes, event.alpha);
-      orderingForce(graph.nodes, event.alpha);
-      hardEdgeConstraint(graph.nodes, event.alpha);
+    layout.on("tick", function() {
       d3.selectAll(".link")
         .attr("x1", function(d) {
           return d.source.x;
@@ -181,10 +192,32 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
     });
   }
 
+  // Called when a node starts being dragged
+  function dragStart(d) {
+    d.x = d3.event.x;
+    d.y = d3.event.y;
+    // console.log('drag start!');
+  }
+
+  // Called while a node is dragged
+  function drag(d) {
+    d.x = d3.event.x;
+    d.y = d3.event.y;
+    layout.restart();
+    // console.log('drag!');
+  }
+
+  // Called when a node stops being dragged
+  function dragEnd(d) {
+    layout.alpha(1); // must reset alpha to have simulation settle again
+    layout.restart();
+    // console.log('drag end!');
+  }
+
   // Apply force to nodes to arrange them in a line from top-right to
   // bottom-left
-  function linearizationForce(nodes, alpha) {
-    nodes.forEach(function(node) {
+  function linearizationForce(alpha) {
+    layout.nodes().forEach(function(node) {
       var strength = 6.4 * alpha;
       var measureFromDiagonal = node.x + node.y - width;
       var force = strength * (measureFromDiagonal > 0 ? -1 : 1)
@@ -193,17 +226,13 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
     });
   }
 
-  // Apply ordering force to arrange numbers from near hailstone sequence tree root (1) at top to leaves at bottom. Order reverses in wider layouts (>=768px).
-  function orderingForce(nodes, alpha) {
-    // var numbers = nodes.map(function (node) {
-    //   return parseInt(node.name);
-    // });
-    // var average = numbers.reduce(function(a, b) {
-    //   return a + b;
-    // })/numbers.length;
-    nodes.forEach(function(node) {
+  // Apply ordering force to arrange numbers from near hailstone sequence tree
+  // root (1) at top to leaves at bottom. Order reverses in wider layouts
+  // (>=768px).
+  function orderingForce(alpha) {
+    layout.nodes().forEach(function(node) {
       var strength = 12.8 * alpha;
-      var diff = node.index - nodes.length / 2;
+      var diff = node.index - layout.nodes().length / 2;
       if (diff < 0) {
         node.y -= orderingDirection * strength;
         return;
@@ -214,22 +243,21 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
 
   // Prevent nodes from being clipped at the bottom edge because users will
   // notice (top edge when screen width >= 768px)
-  function hardEdgeConstraint(nodes, alpha) {
-    nodes.forEach(function(node) {
+  function hardEdgeConstraint(alpha) {
+    layout.nodes().forEach(function(node) {
       var adjustment = 48;
-      if (hardEdgeDirection === 'bottom' && node.y + 24 >= height) {
-        node.y = height - adjustment;
+      if (hardEdgeDirection === 'bottom' && node.y + 24 >= height - margin) {
+        node.y = height - margin - 24;
         return;
       }
-      if (hardEdgeDirection === 'top' && node.y - 24 <= 0) {
-        node.y = adjustment;
+      if (hardEdgeDirection === 'top' && node.y - 24 <= margin) {
+        node.y = 24 + margin;
       }
     });
   }
+
   // Draws nodes on plot
   function drawNodes(nodes) {
-    // used to assign nodes color by group
-    var color = d3.scale.category20();
     // https://github.com/mbostock/d3/wiki/Force-Layout#wiki-nodes
     var g = d3.select("#plot").selectAll(".node")
       .data(nodes)
@@ -263,11 +291,11 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
   }
   // Draws edges between nodes
   function drawLinks(links) {
-    var scale = d3.scale.linear()
-      .domain(d3.extent(links, function(d, i) {
-        return d.value;
-      }))
-      .range([1, 6]);
+    // var scale = d3.scale.linear()
+    //   .domain(d3.extent(links, function(d, i) {
+    //     return d.value;
+    //   }))
+    //   .range([1, 6]);
     // https://github.com/mbostock/d3/wiki/Force-Layout#wiki-links
     d3.select("#plot").selectAll(".link")
       .data(links)
@@ -286,9 +314,9 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
       .attr("y2", function(d) {
         return d.target.y;
       })
-      .style("stroke-width", function(d, i) {
-        return scale(d.value) + "px";
-      })
+      // .style("stroke-width", function(d, i) {
+      //   return scale(d.value) + "px";
+      // })
       .style("stroke-dasharray", function(d, i) {
         return (d.value <= 1) ? "2, 2" : "none";
       });
@@ -298,5 +326,5 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
 
 
 <script>
-  d3.json("assets/collatz.json", drawGraph);
+  d3.json("assets/collatz.json").then(drawGraph);
 </script>
