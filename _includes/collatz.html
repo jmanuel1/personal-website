@@ -85,7 +85,8 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
     height = window.innerWidth >= 768 ? 500 : document.querySelector("aside div").clientHeight;
     orderingDirection = window.innerWidth >= 768 ? -1 : 1;
     hardEdgeDirection = window.innerWidth >= 768 ? "top" : "bottom";
-    layout && layout.force("center", d3.forceCenter((width - margin)/2, (height - margin)/2)).restart();
+    layout && layout.force("gravity-x", d3.forceX((width - margin) / 2).strength(0.125))
+      .force("gravity-y", d3.forceY((height - margin) / 2).strength(0.125)).alpha(1).restart();
   }
 
   window.addEventListener("resize", onResize);
@@ -127,31 +128,17 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
       .style("fill", "rgba(0,0,0,0)");
     // create an area within svg for plotting graph
     var plot = svg.append("g")
-      .attr("id", "plot")
-      .attr("transform", "translate(" + (0) + ", " + (0) + ")");
-    // https://github.com/mbostock/d3/wiki/Force-Layout#wiki-force
-    console.log(graph);
+      .attr("id", "plot");
     layout = d3.forceSimulation()
-      // .size([width - margin, height - margin])
-      .force("center", d3.forceCenter((width - margin)/2, (height - margin)/2))
-      // .charge(-640)
-      .force("charge", d3.forceManyBody().strength(-640))
-      // .linkDistance(function(d, i) {
-      //   return 75;
-      // })
       .nodes(graph.nodes)
+      .force("charge", d3.forceManyBody().strength(-640))
       .force("links", d3.forceLink(graph.links).distance(75))
-      // linearizationForce(graph.nodes, event.alpha);
       .force("linearization", linearizationForce)
-      // orderingForce(graph.nodes, event.alpha);
       .force("ordering", orderingForce)
-      // hardEdgeConstraint(graph.nodes, event.alpha);
       .force("hard-edge-constraint", hardEdgeConstraint)
-      // .gravity(0.125)  // QUESTION: How to achieve this???
-      // .links(graph.links) // see links force
-      // .start();
+      .force("gravity-x", d3.forceX((width - margin) / 2).strength(0.125))
+      .force("gravity-y", d3.forceY((height - margin) / 2).strength(0.125))
       .restart();
-    console.log(layout);
     drawLinks(graph.links);
     drawNodes(graph.nodes);
     // add ability to drag and update layout
