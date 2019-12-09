@@ -77,10 +77,13 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
   var width;
   var height;
   var orderingDirection = 1;
+  var hardEdgeDirection = "bottom";
+
   function onResize() {
     width = document.querySelector("#force").clientWidth;
     height = window.innerWidth >= 768 ? 500 : document.querySelector("aside div").clientHeight;
     orderingDirection = window.innerWidth >= 768 ? -1 : 1;
+    hardEdgeDirection = window.innerWidth >= 768 ? "top" : "bottom";
     layout && layout.size([width - margin, height - margin]).start();
   }
 
@@ -111,6 +114,7 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
   }
 
   var layout;
+
   function drawGraph(graph) {
     var svg = d3.select("#force").append("svg")
       .attr("width", "100%")
@@ -145,6 +149,7 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
     // https://github.com/mbostock/d3/wiki/Force-Layout#wiki-on
     layout.on("tick", function(event) {
       orderingForce(graph.nodes, event.alpha);
+      hardEdgeConstraint(graph.nodes, event.alpha);
       d3.selectAll(".link")
         .attr("x1", function(d) {
           return d.source.x;
@@ -187,10 +192,25 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
       var strength = 12.8 * alpha;
       var diff = node.index - nodes.length / 2;
       if (diff < 0) {
-        node.y -= orderingDirection*strength/**(-diff)*/;
+        node.y -= orderingDirection * strength;
         return;
       }
-      node.y += orderingDirection*strength/**diff*/;
+      node.y += orderingDirection * strength;
+    });
+  }
+
+  // Prevent nodes from being clipped at the bottom edge because users will
+  // notice (top edge when screen width >= 768px)
+  function hardEdgeConstraint(nodes, alpha) {
+    nodes.forEach(function(node) {
+      var adjustment = 48;
+      if (hardEdgeDirection === 'bottom' && node.y + 24 >= height) {
+        node.y = height - adjustment;
+        return;
+      }
+      if (hardEdgeDirection === 'top' && node.y - 24 <= 0) {
+        node.y = adjustment;
+      }
     });
   }
   // Draws nodes on plot
