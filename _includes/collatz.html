@@ -208,9 +208,14 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
     layout.nodes().forEach(function(node) {
       var strength = 6.4 * alpha;
       var measureFromDiagonal = node.x + node.y - width;
-      var force = strength * (measureFromDiagonal > 0 ? -1 : 1)
-      node.x += force;
-      node.y += force;
+      var threshold = 20;
+      // reduce jittering along the diagonal
+      if (Math.abs(measureFromDiagonal) < threshold) {
+        return;
+      }
+      var force = strength * (measureFromDiagonal > 0 ? -1 : 1);
+      node.vx += force;
+      node.vy += force;
     });
   }
 
