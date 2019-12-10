@@ -131,6 +131,7 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
       .attr("id", "plot");
     layout = d3.forceSimulation()
       .nodes(graph.nodes)
+      .alphaDecay(1 - Math.pow(0.001, 1 / 500))
       .force("charge", d3.forceManyBody().strength(-640))
       .force("links", d3.forceLink(graph.links).distance(75))
       .force("linearization", linearizationForce)
