@@ -187,21 +187,24 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
 
   // Called when a node starts being dragged
   function dragStart(d) {
-    d.x = d3.event.x;
-    d.y = d3.event.y;
+    d.fx = d3.event.x;
+    d.fy = d3.event.y;
     // console.log('drag start!');
   }
 
   // Called while a node is dragged
   function drag(d) {
-    d.x = d3.event.x;
-    d.y = d3.event.y;
+    d.fx = d3.event.x;
+    d.fy = d3.event.y;
     layout.restart();
     // console.log('drag!');
   }
 
   // Called when a node stops being dragged
   function dragEnd(d) {
+    d.x = d.fx;
+    d.y = d.fy;
+    d.fx = d.fy = null;
     layout.alpha(1); // must reset alpha to have simulation settle again
     layout.restart();
     // console.log('drag end!');
