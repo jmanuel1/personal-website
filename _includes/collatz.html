@@ -148,6 +148,11 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
         .on("start", dragStart)
         .on("drag", drag)
         .on("end", dragEnd));
+    d3.selectAll("text")
+      .call(d3.drag()
+        .on("start", dragStart)
+        .on("drag", drag)
+        .on("end", dragEnd));
     // https://github.com/mbostock/d3/wiki/Force-Layout#wiki-on
     layout.on("tick", function() {
       d3.selectAll(".link")
