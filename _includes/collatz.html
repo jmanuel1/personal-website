@@ -67,12 +67,16 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
     #force {
       top: unset !important;
     }
+/*
+    .link, text, .node {
+      stroke: #d1d5da;
+    } */
   }
 </style>
 
-<!-- <div class="position-relative top-0 left-0"> -->
-<div id="force" class="col-12 col-md-5 col-lg-4 col-xl-3 position-absolute top-0 left-0 bottom-md-0"></div>
-<!-- </div> -->
+<!-- The graph does not meet WCAG color contrast guidelines. However, it is also
+decorative and adds no relevant information to the page. -->
+<div id="force" class="col-12 col-md-5 col-lg-4 col-xl-3 position-absolute top-0 left-0 bottom-md-0" aria-hidden="true"></div>
 
 <script>
   var width;
