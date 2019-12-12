@@ -2,6 +2,7 @@
 ---
 @import url('https://unpkg.com/primer/build/build.css');
 @import 'highlight-syntax';
+@import 'collatz';
 
 $primer-bg-gray: #f6f8fa;
 
@@ -83,4 +84,16 @@ a {
 
 .list-style-inside {
   list-style: inside;
+}
+
+// some extensions to Primer
+@media (min-width: 768px) {
+  .bottom-md-0 {
+    bottom: 0px;
+  }
+
+  .top-md-unset {
+    /* .top-0 uses !important */
+    top: unset !important;
+  }
 }

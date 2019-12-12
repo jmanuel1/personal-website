@@ -7,40 +7,6 @@ http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-chart-python-fo
   <script src="http://d3js.org/d3.v5.min.js"></script>
 {% endif %}
 
-<style>
-  .node {
-    stroke: #444d56;
-    stroke-width: 4px;
-    fill: #24292e;
-  }
-
-  .link {
-    fill: none;
-    stroke: #444d56;
-    stroke-weight: 2px;
-    stroke-opacity: 0.5;
-  }
-
-  text {
-    stroke: #444d56;
-  }
-
-  #force svg {
-    z-index: -1;
-  }
-
-  @media (min-width: 768px) {
-    .bottom-md-0 {
-      bottom: 0px;
-    }
-
-    .top-md-unset {
-      /* .top-0 uses !important */
-      top: unset !important;
-    }
-  }
-</style>
-
 <!-- The graph does not meet WCAG color contrast guidelines. However, it is also
 decorative and adds no relevant information to the page. -->
 <div id="force"
