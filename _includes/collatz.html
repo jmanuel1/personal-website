@@ -227,10 +227,10 @@ Adapted from http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-ch
       var strength = 12.8 * alpha;
       var diff = node.index - layout.nodes().length / 2;
       if (diff < 0) {
-        node.y -= orderingDirection * strength;
+        node.vy -= orderingDirection * strength;
         return;
       }
-      node.y += orderingDirection * strength;
+      node.vy += orderingDirection * strength;
     });
   }
 
