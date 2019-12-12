@@ -79,7 +79,7 @@ name: post
 {% endcapture %}
 
 {% if site.layout == 'stacked' %}
-  <div class="container-lg py-6 p-responsive text-center">
+  <div class="container-lg py-6 p-responsive text-center position-relative top-0 left-0">
     <aside>{% include masthead.html metadata=false %}</aside>
 
     <main class="
@@ -111,6 +111,7 @@ name: post
   <div class="
     d-md-flex min-height-full
     {% unless site.style == 'dark' %}border-md-bottom{% endunless %}
+    position-relative top-0 left-0
   ">
     <aside class="
       flex-self-stretch
