@@ -23,20 +23,10 @@ name: post
     {% if total_shareable_services > 0 %}
       <div class="
         col-sm-4 col-lg-3 d-flex flex-wrap flex-items-center d-sm-block
-        float-sm-right rounded-2 {% if site.style == 'dark' %}
-          bg-gray-dark
-        {% else %}
-          bg-white border
-        {% endif %} p-3 mb-5 ml-md-5
+        float-sm-right rounded-2 p-3 mb-5 ml-md-5 share-container
       ">
         <a href="#share" accesskey="3" id="share" tabindex="-1">
-          <h2 class="
-            {% if site.style == 'dark' %}
-              text-white
-            {% else %}
-              text-gray-dark
-            {% endif %} mr-3 mr-sm-0
-          ">
+          <h2 class="mr-3 mr-sm-0">
             Share
           </h2>
         </a>
@@ -56,14 +46,7 @@ name: post
                 <div style="width:32px" class="d-flex flex-items-center">
                   {{ service.icon_svg }}
                 </div>
-                <span class="
-                  d-none d-sm-inline-block
-                  {% if site.style == 'dark' %}
-                    text-white
-                  {% else %}
-                    text-gray-light
-                  {% endif %}
-                ">
+                <span class="d-none d-sm-inline-block">
                   {{ service.name }}
                 </span>
               </a>
@@ -73,92 +56,62 @@ name: post
       </div>
     {% endif %}
   {% endif %}
-  <div class="article {{ site.style }}">
+  <article class="article" role="article">
     {{ content }}
-  </div>
+  </article>
 {% endcapture %}
 
 {% if site.layout == 'stacked' %}
   <div class="container-lg py-6 p-responsive text-center position-relative top-0 left-0">
-    <aside>{% include masthead.html metadata=false %}</aside>
+    <aside role="complementary">
+      {% include masthead.html metadata=false %}
+    </aside>
 
-    <main class="
-      container-md f4 text-left border rounded-2 bg-white p-3 p-sm-5 mt-6
-    ">
+    <main class="container-md f4 text-left border rounded-2 p-3 p-sm-5 mt-6">
       <p class="f5">
         <a href="/" class="d-flex flex-items-center" accesskey="1">
           {% octicon chevron-left height:16 class:"mr-2 v-align-middle"
-            fill:#0366d6 aria-label:Home
+            aria-label:Home
           %} Home
         </a>
       </p>
       <a href="#top" accesskey="2" id="top" tabindex="-1">
         <h1 class="f00-light lh-condensed">{{ page.title }}</h1>
       </a>
-      <p class="
-        {% if site.style == 'dark' %}
-          text-white
-        {% else %}
-          text-gray
-        {% endif %} mb-5
-      ">
+      <p class="mb-5">
         Published {{ page.date | date: "%b %d, %Y"}}
       </p>
       {{ post_body }}
     </main>
   </div>
 {% else %}
-  <div class="
-    d-md-flex min-height-full
-    {% unless site.style == 'dark' %}border-md-bottom{% endunless %}
-    position-relative top-0 left-0
-  ">
+  <div class="d-md-flex min-height-full position-relative top-0 left-0">
     <aside class="
-      flex-self-stretch
-      {% if site.style == 'dark' %}
-        bg-gray-dark
-      {% else %}
-        border-md-right border-gray-light bg-white
-      {% endif %} col-md-5 col-lg-4 col-xl-3 px-4 px-md-6 px-lg-7 py-6
-    ">
+      flex-self-stretch border-gray-light
+      col-md-5 col-lg-4 col-xl-3 px-4 px-md-6 px-lg-7 py-6
+    " role="complementary">
       {% include masthead.html metadata=true %}
     </aside>
 
     <main class="
-      col-md-7 col-lg-8 col-xl-9 px-4 py-6 px-lg-7 border-top border-md-top-0
-      bg-gray-light"
-      {% if site.style == 'dark' %}
-        style="background-color: #2f363d !important"
-      {% endif %}
-    >
+      col-md-7 col-lg-8 col-xl-9 px-4 py-6 px-lg-7 border-top border-md-top-0">
       <div class="mx-auto" style="max-width: 900px;">
-        <div class="f4 {% if site.style == 'dark' %}text-white{% endif %} mb-6">
-          <div class="f4 {% if site.style == 'dark' %}text-white{% endif %}">
+        <div class="f4 mb-6">
+          <div class="f4">
             <p class="f5">
               <a href="{{ site.url }}{{ site.baseurl | append:'/' }}"
-                class="
-                  d-flex flex-items-center
-                  {% if site.style == 'dark' %}text-white{% endif %}"
+                class="d-flex flex-items-center"
                 accesskey="1"
               >
                 {% octicon chevron-left height:16 class:"mr-2 v-align-middle"
-                  fill:{{ icon_color }} aria-label:Home
+                  aria-label:Home
                 %} Home
               </a>
             </p>
-            <a href="#top" accesskey="2" id="top"
-              {% if site.style == 'dark' %}class="text-white"{% endif %}
-              tabindex="-1"
-            >
+            <a href="#top" accesskey="2" id="top" tabindex="-1">
               <h1 class="f00-light lh-condensed">{{ page.title }}</h1>
             </a>
-            <p class="
-              {% if site.style == 'dark' %}
-                text-white
-              {% else %}
-                text-gray
-              {% endif %} mb-5
-            ">
+            <p class="mb-5">
               Published {{ page.date | date: "%b %d, %Y"}}
             </p>
             {{ post_body }}

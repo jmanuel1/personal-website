@@ -91,7 +91,9 @@ $highlight-cp-pink: #F2A1A1;
   overflow: auto;
   background: $primer-bg-gray-dark;
   padding: $primer-p-3;
-  color: #ffffff;
+  code {
+    color: #ffffff;
+  }
 }
 
 /* Make line numbers unselectable: excludes line numbers from copy-paste user

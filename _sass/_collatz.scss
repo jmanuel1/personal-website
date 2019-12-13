@@ -1,18 +1,18 @@
 .node {
-  stroke: #444d56;
+  stroke: var(--collatz-stroke-color);
   stroke-width: 4px;
-  fill: #24292e;
+  fill: var(--sidebar-bg-color);
 }
 
 .link {
   fill: none;
-  stroke: #444d56;
+  stroke: var(--collatz-stroke-color);
   stroke-width: 2px;
   stroke-opacity: 0.5;
 }
 
 text {
-  stroke: #444d56;
+  stroke: var(--collatz-stroke-color);
 }
 
 #force svg {

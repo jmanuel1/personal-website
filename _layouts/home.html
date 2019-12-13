@@ -11,7 +11,7 @@ name: home
     </aside>
 
     <main role="main">
-      <section {% if site.style == 'dark' %}class="text-white"{% endif %}>
+      <section>
         {{ content }}
       </section>
 
@@ -33,25 +33,19 @@ name: home
     </main>
   </div>
 {% else %}
-  <div class="d-md-flex min-height-full
-    {% unless site.style == 'dark' %}border-md-bottom{% endunless %} position-relative top-0 left-0">
+  <div class="d-md-flex min-height-full position-relative top-0 left-0">
     <aside class="flex-self-stretch
-      {% if site.style == 'dark' %}bg-gray-dark{% else %}border-md-right
-      border-gray-light bg-white{% endif %} col-md-5 col-lg-4 col-xl-3 px-4
+      border-gray-light col-md-5 col-lg-4 col-xl-3 px-4
       px-md-6 px-lg-7 py-6"
       role="complementary">
       {% include masthead.html metadata=true %}
     </aside>
 
     <div class="col-md-7 col-lg-8 col-xl-9 px-4 py-6 px-lg-7 border-top
-      border-md-top-0 bg-gray-light"
-      {% if site.style == 'dark' %}
-        style="background-color: #2f363d !important"
-      {% endif %}>
+      border-md-top-0 main-container">
       <main class="mx-auto" style="max-width: 900px;">
         {% unless content == ""  %}
-          <section
-            class="f4 {% if site.style == 'dark' %}text-white{% endif %} mb-6">
+          <section class="f4 mb-6">
             {{ content }}
           </section>
         {% endunless %}

@@ -6,11 +6,84 @@
 
 $primer-bg-gray: #f6f8fa;
 
+:root {
+  {% if site.style == 'dark' %}
+    --text-color: white;
+    --sidebar-bg-color: #24292e;
+    --collatz-stroke-color: #444d56;
+    --sidebar-border-right: 0;
+    --main-bg-color: #2f363d;
+    --icon-color: #ffffff;
+    --body-bg-color: #2f363d;
+    --share-bg-color: #24292e;
+    --share-border: 0;
+    --github-component-bg-color: #24292e;
+    --github-component-border: 0;
+    --topic-image-bg-color: #f1f8ff;
+    --post-card-bg-color: #24292e;
+    --post-card-border: 0;
+  {% else %}
+    --text-color: black;
+    --sidebar-bg-color: white;
+    --collatz-stroke-color: #e1e4e8;
+    --sidebar-border-right: 1px solid;
+    --main-bg-color: #fafbfc;
+    --icon-color: #24292e;
+    --body-bg-color: white;
+    --share-bg-color: white;
+    --share-border: 1px #e1e4e8 solid;
+    --github-component-bg-color: white;
+    --github-component-border: 1px #e1e4e8 solid;
+    --topic-image-bg-color: unset;
+    --post-card-bg-color: white;
+    --post-card-border: 1px #e1e4e8 solid;
+  {% endif %}
+  --collatz-node-fill-color: var(--sidebar-bg-color);
+}
+
+html * {
+  color: var(--text-color);
+}
+
+aside {
+  background: var(--sidebar-bg-color);
+  @media (min-width: 768px) {
+    border-right: var(--sidebar-border-right);
+  }
+}
+
+.main-container, main {
+  background: var(--main-bg-color);
+}
+
+.octicon {
+  fill: var(--icon-color);
+}
+
+body {
+  background: var(--body-bg-color);
+}
+
+.share-container {
+  background: var(--share-bg-color);
+  border: var(--share-border);
+}
+
 // If a user adds a custom font, this component will stop it from bleeding into
 // GitHub components:
 .github-component {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
     sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol !important;
+  background: var(--github-component-bg-color);
+  border: var(--github-component-border);
+  img {
+    background: var(--topic-image-bg-color);
+  }
+}
+
+.post-card {
+  background: var(--post-card-bg-color);
+  border: var(--post-card-border);
 }
 
 .repo-language-color {
@@ -73,11 +146,6 @@ a {
   text-decoration: underline;
 }
 
-.dark a {
-  // And so that they are legible on a dark background
-  color: white;
-}
-
 .bg-gray-medium-dark {
   background-color: #2f363d !important;
 }
@@ -87,6 +155,10 @@ a {
 }
 
 // some extensions to Primer
+.bg-transparent {
+  background: transparent;
+}
+
 @media (min-width: 768px) {
   .bottom-md-0 {
     bottom: 0px;

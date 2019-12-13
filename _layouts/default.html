@@ -2,14 +2,16 @@
 
 {% if site.layout == 'stacked' %}
   <div class="container-lg py-6 p-responsive text-center position-relative top-0 left-0">
-    {% include masthead.html metadata=false %}
+    <aside role="complementary">
+      {% include masthead.html metadata=false %}
+    </aside>
 
-    <main class="container-md f4 text-left border rounded-2 bg-white p-3 p-sm-5
+    <main class="container-md f4 text-left border rounded-2 p-3 p-sm-5
       mt-6">
       <p class="f5">
         <a href="/" class="d-flex flex-items-center">
           {% octicon chevron-left height:16 class:"mr-2 v-align-middle"
-            fill:#0366d6 aria-label:Home %}
+            aria-label:Home %}
           Home
         </a>
       </p>
@@ -18,32 +20,23 @@
     </main>
   </div>
 {% else %}
-  <div class="d-md-flex min-height-full
-    {% unless site.style == 'dark' %}border-md-bottom{% endunless %} position-relative top-0 left-0">
-    <div class="flex-self-stretch
-      {% if site.style == 'dark' %}
-        bg-gray-dark
-      {% else %}
-        border-md-right border-gray-light bg-white
-      {% endif %}
-      col-md-5 col-lg-4 col-xl-3 px-4 px-md-6 px-lg-7 py-6">
+  <div class="d-md-flex min-height-full position-relative top-0 left-0">
+    <aside class="flex-self-stretch border-gray-light
+      col-md-5 col-lg-4 col-xl-3 px-4 px-md-6 px-lg-7 py-6"
+      role="complementary">
       {% include masthead.html metadata=true %}
-    </div>
+    </aside>
 
     <main class="col-md-7 col-lg-8 col-xl-9 px-4 py-6 px-lg-7 border-top
-      border-md-top-0 bg-gray-light"
-      {% if site.style == 'dark' %}
-        style="background-color: #2f363d !important"
-      {% endif %}>
+      border-md-top-0">
       <div class="mx-auto" style="max-width: 900px;">
-        <div class="f4 {% if site.style == 'dark' %}text-white{% endif %} mb-6">
-          <div class="f4 {% if site.style == 'dark' %}text-white{% endif %}">
+        <div class="f4 mb-6">
+          <div class="f4">
             <p class="f5">
               <a href="{{ site.url }}{{ site.baseurl | append:'/' }}"
-                class="d-flex flex-items-center
-                  {% if site.style == 'dark' %}text-white{% endif %}">
+                class="d-flex flex-items-center">
                 {% octicon chevron-left height:16 class:"mr-2 v-align-middle"
-                  fill:{{ icon_color }} aria-label:Home %}
+                  aria-label:Home %}
                 Home
               </a>
             </p>
