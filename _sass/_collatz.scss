@@ -1,7 +1,11 @@
+#force {
+  --collatz-node-fill-color: var(--sidebar-bg-color);
+}
+
 .node {
   stroke: var(--collatz-stroke-color);
   stroke-width: 4px;
-  fill: var(--sidebar-bg-color);
+  fill: var(--collatz-node-fill-color);
 }
 
 .link {
