@@ -57,3 +57,13 @@ and formatting.
 ## Managing Funds
 
 - Pay off high-interest debt and have an emergency fund before starting
+
+## Sources
+
+- [Four Pillars](https://smile.amazon.com/Four-Pillars-Investing-Building-Portfolio-ebook/dp/B0041842TW/)
+- [The Motley Fool Investment Guide: Third Edition: How the Fools Beat Wall
+  Street's Wise Men and How You Can
+  Too](https://smile.amazon.com/Motley-Fool-Investment-Guide-Streets-ebook/dp/B01M4QEGG2/ref=tmm_kin_swatch_0?_encoding=UTF8&qid=1592346722&sr=1-13)
+- [Investing 101: From Stocks and Bonds to ETFs and IPOs, an Essential Primer on
+  Building a Profitable
+  Portfolio](https://smile.amazon.com/Michele-Cagan-ebook/dp/B0187QKBZ2/ref=tmm_kin_swatch_0?_encoding=UTF8&qid=1592346722&sr=1-14)
