@@ -27,7 +27,7 @@ and formatting.
   - So buy when prices are low. Unfortunately, this is usually scary because low
     prices are not possible without risk.
 - Two flavors of risk: short/long-term
-- Promises of safety + very high returns => probably fraud
+- Promises of safety + very high returns &rarr; probably fraud
 - Historical returns are of limited use in predicting future returns; the
   historical record is better as a gauge of risk
 
@@ -40,7 +40,7 @@ and formatting.
 - Stocks are mean reverting: bad/good years are likely to be followed by
   good/bad years
 - Bond returns don't mean revert
-- market cap(tialization) :: total value of a company's outstanding stock
+- <dl><dt>market cap(tialization)</dt><dd>total value of a company's outstanding stock</dd></dl>
 - most market indices are market cap weighted
 - stocks of small companies have higher returns than large companies
 - ETFs are ok, but you can do better if you're willing to take on more risk
@@ -48,8 +48,8 @@ and formatting.
 ## Fear and Greed
 
 - Fear and greed will ruin returns
-- "Be fearful when others are greedy. Be greedy when others are fearful."
-  -- Warren Buffet
+- > "Be fearful when others are greedy. Be greedy when others are fearful."
+  &mdash; Warren Buffet
 - Avoid idolizing wealth and security
 - Don't invest in anything you don't understand
 - Understand the incentives of people giving advice
