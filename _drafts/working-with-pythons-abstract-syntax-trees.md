@@ -4,8 +4,6 @@ title: Working with Python's Abstract Syntax Trees
 slug: working-with-pythons-abstract-syntax-trees
 ---
 
-# Introduction
-
 Python is a dynamic language with a large and varied standard library. You can
 even use Python to manipulate other Python programs! That's called
 [*metaprogramming*](https://en.wikipedia.org/wiki/Metaprogramming), and it's what we're going to do using Python's `ast` module.
