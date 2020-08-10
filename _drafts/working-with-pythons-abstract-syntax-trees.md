@@ -37,3 +37,11 @@ represents the entire module (which is most often a file). It contains an
 expression statement (`Expr`) which contains a function call (`Call`). The
 function being called is `Name`d `print`. The function is given only the string
 represented by the `Str` node as an argument.
+
+### Brief overview of trees
+
+## How the Python ast module works
+
+## Example: constant folding
+
+## Conclusion/try yourself
