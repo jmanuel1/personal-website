@@ -21,7 +21,7 @@ tree*](https://en.wikipedia.org/wiki/Abstract_syntax_tree). It is a type of
 the structure of a program, ignoring details like commas and grouping
 parentheses. Here's an example of an AST:
 
-<svg id='hello-world-ast'></svg>
+<svg id='hello-world-ast' data-ast='{"body": [{"value": {"func": {"id": "print", "ctx": {"__type__": "Load"}, "__type__": "Name"}, "args": [{"s": "hello world", "__type__": "Str"}], "keywords": [], "__type__": "Call"}, "__type__": "Expr"}], "__type__": "Module"}'></svg>
 
 This AST can be textually represented as
 `Module(body=[Expr(value=Call(func=Name(id='print', ctx=Load()),
