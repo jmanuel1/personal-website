@@ -21,7 +21,10 @@ tree*](https://en.wikipedia.org/wiki/Abstract_syntax_tree). It is a type of
 the structure of a program, ignoring details like commas and grouping
 parentheses. Here's an example of an AST:
 
-<svg id='hello-world-ast' data-ast='{"body": [{"value": {"func": {"id": "print", "ctx": {"__type__": "Load"}, "__type__": "Name"}, "args": [{"s": "hello world", "__type__": "Str"}], "keywords": [], "__type__": "Call"}, "__type__": "Expr"}], "__type__": "Module"}'></svg>
+<svg
+  id='hello-world-ast'
+  data-ast='{"body": [{"value": {"func": {"id": "print", "ctx": {"__type__": "Load"}, "__type__": "Name"}, "args": [{"s": "hello world", "__type__": "Str"}], "keywords": [], "__type__": "Call"}, "__type__": "Expr"}], "__type__": "Module"}'>
+</svg>
 
 This AST can be textually represented as
 `Module(body=[Expr(value=Call(func=Name(id='print', ctx=Load()),
@@ -45,3 +48,28 @@ represented by the `Str` node as an argument.
 ## Example: constant folding
 
 ## Conclusion/try yourself
+
+
+<!-- Scripts for displaying ASTs -->
+<script>
+  function drawTree(astJSON, plot) {
+    const ast = JSON.parse(astJSON);
+    const g = plot.append("g");
+    const root = d3.hierarchy(ast, d => {
+      const children = [];
+      for (let field in d) {
+        if (d[field].__type__ || d[field] instanceof Array)
+          children.push(d[field]);
+      }
+      return children;
+    });
+    const svgElement = document.querySelector('#hello-world-ast');
+    const nodeSize = 24;
+    const tree = d3.tree().size([svgElement.clientWidth - nodeSize, svgElement.clientHeight - nodeSize])(root);
+    console.debug(root.descendants());
+    const node = g.selectAll("rect").data(root.descendants()).enter().append("rect").attr("stroke", "#ffffff").attr("stroke-width", 4).attr("x", d => d.x).attr("y", d => d.y).attr("width", 24).attr("height", 24);
+  }
+  const svg = d3.select("#hello-world-ast");
+  const plot = svg.append("g");
+  drawTree(svg.attr("data-ast"), plot);
+</script>
