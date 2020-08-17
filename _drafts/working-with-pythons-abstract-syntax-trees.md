@@ -67,7 +67,8 @@ represented by the `Str` node as an argument.
     const nodeSize = 24;
     const tree = d3.tree().size([svgElement.clientWidth - nodeSize, svgElement.clientHeight - nodeSize])(root);
     console.debug(root.descendants());
-    const node = g.selectAll("rect").data(root.descendants()).enter().append("rect").attr("stroke", "#ffffff").attr("stroke-width", 4).attr("x", d => d.x).attr("y", d => d.y).attr("width", 24).attr("height", 24);
+    const link = g.selectAll("line").data(root.links()).enter().append("line").attr("x1", d => d.source.x + nodeSize/2).attr("y1", d => d.source.y + nodeSize/2).attr("x2", d => d.target.x + nodeSize/2).attr("y2", d => d.target.y + nodeSize/2);
+    const node = g.selectAll("rect").data(root.descendants()).enter().append("rect").attr("x", d => d.x).attr("y", d => d.y);
   }
   const svg = d3.select("#hello-world-ast");
   const plot = svg.append("g");
