@@ -8,5 +8,8 @@
   </div>
   <div class="mb-2 ws-normal">
     {{ post.date | date: "%b %d, %Y" }}
+    {% if post.last_modified_at %}
+      (Updated {{ post.last_modified_at | date: "%b %d, %Y" }})
+    {% endif %}
   </div>
 </div>

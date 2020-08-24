@@ -3,6 +3,7 @@ layout: post
 title: Notes on Investing
 slug: notes-on-investing
 date: '2020-07-21 16:20:53-07:00'
+last_modified_at: '2020-08-23 21:42:00-07:00'
 ---
 
 Recently, I've been trying to learn more about stock-market investing so that I
