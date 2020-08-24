@@ -3,7 +3,7 @@ layout: post
 title: Notes on Investing
 slug: notes-on-investing
 date: '2020-07-21 16:20:53-07:00'
-last_modified_at: '2020-08-23 21:42:00-07:00'
+last_modified_at: '2020-08-23 22:36:00-07:00'
 ---
 
 Recently, I've been trying to learn more about stock-market investing so that I
@@ -99,9 +99,11 @@ Pillars](https://smile.amazon.com/Four-Pillars-Investing-Building-Portfolio-eboo
     history once again demonstrated that the spoils went not to technology's
     makers, but to its users."
 - How to tell when you're entering a bubble
-  - "technological or financial "displacement," excessive use of credit, amnesia
+  - "technological or financial 'displacement,' excessive use of credit, amnesia
     for the last bubble, and the flood of new investors who swallow plausible
     stories in place of doing the hard math."
+  - *You can't tell when you're entering a bubble, though.* These indicators can
+    be seen after the fact.
 
 ### Busts: Crashes and Pessimism
 
