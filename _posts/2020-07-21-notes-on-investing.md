@@ -59,6 +59,84 @@ and formatting.
 
 - Pay off high-interest debt and have an emergency fund before starting
 
+## Booms and Busts
+
+*The various quotations that appear in this section are from [Four
+Pillars](https://smile.amazon.com/Four-Pillars-Investing-Building-Portfolio-ebook/dp/B0041842TW/).*
+
+### Booms: Overconfidence
+
+- You must understand the history to have a chance at surviving booms and busts
+- "the great engine of stock returns is the rate of technological progress, not
+  its absolute level."
+- "But that does not mean that the economic and financial effects of
+  technological revolutions occur immediately. Not at all. The steam and
+  internal combustion engines did not completely displace horses in the
+  transport of bulk goods for nearly a century, and it took several decades for
+  computers to travel from the laboratory into the office, and, finally, into
+  the home. Immediately after their invention, the telegraph and telephone were
+  the toys and tools of the wealthy. Ordinary people did not begin
+  to routinely make long-distance calls until relatively recently."
+  - "technological progress comes in spurts, but that the economic and
+    investment rewards driven by economic activity occur relatively evenly."
+- "the capitalization of the nation's great companies occurs largely during
+  brief periods of public enthusiasm. Second, our society owes its success and
+  prosperity to both the inventors and the financial backers of the
+  technological process. And last, the returns to technology's investors are
+  low."
+- "an object lesson for those who become enthusiastic over the investment
+  possibilities of new technology. Even if it is initially highly profitable,
+  nothing attracts competition like a cash cow."
+  - "The canals established a pattern that has held to this day-of
+    transformative inventions that bring long-run progress and prosperity to
+    society as a whole, short-run profits to an early lucky few, and ruin to
+    most later investors."
+- "the basic rule of technology investing: it is the users, and not the makers,
+  who profit most."
+  - "consumer companies-Phillip Morris, Gillette, and Coke. They did not
+    produce the era's technology, but they certainly used it to advantage. So
+    history once again demonstrated that the spoils went not to technology's
+    makers, but to its users."
+- How to tell when you're entering a bubble
+  - "technological or financial "displacement," excessive use of credit, amnesia
+    for the last bubble, and the flood of new investors who swallow plausible
+    stories in place of doing the hard math."
+
+### Busts: Crashes and Pessimism
+
+  - "One concept that is ignored by even the most sophisticated financial
+    players is that over the long haul, risk and return become the same thing."
+  - "severe bear markets are usually followed by powerful bull markets."
+  - "do not underestimate the amount of courage it takes to act on your
+    beliefs."
+    - "and buying assets that everyone else has been running from takes ...
+      fortitude"
+  - "A generalized loss in the faith of the new technologies to cure the
+    system's ills is usually the triggering factor. A contraction of liquidity
+    almost always follows, with the losses of faith and liquidity reinforcing
+    each other. The third criterion is an amnesia for the recoveries that
+    usually follow collapses. And finally, investors incapable of doing the math
+    on the way up do not miraculously regain it on the way down. Cheap stocks
+    excite only the dispassionate, the analytical, and the aged."
+  - How to survive
+    - "At a minimum, you should not panic and sell out-simply stand pat. You
+      should have a firm asset allocation policy in place. What separates the
+      professional from the amateur are two things: First, the knowledge that
+      brutal bear markets are a fact of life and that there is no way to avoid
+      their effects."
+    - "And second, that when times get tough, the former stays the course; the
+      latter abandons the blueprints, or, more often than not, has no blueprints
+      at all."
+    - "Ideally, when prices fall dramatically, you should go even further and
+      actually increase your percentage equity allocation, which would require
+      buying yet more stocks. This requires nerves of steel and runs the risk
+      that you may exhaust your cash long before the market finally touches
+      bottom. I don't recommend this course of action to all but the hardiest
+      and experienced of souls. If you decide to go this route, you should
+      increase your stock allocation only by very small amounts-say by 5% after
+      a fall of 25% in prices-so as to avoid running out of cash and risking
+      complete demoralization in the event of a 1930s-style bear market."
+
 ## Sources
 
 - [Four Pillars](https://smile.amazon.com/Four-Pillars-Investing-Building-Portfolio-ebook/dp/B0041842TW/)
