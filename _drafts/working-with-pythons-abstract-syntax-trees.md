@@ -69,6 +69,7 @@ represented by the `Str` node as an argument.
     console.debug(root.descendants());
     const link = g.selectAll("line").data(root.links()).enter().append("line").attr("x1", d => d.source.x + nodeSize/2).attr("y1", d => d.source.y + nodeSize/2).attr("x2", d => d.target.x + nodeSize/2).attr("y2", d => d.target.y + nodeSize/2);
     const node = g.selectAll("rect").data(root.descendants()).enter().append("rect").attr("x", d => d.x).attr("y", d => d.y);
+    const text = g.selectAll("text").data(root.descendants()).enter().append("text").text(d => d.data.__type__).attr("x", d => d.x + nodeSize/2).attr("y", d => d.y + nodeSize/2);
   }
   const svg = d3.select("#hello-world-ast");
   const plot = svg.append("g");
