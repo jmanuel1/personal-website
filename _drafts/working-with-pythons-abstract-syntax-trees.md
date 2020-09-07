@@ -64,7 +64,8 @@ represented by the `Str` node as an argument.
       return children;
     });
     const svgElement = document.querySelector('#hello-world-ast');
-    const nodeSize = 24;
+    const nodeSize = +getComputedStyle(svgElement)
+      .getPropertyValue("--ast-node-size").replace("px", "");
     const tree = d3.tree().size([svgElement.clientWidth - nodeSize, svgElement.clientHeight - nodeSize])(root);
     console.debug(root.descendants());
     const link = g.selectAll("line").data(root.links()).enter().append("line").attr("x1", d => d.source.x + nodeSize/2).attr("y1", d => d.source.y + nodeSize/2).attr("x2", d => d.target.x + nodeSize/2).attr("y2", d => d.target.y + nodeSize/2);
