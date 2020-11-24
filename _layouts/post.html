@@ -61,6 +61,17 @@ name: post
   </article>
 {% endcapture %}
 
+{% capture webmentions %}
+  <hr>
+
+  <section>
+    <h2>Mentioned in</h2>
+    <ul id="webmentions"></ul>
+  </section>
+
+  <script src="/assets/webmentions.js" charset="utf-8"></script>
+{% endcapture %}
+
 {% if site.layout == 'stacked' %}
   <div class="container-lg py-6 p-responsive text-center position-relative top-0 left-0">
     <aside role="complementary">
@@ -86,6 +97,8 @@ name: post
       </p>
       {{ post_body }}
     </main>
+
+    {{ webmentions }}
   </div>
 {% else %}
   <div class="d-md-flex min-height-full position-relative top-0 left-0">
@@ -96,35 +109,40 @@ name: post
       {% include masthead.html metadata=true %}
     </aside>
 
-    <main class="
-      col-md-7 col-lg-8 col-xl-9 px-4 py-6 px-lg-7 border-top border-md-top-0">
-      <div class="mx-auto" style="max-width: 900px;">
-        <div class="f4 mb-6">
-          <div class="f4">
-            <p class="f5">
-              <a href="{{ site.url }}{{ site.baseurl | append:'/' }}"
-                class="d-flex flex-items-center"
-                accesskey="1"
-              >
-                {% octicon chevron-left height:16 class:"mr-2 v-align-middle"
-                  aria-label:Home
-                %} Home
+    <div class="col-md-7 col-lg-8 col-xl-9 px-4 py-6 px-lg-7 mx-auto"
+      style="max-width: 900px;"
+    >
+      <main class="border-top border-md-top-0">
+        <div>
+          <div class="f4 mb-6">
+            <div class="f4">
+              <p class="f5">
+                <a href="{{ site.url }}{{ site.baseurl | append:'/' }}"
+                  class="d-flex flex-items-center"
+                  accesskey="1"
+                >
+                  {% octicon chevron-left height:16 class:"mr-2 v-align-middle"
+                    aria-label:Home
+                  %} Home
+                </a>
+              </p>
+              <a href="#top" accesskey="2" id="top" tabindex="-1">
+                <h1 class="f00-light lh-condensed">{{ page.title }}</h1>
               </a>
-            </p>
-            <a href="#top" accesskey="2" id="top" tabindex="-1">
-              <h1 class="f00-light lh-condensed">{{ page.title }}</h1>
-            </a>
-            <p class="mb-5">
-              Published {{ page.date | date: "%b %d, %Y"}}
-              {% if page.last_modified_at %}
-                (Updated {{ page.last_modified_at | date: "%b %d, %Y" }})
-              {% endif %}
-            </p>
-            {{ post_body }}
+              <p class="mb-5">
+                Published {{ page.date | date: "%b %d, %Y"}}
+                {% if page.last_modified_at %}
+                  (Updated {{ page.last_modified_at | date: "%b %d, %Y" }})
+                {% endif %}
+              </p>
+              {{ post_body }}
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+      {{ webmentions }}
+    </div>
+
   </div>
 {% endif %}
 
