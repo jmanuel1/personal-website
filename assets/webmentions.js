@@ -9,15 +9,35 @@ const webmentions = fetch(`https://webmention.io/api/links.jf2?target={{ site.pu
     for (let webmention of webmentions.children) {
       const element = document.createElement('li');
       addAuthor(element, webmention.author);
+      addURL(element, webmention.url);
+      addPublishedDate(element, webmention.published);
       webmentionsList.appendChild(element);
     }
   }));
 
 function addAuthor(element, author) {
-  photo = document.createElement('img');
+  const url = document.createElement('a');
+  url.href = author.url;
+  // TODO: Add alt
+  const photo = document.createElement('img');
   photo.src = author.photo;
-  element.appendChild(photo);
-  element.insertAdjacentText('beforeend', `Author: ${author.name}`);
+  url.appendChild(photo);
+  url.insertAdjacentText('beforeend', `Author: ${author.name}`);
+  element.appendChild(url);
+}
+
+function addURL(element, link) {
+  element.appendChild(document.createElement('br'));
+  const url = document.createElement('a');
+  url.href = link;
+  url.textContent = 'Source';
+  element.appendChild(url);
+}
+
+function addPublishedDate(element, date) {
+  const dateObject = new Date(date);
+  const text = dateObject.toLocaleString();
+  element.insertAdjacentText('beforeend', `Published: ${text}`);
 }
 
 function onDOMLoad(fun) {
