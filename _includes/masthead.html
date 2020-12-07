@@ -6,16 +6,16 @@
 
 
 
-<div class="position-relative top-0 left-0 bg-transparent" style="z-index: 1">
-  <img src="{{ user.avatar_url }}" class="circle mb-3" style="max-width: 150px;"
+<div class="position-relative top-0 left-0 bg-transparent h-card p-author u-author" style="z-index: 1">
+  <img src="{{ user.avatar_url }}" class="circle mb-3 u-photo" style="max-width: 150px;"
     alt="Jason Manuel's face">
   <!-- Masthead access key -->
   <a href="#masthead" accesskey="0" id="masthead" tabindex="-1">
-    <h1 class="mb-2 lh-condensed">
+    <h1 class="mb-2 lh-condensed p-name">
       {% if user.name %}{{ user.name }}{% else %}{{ user.login }}{% endif %}
     </h1>
   </a>
-  <p class="mb-3 f4">
+  <p class="mb-3 f4 p-note">
     {{ user.bio }}
   </p>
 
@@ -25,7 +25,7 @@
         <div class="{{ metadata_styles }}">
           {% octicon mark-github height:20 class:"mr-2 v-align-middle"
             aria-label:GitHub %}
-          <a href="https://github.com/{{ user.login }}">
+          <a href="https://github.com/{{ user.login }}" rel="me">
             @{{ user.login }}
           </a>
         </div>
@@ -34,7 +34,7 @@
         <div class="{{ metadata_styles }}">
           {% octicon mail height:20 class:"mr-2 v-align-middle"
             aria-label:email %}
-          <a href="mailto:{{ user.email }}">
+          <a href="mailto:{{ user.email }}" rel="me" class="u-email">
             {{ user.email }}
           </a>
         </div>
@@ -43,7 +43,7 @@
         <div class="{{ metadata_styles }}">
           {% octicon location height:20 class:"mr-2 v-align-middle"
             aria-label:Location %}
-          {{ user.location }}
+          <span class="p-country-name">{{ user.location }}</span>
         </div>
       {% endif %}
       {% if site.social_media %}
@@ -59,7 +59,7 @@
               <a href="{{ service.profile_url_prefix }}{{ account[1] }}"
                 class="tooltipped tooltipped-se d-inline-flex
                   flex-items-center"
-                aria-label="{{ service.name }}: {{ account[1] }}">
+                aria-label="{{ service.name }}: {{ account[1] }}" rel="me">
                 {{ service.icon_svg }} <span class="pl-2">{{ service.name }}</span>
               </a>
             </div>

@@ -80,6 +80,9 @@ name: post
       </a>
       <p class="mb-5">
         Published {{ page.date | date: "%b %d, %Y"}}
+        {% if page.last_modified_at %}
+          (Updated {{ page.last_modified_at | date: "%b %d, %Y" }})
+        {% endif %}
       </p>
       {{ post_body }}
     </main>
@@ -113,6 +116,9 @@ name: post
             </a>
             <p class="mb-5">
               Published {{ page.date | date: "%b %d, %Y"}}
+              {% if page.last_modified_at %}
+                (Updated {{ page.last_modified_at | date: "%b %d, %Y" }})
+              {% endif %}
             </p>
             {{ post_body }}
           </div>
