@@ -9,8 +9,10 @@ const webmentions = fetch(`https://webmention.io/api/links.jf2?target={{ site.pu
     for (let webmention of webmentions.children) {
       const element = document.createElement('li');
       addAuthor(element, webmention.author);
+      addMentionType(element, webmention['wm-property']);
       addURL(element, webmention.url);
       addPublishedDate(element, webmention.published);
+      addContent(element, webmention.content.text);
       webmentionsList.appendChild(element);
     }
   }));
@@ -38,6 +40,21 @@ function addPublishedDate(element, date) {
   const dateObject = new Date(date);
   const text = dateObject.toLocaleString();
   element.insertAdjacentText('beforeend', `Published: ${text}`);
+}
+
+function addContent(element, content) {
+  element.appendChild(document.createElement('br'));
+  element.insertAdjacentText('beforeend', content);
+}
+
+function addMentionType(element, type) {
+  switch (type) {
+    case 'in-reply-to':
+      element.insertAdjacentText('beforeend', 'reply');
+      break;
+    default:
+      element.insertAdjacentText('beforeend', 'unknown');
+  }
 }
 
 function onDOMLoad(fun) {
