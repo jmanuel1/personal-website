@@ -14,6 +14,10 @@ folding, stated simply, is the evaulation of expressions containing constants by
 a compiler or interpreter before your program actually runs. (I think CPython
 already does some constant folding, but that won't stop us.)
 
+By the way, I'll be assuming you know some basic Python, but the concepts here
+should apply elsewhere. I'll also assume you're using CPython 3.7. If you don't
+know what Python implementation you're using, you're probably using CPython.
+
 ## AST? What's that?
 
 AST is short for [*abstract syntax
