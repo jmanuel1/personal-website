@@ -24,7 +24,38 @@ AST is short for [*abstract syntax
 tree*](https://en.wikipedia.org/wiki/Abstract_syntax_tree). It is a type of
 [*tree*](https://en.wikipedia.org/wiki/Tree_%28data_structure%29) that stores
 the structure of a program, ignoring details like commas and grouping
-parentheses. Here's an example of an AST:
+parentheses.
+
+<details>
+  <summary>Wait! What's a tree?</summary>
+
+  A tree is a recursive data structure that is used to express hierarchical or
+  nested information. For example, you could use a tree to represent your family
+  tree, a decision tree, regions in your country at various levels from city to
+  country, or an organizational chart. A tree is composed of nodes, which are
+  cells that can hold data. The nodes are connected by edges which indicate
+  parent-child relationships. Here are some resources about trees:
+
+  <ul>
+    <li>
+      <a href="https://en.wikipedia.org/wiki/Tree_%28data_structure%29">
+        Wikipedia article on trees
+      </a>
+    </li>
+    <li>
+      <a href="https://medium.com/basecs/how-to-not-be-stumped-by-trees-5f36208f68a7">
+        How To Not Be Stumped By Trees
+      </a>
+    </li>
+    <li>
+      <a href="https://www.codenewbie.org/basecs/13">
+        Podcast version of "How To Not Be Stumped By Trees"
+      </a>
+    </li>
+  </ul>
+</details>
+
+Here's an example of an AST:
 
 <svg
   id='hello-world-ast'
@@ -46,7 +77,6 @@ expression statement (`Expr`) which contains a function call (`Call`). The
 function being called is `Name`d `print`. The function is given only the string
 represented by the `Str` node as an argument.
 
-### Brief overview of trees
 
 ## How the Python ast module works
 
