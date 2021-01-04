@@ -5,3 +5,5 @@ gem "jekyll-octicons"
 gem "jemoji"
 
 gem "dotenv", "~> 2.7"
+
+gem "org-ruby"
