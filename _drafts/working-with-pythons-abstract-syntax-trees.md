@@ -58,10 +58,10 @@ parentheses.
 
 Here's an example of an AST:
 
-<svg
-  id='hello-world-ast'
-  data-ast='{"body": [{"value": {"func": {"id": "print", "ctx": {"__type__": "Load"}, "__type__": "Name"}, "args": [{"s": "hello world", "__type__": "Str"}], "keywords": [], "__type__": "Call"}, "__type__": "Expr"}], "__type__": "Module"}'>
-</svg>
+<!-- TODO: alt -->
+<img
+  src="/assets/working-with-pythons-abstract-syntax-trees/hello-world-ast.svg"
+  width="100%" class="p-4" style="background: white">
 
 This AST can be textually represented as
 `Module(body=[Expr(value=Call(func=Name(id='print', ctx=Load()),
@@ -86,49 +86,3 @@ represented by the `Str` node as an argument.
 ## Conclusion/try yourself
 
 
-<!-- Scripts for displaying ASTs -->
-<script>
-  let root = null;
-  function drawTree(astJSON, plot) {
-    const ast = JSON.parse(astJSON);
-    const g = plot.append("g");
-    if (!root) {
-      root = d3.hierarchy(ast, d => {
-        const children = [];
-        for (let field in d) {
-          if (d[field].__type__ || d[field] instanceof Array)
-            children.push(d[field]);
-        }
-        return children;
-      });
-    }
-    const svgElement = document.querySelector('#hello-world-ast');
-    const nodeSize = +getComputedStyle(svgElement)
-      .getPropertyValue("--ast-node-size").replace("px", "");
-    const treeLayout = d3.tree().size([svgElement.clientWidth - nodeSize, svgElement.clientHeight - nodeSize]);
-    const tree = treeLayout(root);
-    const link = g.selectAll("line").data(root.links()).enter().append("line").attr("x1", d => d.source.x + nodeSize/2).attr("y1", d => d.source.y + nodeSize/2).attr("x2", d => d.target.x + nodeSize/2).attr("y2", d => d.target.y + nodeSize/2);
-    const node = g.selectAll("rect").data(root.descendants()).enter().append("rect").attr("x", d => d.x).attr("y", d => d.y);
-    const text = g.selectAll("text").data(root.descendants()).enter()
-      .append("text").text(d => d.data.__type__)
-      .attr("x", d => d.x + nodeSize/2).attr("y", d => d.y + nodeSize/2)
-      .each(function() {
-        if (this.getComputedTextLength() > nodeSize) {
-          d3.select(this).attr("textLength", nodeSize);
-        }
-      });
-    function redraw() {
-      treeLayout.size([svgElement.clientWidth - nodeSize, svgElement.clientHeight - nodeSize]);
-      const tree = treeLayout(root);
-      const link = g.selectAll("line").data(root.links()).attr("x1", d => d.source.x + nodeSize/2).attr("y1", d => d.source.y + nodeSize/2).attr("x2", d => d.target.x + nodeSize/2).attr("y2", d => d.target.y + nodeSize/2);
-      const node = g.selectAll("rect").data(root.descendants()).attr("x", d => d.x).attr("y", d => d.y);
-      const text = g.selectAll("text").data(root.descendants())
-        .attr("x", d => d.x + nodeSize/2).attr("y", d => d.y + nodeSize/2);
-    }
-    window.addEventListener("resize", redraw);
-  }
-  const svg = d3.select("#hello-world-ast");
-  const plot = svg.append("g");
-  drawTree(svg.attr("data-ast"), plot);
-  // window.addEventListener("resize", () => drawTree(svg.attr("data-ast"), plot));
-</script>
