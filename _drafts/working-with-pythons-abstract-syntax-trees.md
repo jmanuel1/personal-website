@@ -4,6 +4,10 @@ title: Working with Python's Abstract Syntax Trees
 slug: working-with-pythons-abstract-syntax-trees
 ---
 
+<!-- TODO: Make code available, through generation if that's easy -->
+
+<!-- QUESTION: Correct definition of metaprogramming? -->
+
 Python is a dynamic language with a large and varied standard library. You can
 even use Python to manipulate other Python programs! That's called
 [*metaprogramming*](https://en.wikipedia.org/wiki/Metaprogramming), and it's
@@ -78,8 +82,48 @@ expression statement (`Expr`) which contains a function call (`Call`). The
 function being called is `Name`d `print`. The function is given only the string
 represented by the `Str` node as an argument.
 
+## How the Python `ast` module works
 
-## How the Python ast module works
+Python's built-in `ast` module allows us to parse Python code at runtime and get
+back ASTs. It also provides functions to help us process these ASTs.
+
+Let's get an AST for the code `print('hello world')`.
+
+```python
+import ast
+
+syntax_tree = ast.parse("print('hello world')")
+```
+
+By default, `ast.parse` parses code as if it's in its own module. The function
+can parse in other modes, but we won't cover those here.
+
+We can get a view of what's in the AST by calling `ast.dump` on it:
+
+```python
+print(ast.dump(syntax_tree))
+```
+
+This will print:
+
+<!-- hide -->
+```python
+Module(body=[Expr(value=Call(func=Name(id='print', ctx=Load()), args=[Str(s='hello world')], keywords=[]))])
+```
+
+This is the same AST we saw earlier.
+
+Now, let's try executing the code represented by this AST. Python makes this
+easy for us; we can first compile the AST into a bytecode object using
+`compile`, and then execute that object using `exec`.
+
+```python
+exec(compile(syntax_tree, '<string>', 'exec'))
+```
+
+After running `exec`, "hello world" should be printed out.
+
+<!-- TODO: Might need to explore traversal -->
 
 ## Example: constant folding
 
