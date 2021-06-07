@@ -18,6 +18,8 @@ folding, stated simply, is the evaluation of expressions containing constants by
 a compiler or interpreter before your program actually runs. (I think CPython
 already does some constant folding, but that won't stop us.)
 
+[The code in this tutorial can be found here.](./code.py)
+
 By the way, I'll be assuming you know some intermediate Python, but the concepts
 here should apply elsewhere. I'll also assume you're using CPython 3.7. If you
 don't know what Python implementation you're using, you're probably using
