@@ -308,4 +308,40 @@ Finally, we check if each node in `elements` is an instance of one of the
     return all(isinstance(element, literal_types) for element in elements)
 ```
 
+### Trying our `ConstantFolder`
 
+<!-- FIXME: I assumed this would come from stdin above -->
+Let's try to constant-fold the expression `'success' * (1 + 1 + (1 * 2) + 1)`.
+We can do this by first parsing this expression to get an AST.
+
+```python
+syntax_tree = ast.parse("'success' * (1 + 1 + (1 * 2) + 1)")
+```
+
+Next, we can use the `visit` method (which is inherited from `ast.NodeVisitor`)
+of our `ConstantFolder` class to get the folded AST.
+
+```python
+folded_syntax_tree = ConstantFolder().visit(syntax_tree)
+```
+
+Now, we can dump the value of `folded_syntax_tree` and see the constant
+expression has been evaluated!
+
+```python
+print('after folding:')
+print(ast.dump(folded_syntax_tree))
+```
+
+The output should look like this:
+
+<!-- hide -->
+```python
+Module(body=[Expr(value=Str(s='successsuccesssuccesssuccesssuccess'))])
+```
+
+Here's a graphical depiction of this AST:
+
+![A Module with a body containing only a single Expression node, which contains
+the String node with the value "success" repeated five
+times.](/assets/working-with-pythons-abstract-syntax-trees/folded-success.svg)
