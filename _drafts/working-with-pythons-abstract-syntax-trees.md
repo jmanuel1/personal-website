@@ -2,6 +2,7 @@
 layout: post
 title: Working with Python's Abstract Syntax Trees
 slug: working-with-pythons-abstract-syntax-trees
+literate: true
 ---
 
 <!-- TODO: Make code available, through generation if that's easy -->
