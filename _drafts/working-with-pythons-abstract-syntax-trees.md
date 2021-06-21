@@ -345,3 +345,9 @@ Here's a graphical depiction of this AST:
 ![A Module with a body containing only a single Expression node, which contains
 the String node with the value "success" repeated five
 times.](/assets/working-with-pythons-abstract-syntax-trees/folded-success.svg)
+
+## Conclusion
+
+We've just successfully used Python abstract syntax trees to implement constant
+folding ourselves. We went over concepts like what abstract syntax trees are,
+how to traverse and modify them, and some of the node types in Python ASTs.
