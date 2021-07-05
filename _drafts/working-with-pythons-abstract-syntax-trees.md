@@ -352,3 +352,18 @@ times.](/assets/working-with-pythons-abstract-syntax-trees/folded-success.svg)
 We've just successfully used Python abstract syntax trees to implement constant
 folding ourselves. We went over concepts like what abstract syntax trees are,
 how to traverse and modify them, and some of the node types in Python ASTs.
+
+## Try yourself
+
+I encourage going deeper into this topic. Here are some things you can try:
+
+* Constant-folding the subtraction and division of numeric literals (for
+  example, `6 - 6`, `1 - 2j`, and `0.0 - -1`)
+* Generating interesting visualizations of Python code from ASTs
+  * Philippe Ombredanne's
+    [Python AST visualizer](https://github.com/pombredanne/python-ast-visualizer)
+    might be a good starting point
+* Parse Python code to compute intersting statistics about the code
+  * Cyclomatic complexity and number of lines per function, for example
+* Write a simple type checker for Python, or explore other properties of
+  programs you can compute
