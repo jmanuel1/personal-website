@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 gem 'jekyll'
-gem 'github-pages', "~> 204", group: :jekyll_plugins
 gem "jekyll-github-metadata"
 gem "jekyll-octicons"
 
