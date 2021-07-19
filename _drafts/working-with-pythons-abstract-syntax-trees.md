@@ -5,8 +5,6 @@ slug: working-with-pythons-abstract-syntax-trees
 literate: true
 ---
 
-<!-- TODO: Make code available, through generation if that's easy -->
-
 <!-- QUESTION: Correct definition of metaprogramming? -->
 
 Python is a dynamic language with a large and varied standard library. You can
