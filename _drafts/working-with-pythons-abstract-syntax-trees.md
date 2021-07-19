@@ -5,10 +5,8 @@ slug: working-with-pythons-abstract-syntax-trees
 literate: true
 ---
 
-<!-- QUESTION: Correct definition of metaprogramming? -->
-
 Python is a dynamic language with a large and varied standard library. You can
-even use Python to manipulate other Python programs! That's called
+even use Python to manipulate Python programs as data! That's called
 [*metaprogramming*](https://en.wikipedia.org/wiki/Metaprogramming), and it's
 what we're going to do using Python's `ast` module. By the end of this post,
 we'll have implemented [constant
