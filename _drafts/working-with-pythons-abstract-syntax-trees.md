@@ -11,9 +11,9 @@ even use Python to manipulate Python programs as data! That's called
 what we're going to do using Python's `ast` module. By the end of this post,
 we'll have implemented [constant
 folding](https://en.wikipedia.org/wiki/Constant_folding) for Python. Constant
-folding, stated simply, is the evaluation of expressions containing constants by
-a compiler or interpreter before your program actually runs. (I think CPython
-already does some constant folding, but that won't stop us.)
+folding, stated simply, is the evaluation of constant expressions by a compiler
+or interpreter before your program actually runs. (I think CPython already does
+some constant folding, but that won't stop us.)
 
 [The code in this tutorial can be found here.](./code.py)
 
