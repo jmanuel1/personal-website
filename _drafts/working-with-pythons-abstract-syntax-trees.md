@@ -61,10 +61,13 @@ parentheses.
 
 Here's an example of an AST:
 
-<!-- TODO: alt -->
 <img
   src="/assets/working-with-pythons-abstract-syntax-trees/hello-world-ast.svg"
-  width="100%" class="p-4" style="background: white">
+  width="100%" class="p-4" style="background: white"
+  alt="A Module node that contains a single Expr node. The Expr node contains a
+    Call node. The function being called is named 'print,' the single argument
+    is the Str node with the text 'hello world,' and the Call node has no
+    keyword arguments.">
 
 This AST can be textually represented as
 `Module(body=[Expr(value=Call(func=Name(id='print', ctx=Load()),
