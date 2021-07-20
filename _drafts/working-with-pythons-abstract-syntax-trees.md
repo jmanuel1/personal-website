@@ -138,21 +138,9 @@ We'll handle the following cases:
 There are many cases we could handle, but we have to start somewhere. I suggest
 you create a new file for the program we're about to write.
 
-We'll take some Python code from standard input.
-
-```python
-code = input()
-```
-
-Then we'll parse the code, store the resulting AST, and print out the AST.
-
-```python
-syntax_tree = ast.parse(code)
-print(ast.dump(syntax_tree))
-```
-
-Now, we need to recursively run a constant folding algorithm through the nodes
-of the AST. In other words, we need to *traverse* the AST. We can use the
+To acheive our goal, we need to recursively run a constant folding algorithm
+through the nodes of the AST. In other words, we need to *traverse* the AST. We
+can use the
 [`ast.NodeTransformer`](https://docs.python.org/3.7/library/ast.html?highlight=nodetransformer#ast.NodeTransformer)
 class to change an AST while traversing it recursively from the top down. To use
 `NodeTransformer`, we'll subclass it.
@@ -310,7 +298,6 @@ Finally, we check if each node in `elements` is an instance of one of the
 
 ### Trying our `ConstantFolder`
 
-<!-- FIXME: I assumed this would come from stdin above -->
 Let's try to constant-fold the expression `'success' * (1 + 1 + (1 * 2) + 1)`.
 We can do this by first parsing this expression to get an AST.
 
