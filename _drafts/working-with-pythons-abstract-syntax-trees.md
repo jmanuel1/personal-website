@@ -127,7 +127,7 @@ After running `exec`, "hello world" should be printed out.
 
 ## Example: constant folding
 
-We're going to figure out how to some do basic constant expression evaluation.
+We're going to figure out how to do some basic constant expression evaluation.
 We'll handle the following cases:
 
 * Adding numeric and string literals (for example, `2 + 2` and
@@ -138,7 +138,7 @@ We'll handle the following cases:
 There are many cases we could handle, but we have to start somewhere. I suggest
 you create a new file for the program we're about to write.
 
-To acheive our goal, we need to recursively run a constant folding algorithm
+To achieve our goal, we need to recursively run a constant folding algorithm
 through the nodes of the AST. In other words, we need to *traverse* the AST. We
 can use the
 [`ast.NodeTransformer`](https://docs.python.org/3.7/library/ast.html?highlight=nodetransformer#ast.NodeTransformer)
@@ -153,10 +153,10 @@ Next, we'll override methods like `visit_Str` so that we can perform different
 actions depending on the type of node we encounter. For example, the `visit_Str`
 method is called when the node transformer sees a `Str` node. The transformer
 uses the return value of each `visit_*` method to replace the nodes in the AST,
-modifying the structure in-place.
+modifying the structure in place.
 
-Let's write our transformer code organized to the kinds of expression we want to
-evaluate.
+Let's write our transformer code organized to the kinds of expressions we want
+to evaluate.
 
 ### Adding numeric and string literals
 
@@ -335,8 +335,8 @@ times.](/assets/working-with-pythons-abstract-syntax-trees/folded-success.svg)
 
 ## Conclusion
 
-We've just successfully used Python abstract syntax trees to implement constant
-folding ourselves. We went over concepts like what abstract syntax trees are,
+We've successfully used Python abstract syntax trees to implement constant
+folding! We went over concepts like what abstract syntax trees are,
 how to traverse and modify them, and some of the node types in Python ASTs.
 
 ## Try yourself
@@ -351,7 +351,7 @@ I encourage going deeper into this topic. Here are some things you can try:
     might be a good starting point
   * You could also start from
     [the vpyast visualizer](https://vpyast.appspot.com).
-* Parse Python code to compute intersting statistics about the code
+* Parse Python code to compute statistics about the code
   * Cyclomatic complexity and number of lines per function, for example
 * Write a simple type checker for Python, or explore other properties of
   programs you can compute
