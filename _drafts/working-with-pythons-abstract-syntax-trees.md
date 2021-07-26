@@ -349,7 +349,15 @@ I encourage going deeper into this topic. Here are some things you can try:
   * Philippe Ombredanne's
     [Python AST visualizer](https://github.com/pombredanne/python-ast-visualizer)
     might be a good starting point
+  * You could also start from
+    [the vpyast visualizer](https://vpyast.appspot.com).
 * Parse Python code to compute intersting statistics about the code
   * Cyclomatic complexity and number of lines per function, for example
 * Write a simple type checker for Python, or explore other properties of
   programs you can compute
+
+## Helpful links
+
+* **[Green Tree Snakes, a good Python AST reference](https://greentreesnakes.readthedocs.io/en/latest/)**
+* [CPython 3.7 docs on the `ast` module](https://docs.python.org/3.7/library/ast.html)
+* [Analyzing Python Code with Python](https://rotemtam.com/2020/08/13/python-ast/)
