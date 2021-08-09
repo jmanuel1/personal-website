@@ -107,7 +107,7 @@ print(ast.dump(syntax_tree))
 
 This will print:
 
-<!-- hide -->
+<!-- output_as_prose -->
 ```python
 Module(body=[Expr(value=Call(func=Name(id='print', ctx=Load()), args=[Str(s='hello world')], keywords=[]))])
 ```
@@ -321,7 +321,7 @@ print(ast.dump(folded_syntax_tree))
 
 The output should look like this:
 
-<!-- hide -->
+<!-- output_as_prose -->
 ```python
 Module(body=[Expr(value=Str(s='successsuccesssuccesssuccesssuccess'))])
 ```

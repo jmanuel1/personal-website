@@ -12,9 +12,7 @@ module Jekyll
     def generate(site)
       site.posts.each do |post|
         print "post #{post.path} data: "
-        p post.data
-        print "\n"
-        if post.data.fetch("literate", false) then
+        if post.data.fetch('literate', false) then
           result = generate_code(post, site)
           static_file = LiterateStaticFile.new(site, site.source, result[:dir], result[:name])
           static_file.destination_dir = File.dirname(post.destination(site.dest))
@@ -42,22 +40,22 @@ module Jekyll
       state = IN_DOCUMENT
       hide_next_program_fragment = false
       was_in_frontmatter = false
+      output_next_program_fragment_as_prose = false
       current_program_line = 0
 
       line_map = {}
       document_lines = document.split("\n")
-      # puts document_lines.inspect
+
       document_lines.each_with_index { |line, i|
-        # puts line
-        # puts state
         case state
         when IN_DOCUMENT
           case line
           when /^```python/
             state = IN_PROGRAM
-            # puts 'enter IN_PROGRAM'
           when /^<!--\s*hide\s*-->/
             hide_next_program_fragment = true
+          when /^<!--\s*output_as_prose\s*-->/
+            output_next_program_fragment_as_prose = true
           when /^---$/
             unless was_in_frontmatter
               state = IN_FRONTMATTER
@@ -71,8 +69,17 @@ module Jekyll
           when /^```/
             state = IN_DOCUMENT
             hide_next_program_fragment = false
+            output_next_program_fragment_as_prose = false
           else
-            unless hide_next_program_fragment
+            if output_next_program_fragment_as_prose then
+              print "here"
+              print "line: #{line}"
+              if line.strip() == '' then
+                program_lines << ''
+              else
+                program_lines << "\# #{line}"
+              end
+            elsif !hide_next_program_fragment
               current_program_line++
               line_map[current_program_line] = i
 
