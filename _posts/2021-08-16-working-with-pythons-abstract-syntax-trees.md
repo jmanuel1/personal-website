@@ -3,6 +3,7 @@ layout: post
 title: Working with Python's Abstract Syntax Trees
 slug: working-with-pythons-abstract-syntax-trees
 literate: true
+date: '2021-08-16 12:21:53-07:00'
 ---
 
 <!-- backlink -->
