@@ -311,7 +311,7 @@ of our `ConstantFolder` class to get the folded AST.
 folded_syntax_tree = ConstantFolder().visit(syntax_tree)
 ```
 
-Now, we can dump the value of `folded_syntax_tree` and see the constant
+Now, we can dump the value of `folded_syntax_tree` and see that the constant
 expression has been evaluated!
 
 ```python
