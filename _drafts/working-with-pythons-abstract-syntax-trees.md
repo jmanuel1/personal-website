@@ -5,6 +5,8 @@ slug: working-with-pythons-abstract-syntax-trees
 literate: true
 ---
 
+<!-- backlink -->
+
 Python is a dynamic language with a large and varied standard library. You can
 even use Python to manipulate Python programs as data! That's called
 [*metaprogramming*](https://en.wikipedia.org/wiki/Metaprogramming), and it's
@@ -15,6 +17,7 @@ folding, stated simply, is the evaluation of constant expressions by a compiler
 or interpreter before your program actually runs. (I think CPython already does
 some constant folding, but that won't stop us.)
 
+<!-- hide -->
 [The code in this tutorial can be found here.](./code.py)
 
 By the way, I'll be assuming you know some Python, but the concepts here should
