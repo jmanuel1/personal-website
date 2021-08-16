@@ -1,8 +1,16 @@
+<!-- FIXME: site.github.owner is now site.github.owner_{property} -->
+
 {% assign content = page.content %}
 
 {% assign posts_total = site.posts | size %}
 
 {% assign user = site.github.owner %}
+{% assign user_name = "Jason Manuel" %}
+{% capture user_bio %}
+Programmer and CS student; NAE GCSP student; writing code since age 11.
+{% endcapture %}
+{% assign user_email = "jama.indo@hotmail.com" %}
+{% assign user_location = "United States" %}
 
 {% if page.path contains '_posts' %}
   {% assign page_title = page.title %}

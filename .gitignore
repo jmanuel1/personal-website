@@ -2,7 +2,8 @@
 .bundle
 .sass-cache
 _site/
-Gemfile.lock
 **/.ruby-version
 .env
 .org/
+.jekyll-cache/
+.literate-output/

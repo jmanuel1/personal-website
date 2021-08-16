@@ -7,43 +7,43 @@
 
 
 <div class="position-relative top-0 left-0 bg-transparent h-card p-author u-author" style="z-index: 1">
-  <img src="{{ user.avatar_url }}" class="circle mb-3 u-photo" style="max-width: 150px;"
+  <img src="{{ site.github.owner_gravatar_url }}" class="circle mb-3 u-photo" style="max-width: 150px;"
     alt="Jason Manuel's face">
   <!-- Masthead access key -->
   <a href="#masthead" accesskey="0" id="masthead" tabindex="-1">
     <h1 class="mb-2 lh-condensed p-name">
-      {% if user.name %}{{ user.name }}{% else %}{{ user.login }}{% endif %}
+      {{ user_name }}
     </h1>
   </a>
   <p class="mb-3 f4 p-note">
-    {{ user.bio }}
+    {{ user_bio }}
   </p>
 
   {% if include.metadata %}
     <div class="f4 mb-6">
-      {% if user.name %}
+      {% if site.github.owner_name %}
         <div class="{{ metadata_styles }}">
           {% octicon mark-github height:20 class:"mr-2 v-align-middle"
             aria-label:GitHub %}
-          <a href="https://github.com/{{ user.login }}" rel="me">
-            @{{ user.login }}
+          <a href="https://github.com/{{ site.github.owner_name }}" rel="me">
+            @{{ site.github.owner_name }}
           </a>
         </div>
       {% endif %}
-      {% if user.email %}
+      {% if user_email %}
         <div class="{{ metadata_styles }}">
           {% octicon mail height:20 class:"mr-2 v-align-middle"
             aria-label:email %}
-          <a href="mailto:{{ user.email }}" rel="me" class="u-email">
-            {{ user.email }}
+          <a href="mailto:{{ user_email }}" rel="me" class="u-email">
+            {{ user_email }}
           </a>
         </div>
       {% endif %}
-      {% if user.location %}
+      {% if user_location %}
         <div class="{{ metadata_styles }}">
           {% octicon location height:20 class:"mr-2 v-align-middle"
             aria-label:Location %}
-          <span class="p-country-name">{{ user.location }}</span>
+          <span class="p-country-name">{{ user_location }}</span>
         </div>
       {% endif %}
       {% if site.social_media %}
