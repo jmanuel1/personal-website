@@ -51,10 +51,8 @@ module Jekyll
       inline_actions = {
         smart_quote: -> (el) { "'" },
         a: -> (el) {
-          p el.attr
-          p el.children
-          p el.value
-          el.children.map { |child| inline_traverse(child, inline_actions) }.join("")
+          link_text = el.children.map { |child| inline_traverse(child, inline_actions) }.join("").strip
+          "[#{link_text}](#{el.attr['href']})"
         },
         em: -> (el) {
           el.children.map { |child| inline_traverse(child, inline_actions) }.join("")
