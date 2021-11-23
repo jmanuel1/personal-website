@@ -64,7 +64,10 @@ module Jekyll
       actions[:codeblock] = -> (el) {
         text = nil
         text = el.value unless hide_next_program_fragment
-        hide_next_program_fragment = false
+        if output_next_program_fragment_as_prose then
+          text = text.split("\n").map { |line| "\# #{line}" }.join("\n") + "\n"
+        end
+        output_next_program_fragment_as_prose = hide_next_program_fragment = false
         text
       }
       actions[:xml_comment] = -> (el) {
