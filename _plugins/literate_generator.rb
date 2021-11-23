@@ -13,8 +13,7 @@ module Jekyll
 
     def generate(site)
       @site_url = site.config['url']
-      site.posts.each do |post|
-        print "post #{post.path} data: "
+      site.posts.docs.each do |post|
         if post.data.fetch('literate', false) then
           result = generate_code(post, site)
           static_file = LiterateStaticFile.new(site, site.source, result[:dir], result[:name])
