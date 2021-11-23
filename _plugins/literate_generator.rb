@@ -82,7 +82,7 @@ module Jekyll
             output_next_program_fragment_as_prose = true
             nil
           when /^<!--\s*backlink\s*-->/
-            "\# This is the code for the tutorial at #{post_link}."
+            "\# This is the code for the tutorial at #{post_link}.\n"
           end
         end
       }
