@@ -43,6 +43,7 @@ module Jekyll
       hide_next_program_fragment = false
       output_next_program_fragment_as_prose = false
       current_program_line = 0
+      indentation_level = 0
 
       line_map = {}
 
@@ -63,6 +64,9 @@ module Jekyll
         text = el.value unless hide_next_program_fragment
         if output_next_program_fragment_as_prose then
           text = text.split("\n").map { |line| "\# #{line}" }.join("\n") + "\n"
+        elsif not hide_next_program_fragment and not output_next_program_fragment_as_prose
+          last_line = el.value.split("\n")[-1]
+          indentation_level = last_line.length - last_line.lstrip.length
         end
         output_next_program_fragment_as_prose = hide_next_program_fragment = false
         text
@@ -80,23 +84,25 @@ module Jekyll
             nil
           when /^<!--\s*backlink\s*-->/
             "\# This is the code for the tutorial at #{post_link}.\n"
+          when /^<!--\s*add_to_indentation_level\s+(-?\d+)\s*-->/
+            indentation_level += $1.to_i
+            nil
           end
         end
       }
       actions[:p] = -> (el) {
-        text = el.children.map { |child| inline_traverse(child, inline_actions) }.join("")
-        lines = text.split "\n"
-        if hide_next_program_fragment then
-          text = nil
-        else
-          text = lines.map { |line| "\# #{line}" }.join("\n")
+        text = nil
+        unless hide_next_program_fragment
+          text = el.children.map { |child| inline_traverse(child, inline_actions) }.join("")
+          lines = text.split "\n"
+          text = lines.map { |line| "#{' ' * indentation_level}\# #{line}" }.join("\n") + "\n"
         end
         hide_next_program_fragment = false
         text
       }
       actions[:header] = -> (el) {
-        marker = "\#" * el.options[:level]
-        "#{marker} #{el.options[:raw_text]}"
+        marker = "\#" * (el.options[:level] + 1)
+        "#{' ' * indentation_level}#{marker} #{el.options[:raw_text]}\n"
       }
 
       program_lines = traverse(document.root, actions)

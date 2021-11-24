@@ -179,6 +179,7 @@ traversal](https://en.wikipedia.org/wiki/Depth-first_search) of the AST.)
         if isinstance(node.op, ast.Add):
 ```
 
+<!-- add_to_indentation_level 4 -->
 If both `left` and `right` are instances of `ast.Num`, we return a new `ast.Num`
 node that contains the sum of the two numbers.
 
@@ -187,6 +188,7 @@ node that contains the sum of the two numbers.
                 return ast.Num(left.n + right.n)
 ```
 
+<!-- add_to_indentation_level -4 -->
 If both `left` and `right` are instances of `ast.Str`, we return a new `ast.Str`
 node that contains the concatenation of the two strings.
 
@@ -195,12 +197,14 @@ node that contains the concatenation of the two strings.
                 return ast.Str(left.s + right.s)
 ```
 
+<!-- add_to_indentation_level -4 -->
 Otherwise, we should return another `BinOp` node with an `Add` as the operator.
 
 ```python
             return ast.BinOp(left, ast.Add(), right)
 ```
 
+<!-- add_to_indentation_level -4 -->
 ### Multiplying numeric literals and list/tuple/strings containing only literals
 
 The type of AST node that represents multiplication is `BinOp` where the node's
@@ -211,6 +215,7 @@ to handle multiplication.
         elif isinstance(node.op, ast.Mult):
 ```
 
+<!-- add_to_indentation_level 4 -->
 First, let's give a name to the AST node types that describe lists and tuples.
 We can call them `sequence_node_types`. This value will come in handy later.
 
@@ -226,6 +231,7 @@ did for adding numbers.
                 return ast.Num(left.n * right.n)
 ```
 
+<!-- add_to_indentation_level -4 -->
 Next, we'll handle multiplying a string by a number. We will check that the
 number is a non-negative integer. We also need to allow the string and integer
 to appear in any order.
@@ -237,6 +243,7 @@ to appear in any order.
                 return ast.Str(left.s * right.n)
 ```
 
+<!-- add_to_indentation_level -4 -->
 The third kind of multiplication we want to handle involves lists and tuples. We
 can start by checking that one of the operands is a list or tuple display, that
 the list or tuple contains only literals, and that the other operand is a
@@ -250,6 +257,7 @@ literal nodes, we use a `contains_only_literals` function that we define later.
                 return type(left)(left.elts * right.n, ast.Load())
 ```
 
+<!-- add_to_indentation_level -4 -->
 In other cases, we can return a `BinOp` node that represents the multiplication
 of `left` and `right`.
 
@@ -258,6 +266,7 @@ of `left` and `right`.
                 return ast.BinOp(left, ast.Mult, right)
 ```
 
+<!-- add_to_indentation_level -8 -->
 ### Handling other `BinOp` nodes
 
 To account for other `BinOp` nodes that didn't fit into any of the cases above,
@@ -269,6 +278,7 @@ as the original node and `left` and `right` as operands.
             return ast.BinOp(left, node.op, right)
 ```
 
+<!-- add_to_indentation_level -12 -->
 ### Loose end: the `contains_only_literals` function
 
 Earlier, we used a helper function called `contains_only_literals` to tell if a
@@ -279,6 +289,7 @@ Now, we define it.
 def contains_only_literals(sequence_ast):
 ```
 
+<!-- add_to_indentation_level 4 -->
 We retrieve the elements of the `sequence_ast` node through its `elts`
 attribute.
 
@@ -299,6 +310,7 @@ Finally, we check if each node in `elements` is an instance of one of the
     return all(isinstance(element, literal_types) for element in elements)
 ```
 
+<!-- add_to_indentation_level -4 -->
 ### Trying our `ConstantFolder`
 
 Let's try to constant-fold the expression `'success' * (1 + 1 + (1 * 2) + 1)`.
