@@ -1,5 +1,6 @@
 require 'digest'
 require 'kramdown'
+require 'logger'
 
 IN_DOCUMENT = 0
 IN_PROGRAM = 1
@@ -8,10 +9,21 @@ IN_PARAGRAPH = 3
 
 module Jekyll
   class LiteratePostGenerator < Generator
+    @@logger = Logger.new(STDERR)
+    @@logger.level = Logger::INFO
+    @@logger.progname = 'LiteratePostGenerator'
+    @@logger.formatter = -> (severity, datetime, progname, message) {
+      "#{color_by_severity(severity)} #{progname}: #{message}\n"
+    }
+
     safe true
     priority :lowest
 
     def generate(site)
+      if site.config.fetch('debug', false) then
+        @@logger.level = Logger::DEBUG
+      end
+
       @site_url = site.config['url']
       site.posts.docs.each do |post|
         if post.data.fetch('literate', false) then
@@ -30,7 +42,7 @@ module Jekyll
       hash = Digest::SHA256.hexdigest post_content
       output_dir = File.join(site.source, ".literate-output")
       output_path = File.join(site.source, ".literate-output/#{hash}.py")
-      print "Writing generated code to #{output_path}\n"
+      @@logger.debug "Writing generated code to #{output_path}"
       Dir.mkdir(output_dir) unless Dir.exist?(output_dir)
       File.write(output_path, program_content, { mode: 'w' })
       result = { dir: ".literate-output", name: "#{hash}.py" }
@@ -249,6 +261,20 @@ module Jekyll
           root.children[i] = each_image(child, &replacer)
         }
         root
+      end
+    end
+
+    def self.color_by_severity(severity)
+      if severity == 'UNKNOWN' then
+        severity
+      elsif severity == 'FATAL' then
+        severity.red.bold
+      elsif severity == 'ERROR' then
+        severity.red
+      elsif severity == 'WARN' then
+        severity.yellow
+      else
+        severity.cyan
       end
     end
 
