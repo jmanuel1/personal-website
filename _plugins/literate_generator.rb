@@ -10,14 +10,33 @@ IN_PROGRAM = 1
 IN_FRONTMATTER = 2
 IN_PARAGRAPH = 3
 
+def create_logger(name)
+  logger = Logger.new(STDERR)
+  logger.level = Logger::INFO
+  logger.progname = name
+  logger.formatter = -> (severity, datetime, progname, message) {
+    "#{color_by_severity(severity)} #{progname}: #{message}\n"
+  }
+  logger
+end
+
+def color_by_severity(severity)
+  if severity == 'UNKNOWN' then
+    severity
+  elsif severity == 'FATAL' then
+    severity.red.bold
+  elsif severity == 'ERROR' then
+    severity.red
+  elsif severity == 'WARN' then
+    severity.yellow
+  else
+    severity.cyan
+  end
+end
+
 module Jekyll
   class LiteratePostGenerator < Generator
-    @@logger = Logger.new(STDERR)
-    @@logger.level = Logger::INFO
-    @@logger.progname = 'LiteratePostGenerator'
-    @@logger.formatter = -> (severity, datetime, progname, message) {
-      "#{color_by_severity(severity)} #{progname}: #{message}\n"
-    }
+    @@logger = create_logger('LiteratePostGenerator')
 
     @@temporary_files = []
 
@@ -55,97 +74,16 @@ module Jekyll
     end
 
     def post_to_program(document, post_url_relative_to_site_url, site_url)
-      program_lines = []
-
-      state = IN_DOCUMENT
-      hide_next_program_fragment = false
-      output_next_program_fragment_as_prose = false
-      current_program_line = 0
-      indentation_level = 0
-
-      line_map = {}
-
-      document = parse_markdown(strip_frontmatter(document))
-      inline_actions = {
-        smart_quote: -> (el) { "'" },
-        a: -> (el) {
-          link_text = el.children.map { |child| inline_traverse(child, inline_actions) }.join("").strip
-          "[#{link_text}](#{el.attr['href']})"
-        },
-        em: -> (el) {
-          el.children.map { |child| inline_traverse(child, inline_actions) }.join("")
-        }
+      document = strip_frontmatter(document)
+      options = {
+        'html_to_native' => true,
+        :input => 'GFM',
+        :post_url_relative_to_site_url => post_url_relative_to_site_url,
+        :site_url => site_url,
+        :logger_level => @@logger.level
       }
-      actions = {}
-      actions[:codeblock] = -> (el) {
-        text = nil
-        text = el.value unless hide_next_program_fragment
-        if output_next_program_fragment_as_prose then
-          text = text.split("\n").map { |line| "\# #{line}" }.join("\n") + "\n"
-        elsif not hide_next_program_fragment and not output_next_program_fragment_as_prose
-          last_line = el.value.split("\n")[-1]
-          indentation_level = last_line.length - last_line.lstrip.length
-        end
-        output_next_program_fragment_as_prose = hide_next_program_fragment = false
-        text
-      }
-      actions[:xml_comment] = -> (el) {
-        if el.options[:category] != :block then
-          el.value
-        else
-          case el.value
-          when /^<!--\s*hide\s*-->/
-            hide_next_program_fragment = true
-            nil
-          when /^<!--\s*output_as_prose\s*-->/
-            output_next_program_fragment_as_prose = true
-            nil
-          when /^<!--\s*backlink\s*-->/
-            wrap_width = 79 - '# '.length
-            post_link = File.join(site_url, post_url_relative_to_site_url)
-            backlink_text = "This is the code for the tutorial at #{post_link}.".fit wrap_width
-            backlink_text.split("\n").map { |line| "\# #{line}" }.join("\n") + "\n"
-          when /^<!--\s*add_to_indentation_level\s+(-?\d+)\s*-->/
-            indentation_level += $1.to_i
-            nil
-          end
-        end
-      }
-      actions[:p] = -> (el) {
-        text = nil
-        unless hide_next_program_fragment
-          text = el.children.map { |child| inline_traverse(child, inline_actions) }.join("")
-          wrap_width = 79 - '# '.length - indentation_level
-          text = text.fit wrap_width
-          lines = text.split "\n"
-          text = lines.map { |line| "#{' ' * indentation_level}\# #{line}" }.join("\n") + "\n"
-        end
-        hide_next_program_fragment = false
-        text
-      }
-      actions[:header] = -> (el) {
-        marker = "\#" * (el.options[:level] + 1)
-        wrap_width = 78 - marker.length - indentation_level
-        header_text = el.options[:raw_text].fit wrap_width
-        header_lines = header_text.split "\n"
-        header_lines.map { |line| "#{' ' * indentation_level}#{marker} #{line}" }.join("\n") + "\n"
-      }
-      root = each_image(document.root) { |image|
-        alt_text = image.attr['alt']
-        url = File.join(site_url, image.attr['src'])
-        ::Kramdown::Element.new(:text, "(See image at #{url}. Image description: #{alt_text})")
-      }
-
-      program_lines = traverse(root, actions)
-
-      program = program_lines.join("\n")
-      return program
-    end
-
-    def parse_markdown(document)
       # assume the default markdown renderer (kramdown)
-      parsed_document = ::Kramdown::Document.new(document, {'html_to_native' => true, :input => 'GFM'})
-      return parsed_document
+      ::Kramdown::Document.new(document, options).to_literate
     end
 
     def strip_frontmatter(document)
@@ -175,60 +113,6 @@ module Jekyll
       stripped_lines.join("\n")
     end
 
-    def traverse(root, actions, lines = nil)
-      if lines == nil then
-        lines = []
-      end
-
-      if !(actions.has_key?(root.type)) then
-        if root.children then
-          root.children.each { |child| traverse(child, actions, lines) }
-        else
-          lines << root.value
-        end
-      else
-        line = actions[root.type].(root)
-        lines << line unless line == nil
-      end
-      return lines
-    end
-
-    def inline_traverse(root, actions)
-      if root.is_a? String then
-        root
-      elsif !(actions.has_key?(root.type)) then
-        root.value
-      else
-        actions[root.type].(root)
-      end
-    end
-
-    def each_image(root, &replacer)
-      root = root.dup
-      if root.type == :img then
-        replacer.(root)
-      else
-        root.children.each_with_index { |child, i|
-          root.children[i] = each_image(child, &replacer)
-        }
-        root
-      end
-    end
-
-    def self.color_by_severity(severity)
-      if severity == 'UNKNOWN' then
-        severity
-      elsif severity == 'FATAL' then
-        severity.red.bold
-      elsif severity == 'ERROR' then
-        severity.red
-      elsif severity == 'WARN' then
-        severity.yellow
-      else
-        severity.cyan
-      end
-    end
-
     def self.<=>(*)
       1
     end
@@ -253,6 +137,175 @@ module Jekyll
     # relative_path is actually the absolute path to the temp file.
     def path
       relative_path
+    end
+  end
+end
+
+module Kramdown::Converter
+  class Literate < Base
+    @@logger = create_logger('Literate')
+
+    def initialize(*args)
+      super(*args)
+      @@logger.level = @options[:logger_level]
+      @site_url = @options[:site_url]
+      @post_url_relative_to_site_url = @options[:post_url_relative_to_site_url]
+
+      @hide_next_program_fragment = false
+      @output_next_program_fragment_as_prose = false
+      @indentation_level = 0
+    end
+
+    def convert(element)
+      send("convert_#{element.type}", element)
+    end
+
+    def convert_smart_quote(element)
+      "'"
+    end
+
+    def convert_root(element)
+      element.children.map { |child| convert(child) }.join("\n")
+    end
+
+    def convert_blank(element)
+      "\n"
+    end
+
+    def convert_xml_comment(element)
+      if element.options[:category] != :block then
+        element.value
+      else
+        case element.value
+        when /^<!--\s*hide\s*-->/
+          @hide_next_program_fragment = true
+          ""
+        when /^<!--\s*output_as_prose\s*-->/
+          @output_next_program_fragment_as_prose = true
+          ""
+        when /^<!--\s*backlink\s*-->/
+          wrap_width = 79 - '# '.length
+          post_link = File.join(@site_url, @post_url_relative_to_site_url)
+          backlink_text = "This is the code for the tutorial at #{post_link}.".fit wrap_width
+          backlink_text.split("\n").map { |line| "\# #{line}" }.join("\n") + "\n"
+        when /^<!--\s*add_to_indentation_level\s+(-?\d+)\s*-->/
+          @indentation_level += $1.to_i
+          ""
+        end
+      end
+    end
+
+    def convert_p(element)
+      text = nil
+      unless @hide_next_program_fragment
+        text = element.children.map { |child| convert(child) }.join("")
+        if element.options[:transparent] then
+          return text
+        end
+        wrap_width = 79 - '# '.length - @indentation_level
+        text = text.fit wrap_width
+        lines = text.split "\n"
+        text = lines.map { |line| "#{' ' * @indentation_level}\# #{line}" }.join("\n") + "\n"
+      end
+      @hide_next_program_fragment = false
+      text
+    end
+
+    def convert_text(element)
+      element.value
+    end
+
+    def convert_br(element)
+      ""
+    end
+
+    def convert_a(element)
+      link_text = element.children.map { |child| convert(child) }.join("").strip
+      "[#{link_text}](#{element.attr['href']})"
+    end
+
+    def convert_em(element)
+      element.children.map { |child| convert(child) }.join("")
+    end
+
+    def convert_codespan(element)
+      element.value
+    end
+
+    def convert_html_element(element)
+      send("convert_#{element.value}_html_element", element)
+    end
+
+    def convert_details_html_element(element)
+      element.children.map { |child|
+        child_text = convert(child).strip
+        # FIXME: Wrap words here. It currently breaks how lists display.
+        lines = child_text.split "\n"
+        lines.map { |line| "#{' ' * @indentation_level}\# #{line}" }.join("\n") + "\n"
+      }.join("\n").strip
+    end
+
+    def convert_summary_html_element(element)
+      element.children.map { |child| convert(child) }.join('').strip
+    end
+
+    def convert_ul(element)
+      element.children.map { |child|
+        child_text = convert(child).strip
+        "* #{child_text}"
+      }.join("\n").strip
+    end
+
+    def convert_li(element)
+      element.children.map { |child| convert(child) }.join('').strip
+    end
+
+    def convert_img(element)
+      alt_text = element.attr['alt']
+      url = File.join(@site_url, element.attr['src'])
+      "(See image at #{url}. Image description: #{alt_text})"
+    end
+
+    def convert_strong(element)
+      text = element.children.map { |child| convert(child) }.join('').strip
+      "**#{text}**"
+    end
+
+    def convert_codeblock(element)
+      text = ''
+      text = element.value unless @hide_next_program_fragment
+      if @output_next_program_fragment_as_prose then
+        text = text.split("\n").map { |line| "\# #{line}" }.join("\n") + "\n"
+      elsif not @hide_next_program_fragment and not @output_next_program_fragment_as_prose
+        last_line = element.value.split("\n")[-1]
+        @indentation_level = last_line.length - last_line.lstrip.length
+      end
+      @output_next_program_fragment_as_prose = @hide_next_program_fragment = false
+      text
+    end
+
+    def convert_header(element)
+      marker = "\#" * (element.options[:level] + 1)
+      wrap_width = 78 - marker.length - @indentation_level
+      header_text = element.options[:raw_text].fit wrap_width
+      header_lines = header_text.split "\n"
+      header_lines.map { |line| "#{' ' * @indentation_level}#{marker} #{line}" }.join("\n") + "\n"
+    end
+
+    def method_missing(symbol, *args)
+      if not symbol.to_s.start_with? 'convert_' then
+        return super(symbol, *args)
+      end
+
+      @@logger.debug "Using default conversion for #{symbol}"
+
+      element = args[0]
+
+      if root.children then
+        root.children.map { |child| convert(child) }.join("\n")
+      else
+        root.value
+      end
     end
   end
 end
