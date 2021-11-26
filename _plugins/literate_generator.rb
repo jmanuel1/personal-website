@@ -29,7 +29,6 @@ module Jekyll
         @@logger.level = Logger::DEBUG
       end
 
-      @site_url = site.config['url']
       site.posts.docs.each do |post|
         if post.data.fetch('literate', false) then
           result = generate_code(post, site)
@@ -43,7 +42,7 @@ module Jekyll
     def generate_code(post, site)
       post_path = post.path
       post_content = File.read(post_path)
-      program_content = post_to_program(post_content, File.join(site.config['url'], post.url))
+      program_content = post_to_program(post_content, post.url, site.config['url'])
       hash = Digest::SHA256.hexdigest post_content
       f = Tempfile.new(['literate-output', '.py'])
       # Prevent f from being garbaged collected so it isn't unlinked before
@@ -55,7 +54,7 @@ module Jekyll
       { dir: File.dirname(output_path), name: File.basename(output_path) }
     end
 
-    def post_to_program(document, post_link)
+    def post_to_program(document, post_url_relative_to_site_url, site_url)
       program_lines = []
 
       state = IN_DOCUMENT
@@ -103,6 +102,7 @@ module Jekyll
             nil
           when /^<!--\s*backlink\s*-->/
             wrap_width = 79 - '# '.length
+            post_link = File.join(site_url, post_url_relative_to_site_url)
             backlink_text = "This is the code for the tutorial at #{post_link}.".fit wrap_width
             backlink_text.split("\n").map { |line| "\# #{line}" }.join("\n") + "\n"
           when /^<!--\s*add_to_indentation_level\s+(-?\d+)\s*-->/
@@ -130,60 +130,14 @@ module Jekyll
         header_lines = header_text.split "\n"
         header_lines.map { |line| "#{' ' * indentation_level}#{marker} #{line}" }.join("\n") + "\n"
       }
+      root = each_image(document.root) { |image|
+        alt_text = image.attr['alt']
+        url = File.join(site_url, image.attr['src'])
+        ::Kramdown::Element.new(:text, "(See image at #{url}. Image description: #{alt_text})")
+      }
 
-      program_lines = traverse(document.root, actions)
+      program_lines = traverse(root, actions)
 
-
-      # document_lines.each_with_index { |line, i|
-      #   case state
-      #   when IN_DOCUMENT
-      #     case line
-      #     when /^```python/
-      #       state = IN_PROGRAM
-      #     when /^    .*/
-      #       program_lines << line[4..]
-      #       state = IN_PROGRAM
-      #     else
-      #       if line.strip() == '' then
-      #         program_lines << '' unless hide_next_program_fragment
-      #       else
-      #         program_lines << "\# #{line}".gsub("\\\'", "\'") unless hide_next_program_fragment
-      #         state = IN_PARAGRAPH
-      #       end
-      #     end
-      #   when IN_PROGRAM
-      #     case line
-      #     when /^(```|\{\: )/
-      #       state = IN_DOCUMENT
-      #       hide_next_program_fragment = false
-      #       output_next_program_fragment_as_prose = false
-      #     else
-      #       line = line[4..]
-      #       if output_next_program_fragment_as_prose then
-      #         print "here"
-      #         print "line: #{line}"
-      #         if line.strip() == '' then
-      #           program_lines << ''
-      #         else
-      #           program_lines << "\# #{line}"
-      #         end
-      #       elsif !hide_next_program_fragment
-      #         current_program_line++
-      #         line_map[current_program_line] = i
-      #
-      #         program_lines << line
-      #       end
-      #     end
-      #   when IN_PARAGRAPH
-      #     if line.strip() == '' then
-      #       program_lines << '' unless hide_next_program_fragment
-      #       state = IN_DOCUMENT
-      #       hide_next_program_fragment = false
-      #     else
-      #       program_lines << "\# #{line}".gsub("\\\'", "\'") unless hide_next_program_fragment
-      #     end
-      #   end
-      # }
       program = program_lines.join("\n")
       return program
     end
@@ -192,23 +146,6 @@ module Jekyll
       # assume the default markdown renderer (kramdown)
       parsed_document = ::Kramdown::Document.new(document, {'html_to_native' => true, :input => 'GFM'})
       return parsed_document
-    end
-
-    def process_markdown(document)
-      parsed_document = parse_markdown(document)
-      new_root = each_image(parsed_document.root) { |image|
-        alt_text = image.attr['alt']
-        url = File.join(@site_url, image.attr['src'])
-        ::Kramdown::Element.new(:text, "(See image at #{url}. Image description: #{alt_text})")
-      }
-      new_root = each_of_type(:comment, new_root) { |comment|
-        }
-      link_note = ::Kramdown::Element.new(:p)
-      link_note.children << ::Kramdown::Element.new(:text, '(The URLs corresponding to the numbered link references can be found at the end of this file.)')
-      new_root.children.unshift(link_note)
-      parsed_document.root = new_root
-      parsed_document.to_remove_html_tags
-      parsed_document.to_kramdown
     end
 
     def strip_frontmatter(document)
