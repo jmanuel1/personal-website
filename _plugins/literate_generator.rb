@@ -1,6 +1,7 @@
 require 'digest'
 require 'kramdown'
 require 'logger'
+require 'tempfile'
 
 IN_DOCUMENT = 0
 IN_PROGRAM = 1
@@ -15,6 +16,8 @@ module Jekyll
     @@logger.formatter = -> (severity, datetime, progname, message) {
       "#{color_by_severity(severity)} #{progname}: #{message}\n"
     }
+
+    @@temporary_files = []
 
     safe true
     priority :lowest
@@ -40,12 +43,14 @@ module Jekyll
       post_content = File.read(post_path)
       program_content = post_to_program(post_content, File.join(site.config['url'], post.url))
       hash = Digest::SHA256.hexdigest post_content
-      output_dir = File.join(site.source, ".literate-output")
-      output_path = File.join(site.source, ".literate-output/#{hash}.py")
+      f = Tempfile.new(['literate-output', '.py'])
+      # Prevent f from being garbaged collected so it isn't unlinked before
+      # Jekyll copies from it.
+      @@temporary_files << f
+      output_path = f.path
       @@logger.debug "Writing generated code to #{output_path}"
-      Dir.mkdir(output_dir) unless Dir.exist?(output_dir)
-      File.write(output_path, program_content, { mode: 'w' })
-      result = { dir: ".literate-output", name: "#{hash}.py" }
+      f.write(program_content)
+      { dir: File.dirname(output_path), name: File.basename(output_path) }
     end
 
     def post_to_program(document, post_link)
@@ -295,6 +300,13 @@ module Jekyll
         return File.join(@destination_dir, "code.py")
       end
       return super(dest)
+    end
+
+    # Override path so that Jekyll can use the absolute path to the temp file,
+    # instead of trying to compute the source path from relative_path.
+    # relative_path is actually the absolute path to the temp file.
+    def path
+      relative_path
     end
   end
 end
