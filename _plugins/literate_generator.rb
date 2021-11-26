@@ -62,8 +62,8 @@ module Jekyll
       post_path = post.path
       post_content = File.read(post_path)
       program_content = post_to_program(post_content, post.url, site.config['url'])
-      hash = Digest::SHA256.hexdigest post_content
-      f = Tempfile.new(['literate-output', '.py'])
+      post_base_name = File.basename(post_path)
+      f = Tempfile.new(["literate-output-#{post_base_name}-", '.py'])
       # Prevent f from being garbaged collected so it isn't unlinked before
       # Jekyll copies from it.
       @@temporary_files << f
