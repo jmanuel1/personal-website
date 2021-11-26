@@ -85,6 +85,7 @@ GEM
       addressable (>= 2.3.5)
       faraday (> 0.8, < 2.0)
     wdm (0.1.1)
+    word_wrap (1.0.0)
 
 PLATFORMS
   ruby
@@ -97,6 +98,7 @@ DEPENDENCIES
   jekyll-octicons
   org-ruby
   wdm (>= 0.1.0)
+  word_wrap
 
 BUNDLED WITH
    2.2.7

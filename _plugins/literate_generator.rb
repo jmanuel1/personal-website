@@ -2,6 +2,8 @@ require 'digest'
 require 'kramdown'
 require 'logger'
 require 'tempfile'
+require 'word_wrap'
+require 'word_wrap/core_ext'
 
 IN_DOCUMENT = 0
 IN_PROGRAM = 1
@@ -100,7 +102,9 @@ module Jekyll
             output_next_program_fragment_as_prose = true
             nil
           when /^<!--\s*backlink\s*-->/
-            "\# This is the code for the tutorial at #{post_link}.\n"
+            wrap_width = 79 - '# '.length
+            backlink_text = "This is the code for the tutorial at #{post_link}.".fit wrap_width
+            backlink_text.split("\n").map { |line| "\# #{line}" }.join("\n") + "\n"
           when /^<!--\s*add_to_indentation_level\s+(-?\d+)\s*-->/
             indentation_level += $1.to_i
             nil
@@ -111,6 +115,8 @@ module Jekyll
         text = nil
         unless hide_next_program_fragment
           text = el.children.map { |child| inline_traverse(child, inline_actions) }.join("")
+          wrap_width = 79 - '# '.length - indentation_level
+          text = text.fit wrap_width
           lines = text.split "\n"
           text = lines.map { |line| "#{' ' * indentation_level}\# #{line}" }.join("\n") + "\n"
         end
@@ -119,7 +125,10 @@ module Jekyll
       }
       actions[:header] = -> (el) {
         marker = "\#" * (el.options[:level] + 1)
-        "#{' ' * indentation_level}#{marker} #{el.options[:raw_text]}\n"
+        wrap_width = 78 - marker.length - indentation_level
+        header_text = el.options[:raw_text].fit wrap_width
+        header_lines = header_text.split "\n"
+        header_lines.map { |line| "#{' ' * indentation_level}#{marker} #{line}" }.join("\n") + "\n"
       }
 
       program_lines = traverse(document.root, actions)
