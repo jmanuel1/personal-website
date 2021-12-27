@@ -1,7 +1,6 @@
 require 'digest'
 require 'kramdown'
 require 'logger'
-require 'tempfile'
 require 'word_wrap'
 require 'word_wrap/core_ext'
 
@@ -40,6 +39,13 @@ module Jekyll
 
     @@temporary_files = []
 
+    @@site_url = nil
+
+    def self.site_url
+      @@logger.debug "reading @@site_url: #{@@site_url}"
+      @@site_url
+    end
+
     safe true
     priority :lowest
 
@@ -48,81 +54,38 @@ module Jekyll
         @@logger.level = Logger::DEBUG
       end
 
+      @@site_url = site.config['url']
+
       site.posts.docs.each do |post|
         if post.data.fetch('literate', false) then
-          result = generate_code(post, site)
-          static_file = LiterateStaticFile.new(site, site.source, result[:dir], result[:name])
-          static_file.destination_dir = File.dirname(post.destination(site.dest))
-          site.static_files << static_file
+          dir = File.dirname(post.path)
+          name = File.basename(post.path)
+          page = LiteratePage.new(site, site.source, dir, name)
+          page.destination_dir = File.dirname(post.destination(site.dest))
+          page.post_url_relative_to_site_url = post.url
+          page.logger_level = @@logger.level
+          site.pages << page
         end
       end
     end
 
-    def generate_code(post, site)
-      post_path = post.path
-      post_content = File.read(post_path)
-      program_content = post_to_program(post_content, post.url, site.config['url'])
-      post_base_name = File.basename(post_path)
-      f = Tempfile.new(["literate-output-#{post_base_name}-", '.py'])
-      # Prevent f from being garbaged collected so it isn't unlinked before
-      # Jekyll copies from it.
-      @@temporary_files << f
-      output_path = f.path
-      @@logger.debug "Writing generated code to #{output_path}"
-      f.write(program_content)
-      { dir: File.dirname(output_path), name: File.basename(output_path) }
-    end
-
-    def post_to_program(document, post_url_relative_to_site_url, site_url)
-      document = strip_frontmatter(document)
-      options = {
-        'html_to_native' => true,
-        :input => 'GFM',
-        :post_url_relative_to_site_url => post_url_relative_to_site_url,
-        :site_url => site_url,
-        :logger_level => @@logger.level
-      }
-      # assume the default markdown renderer (kramdown)
-      ::Kramdown::Document.new(document, options).to_literate
-    end
-
-    def strip_frontmatter(document)
-      was_in_frontmatter = false
-      document_lines = document.split("\n")
-      stripped_lines = []
-      state = IN_DOCUMENT
-      document_lines.each_with_index { |line, i|
-        case state
-        when IN_DOCUMENT
-          case line
-          when /^---$/
-            unless was_in_frontmatter
-              state = IN_FRONTMATTER
-              was_in_frontmatter = true
-            end
-          else
-            stripped_lines << line
-          end
-        when IN_FRONTMATTER
-          case line
-          when /^---$/
-            state = IN_DOCUMENT
-          end
-        end
-      }
-      stripped_lines.join("\n")
-    end
 
     def self.<=>(*)
       1
     end
   end
 
-  class LiterateStaticFile < StaticFile
-    attr_accessor :destination_dir
+  class LiteratePage < Page
+    attr_accessor :destination_dir, :post_url_relative_to_site_url
+    attr_reader :logger_level
+
+    @@logger = create_logger('LiteratePage')
+
     def initialize(*args)
       super(*args)
       @destination_dir = nil
+      @post_url_relative_to_site_url = nil
+      @@logger.level = @logger_level = Logger::INFO
     end
 
     def destination(dest)
@@ -138,6 +101,60 @@ module Jekyll
     def path
       relative_path
     end
+
+    def extname
+      '.md.literate'
+    end
+
+    def place_in_layout?
+      false
+    end
+
+    def logger_level=(level)
+      @@logger.level = @logger_level = level
+    end
+  end
+
+  class LiterateConverter < Converter
+    safe true
+    priority :high
+
+    def initialize(config)
+      super(config)
+
+      # Since the convert method is not given metadata, we grab it in a hook.
+      Jekyll::Hooks.register :pages, :pre_render do |post|
+        if matches(post.extname)
+          @config[:post_url_relative_to_site_url] = post.post_url_relative_to_site_url
+        end
+      end
+
+      Jekyll::Hooks.register :pages, :post_render do |post|
+        if matches(post.extname)
+          @config.delete(:post_url_relative_to_site_url)
+        end
+      end
+    end
+
+    def matches(extension)
+      extension =~ /^\.md\.literate$/i
+    end
+
+    def output_ext(extension)
+      '.py'
+    end
+
+    def convert(content)
+      options = {
+        'html_to_native' => true,
+        :input => 'GFM',
+        :post_url_relative_to_site_url => @config[:post_url_relative_to_site_url],
+        :site_url => @config[:site_url],
+        :logger_level => @config[:logger_level]
+      }
+      # assume the default markdown renderer (kramdown)
+      ::Kramdown::Document.new(content, options).to_literate
+    end
   end
 end
 
@@ -147,8 +164,7 @@ module Kramdown::Converter
 
     def initialize(*args)
       super(*args)
-      @@logger.level = @options[:logger_level]
-      @site_url = @options[:site_url]
+      @site_url = ::Jekyll::LiteratePostGenerator.site_url
       @post_url_relative_to_site_url = @options[:post_url_relative_to_site_url]
 
       @hide_next_program_fragment = false
