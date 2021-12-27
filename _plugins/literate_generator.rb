@@ -158,6 +158,9 @@ module Jekyll
   end
 end
 
+UNORDERED_LIST = 0
+ORDERED_LIST = 1
+
 module Kramdown::Converter
   class Literate < Base
     @@logger = create_logger('Literate')
@@ -170,6 +173,8 @@ module Kramdown::Converter
       @hide_next_program_fragment = false
       @output_next_program_fragment_as_prose = false
       @indentation_level = 0
+      @list_type = nil
+      @is_in_paragraph = false
     end
 
     def convert(element)
@@ -214,7 +219,9 @@ module Kramdown::Converter
     def convert_p(element)
       text = nil
       unless @hide_next_program_fragment
-        text = element.children.map { |child| convert(child) }.join("")
+        text = with_suppressed_hash_and_indent {
+          element.children.map { |child| convert(child) }.join("")
+        }
         if element.options[:transparent] then
           return text
         end
@@ -254,7 +261,9 @@ module Kramdown::Converter
 
     def convert_details_html_element(element)
       element.children.map { |child|
-        child_text = convert(child).strip
+        child_text = with_suppressed_hash_and_indent {
+          convert(child).strip
+        }
         # FIXME: Wrap words here. It currently breaks how lists display.
         lines = child_text.split "\n"
         lines.map { |line| "#{' ' * @indentation_level}\# #{line}" }.join("\n") + "\n"
@@ -266,14 +275,37 @@ module Kramdown::Converter
     end
 
     def convert_ul(element)
-      element.children.map { |child|
-        child_text = convert(child).strip
-        "* #{child_text}"
-      }.join("\n").strip
+      with_list_type(UNORDERED_LIST) {
+        element.children.map { |child|
+          text = with_suppressed_hash_and_indent {
+            convert(child).strip
+          }
+          hash = ''
+          if not @is_in_paragraph then
+            hash = "#{' ' * @indentation_level}\# "
+          end
+          lines = text.split("\n")
+          len = lines.length
+          if len >= 1 then
+            lines[0] = "#{hash}#{lines[0]}"
+          end
+          lines[(1..len)] = lines[(1..len)].map { |line| "#{hash}  #{line}" }
+          lines.join("\n")
+        }.join("\n").strip
+      }
     end
 
     def convert_li(element)
-      element.children.map { |child| convert(child) }.join('').strip
+      item_number = 1
+      item_text = element.children.map { |child| convert(child) }.join('').strip
+      case @list_type
+      when UNORDERED_LIST
+        '* ' + item_text
+      when ORDERED_LIST
+        text = "#{item_number}. #{item_text}"
+        item_number += 1
+        text
+      end
     end
 
     def convert_img(element)
@@ -306,6 +338,22 @@ module Kramdown::Converter
       header_text = element.options[:raw_text].fit wrap_width
       header_lines = header_text.split "\n"
       header_lines.map { |line| "#{' ' * @indentation_level}#{marker} #{line}" }.join("\n") + "\n"
+    end
+
+    def with_suppressed_hash_and_indent(&block)
+      original_is_in_paragraph = @is_in_paragraph
+      @is_in_paragraph = true
+      result = block.()
+      @is_in_paragraph = original_is_in_paragraph
+      result
+    end
+
+    def with_list_type(list_type, &block)
+      original_list_type = @list_type
+      @list_type = list_type
+      result = block.()
+      @list_type = original_list_type
+      result
     end
 
     def method_missing(symbol, *args)
