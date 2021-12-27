@@ -9,6 +9,10 @@ IN_PROGRAM = 1
 IN_FRONTMATTER = 2
 IN_PARAGRAPH = 3
 
+# The extension is chosen to be one unlikely to appear in an actual file path
+# ever.
+INTERNAL_LITERATE_EXTENSION_NAME = '///.md.literate///'
+
 def create_logger(name)
   logger = Logger.new(STDERR)
   logger.level = Logger::INFO
@@ -102,8 +106,10 @@ module Jekyll
       relative_path
     end
 
+    # Override extname so that the Jekyll converter can match against it without
+    # its work being clobbered by the Markdown converter.
     def extname
-      '.md.literate'
+      INTERNAL_LITERATE_EXTENSION_NAME
     end
 
     def place_in_layout?
@@ -137,7 +143,7 @@ module Jekyll
     end
 
     def matches(extension)
-      extension =~ /^\.md\.literate$/i
+      extension.end_with? INTERNAL_LITERATE_EXTENSION_NAME
     end
 
     def output_ext(extension)
