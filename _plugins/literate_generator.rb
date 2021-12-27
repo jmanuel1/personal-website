@@ -178,6 +178,9 @@ module Kramdown::Converter
     end
 
     def convert(element)
+      element.children = element.children.select { |child|
+        child.type != :blank and child.type != :br #and (child.type != :text or child.value.strip != '')
+      }
       send("convert_#{element.type}", element)
     end
 
@@ -186,33 +189,31 @@ module Kramdown::Converter
     end
 
     def convert_root(element)
-      element.children.map { |child| convert(child) }.join("\n")
-    end
-
-    def convert_blank(element)
-      "\n"
+      element.children.map { |child| convert(child) }
+        .select { |piece| piece != nil }
+        .join("\n")
     end
 
     def convert_xml_comment(element)
       if element.options[:category] != :block then
         element.value
       else
+        text = nil
         case element.value
         when /^<!--\s*hide\s*-->/
           @hide_next_program_fragment = true
-          ""
         when /^<!--\s*output_as_prose\s*-->/
           @output_next_program_fragment_as_prose = true
-          ""
         when /^<!--\s*backlink\s*-->/
           wrap_width = 79 - '# '.length
           post_link = File.join(@site_url, @post_url_relative_to_site_url)
           backlink_text = "This is the code for the tutorial at #{post_link}.".fit wrap_width
-          backlink_text.split("\n").map { |line| "\# #{line}" }.join("\n") + "\n"
+          # Always have newlines after backlinks.
+          text = backlink_text.split("\n").map { |line| "\# #{line}" }.join("\n") + "\n"
         when /^<!--\s*add_to_indentation_level\s+(-?\d+)\s*-->/
           @indentation_level += $1.to_i
-          ""
         end
+        text
       end
     end
 
@@ -228,6 +229,7 @@ module Kramdown::Converter
         wrap_width = 79 - '# '.length - @indentation_level
         text = text.fit wrap_width
         lines = text.split "\n"
+        # Always have newlines after visible opaque paragraphs.
         text = lines.map { |line| "#{' ' * @indentation_level}\# #{line}" }.join("\n") + "\n"
       end
       @hide_next_program_fragment = false
@@ -236,10 +238,6 @@ module Kramdown::Converter
 
     def convert_text(element)
       element.value
-    end
-
-    def convert_br(element)
-      ""
     end
 
     def convert_a(element)
@@ -260,14 +258,15 @@ module Kramdown::Converter
     end
 
     def convert_details_html_element(element)
-      element.children.map { |child|
+      element.children.select { |child| child.type != :text or child.value.strip != '' }.map { |child|
         child_text = with_suppressed_hash_and_indent {
           convert(child).strip
         }
         # FIXME: Wrap words here. It currently breaks how lists display.
         lines = child_text.split "\n"
+        # Always add a newline after each child in a details element.
         lines.map { |line| "#{' ' * @indentation_level}\# #{line}" }.join("\n") + "\n"
-      }.join("\n").strip
+      }.join("\n")
     end
 
     def convert_summary_html_element(element)
@@ -292,7 +291,7 @@ module Kramdown::Converter
           lines[(1..len)] = lines[(1..len)].map { |line| "#{hash}  #{line}" }
           lines.join("\n")
         }.join("\n").strip
-      }
+      } + "\n" # Always have a newline after an unordered list.
     end
 
     def convert_li(element)
@@ -320,16 +319,21 @@ module Kramdown::Converter
     end
 
     def convert_codeblock(element)
-      text = ''
-      text = element.value unless @hide_next_program_fragment
+      text = nil
+      text = element.value.rstrip unless @hide_next_program_fragment
+      if text == nil then
+        return nil
+      end
+
       if @output_next_program_fragment_as_prose then
-        text = text.split("\n").map { |line| "\# #{line}" }.join("\n") + "\n"
+        text = text.split("\n").map { |line| "\# #{line}" }.join("\n")
       elsif not @hide_next_program_fragment and not @output_next_program_fragment_as_prose
         last_line = element.value.split("\n")[-1]
         @indentation_level = last_line.length - last_line.lstrip.length
       end
       @output_next_program_fragment_as_prose = @hide_next_program_fragment = false
-      text
+      # Always have a newline after a code block.
+      text + "\n"
     end
 
     def convert_header(element)
@@ -337,6 +341,7 @@ module Kramdown::Converter
       wrap_width = 78 - marker.length - @indentation_level
       header_text = element.options[:raw_text].fit wrap_width
       header_lines = header_text.split "\n"
+      # Always have a newline after a header.
       header_lines.map { |line| "#{' ' * @indentation_level}#{marker} #{line}" }.join("\n") + "\n"
     end
 
@@ -362,6 +367,9 @@ module Kramdown::Converter
       end
 
       @@logger.debug "Using default conversion for #{symbol}"
+      if symbol == :convert_blank or symbol == :convert_br then
+        @@logger.warn "Converting a blank or br element, which is probably not what I intend"
+      end
 
       element = args[0]
 
