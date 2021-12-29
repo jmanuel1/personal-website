@@ -165,6 +165,10 @@ a {
   background: transparent;
 }
 
+code, pre {
+  font-size: inherit;
+}
+
 @media (min-width: 768px) {
   .bottom-md-0 {
     bottom: 0px;
