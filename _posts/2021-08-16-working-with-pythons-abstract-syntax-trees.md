@@ -142,8 +142,8 @@ To achieve our goal, we need to recursively run a constant folding algorithm
 through the nodes of the AST. In other words, we need to *traverse* the AST. We
 can use the
 [`ast.NodeTransformer`](https://docs.python.org/3.7/library/ast.html?highlight=nodetransformer#ast.NodeTransformer)
-class to change an AST while traversing it recursively from the top down. To use
-`NodeTransformer`, we'll subclass it.
+class to change an AST in place while traversing it recursively from the top
+down. To use `NodeTransformer`, we'll subclass it.
 
 ```python
 class ConstantFolder(ast.NodeTransformer):
@@ -318,18 +318,23 @@ syntax_tree = ast.parse("'success' * (1 + 1 + (1 * 2) + 1)")
 ```
 
 Next, we can use the `visit` method (which is inherited from `ast.NodeVisitor`)
-of our `ConstantFolder` class to get the folded AST.
+of our `ConstantFolder` class to get the folded AST. Note that a
+`NodeTransformer` (the class `ConstantFolder` inherits from) *modifies* the AST
+it's given, meaning we don't need the return value of `ConstantFolder().visit`.
+However, the [Python
+docs](https://docs.python.org/3.7/library/ast.html?highlight=nodetransformer#ast.NodeTransformer)
+claim that using the return value is the usual way of using `NodeTransformer`s.
 
 ```python
-folded_syntax_tree = ConstantFolder().visit(syntax_tree)
+syntax_tree = ConstantFolder().visit(syntax_tree)
 ```
 
-Now, we can dump the value of `folded_syntax_tree` and see that the constant
+Now, we can dump the value of `syntax_tree` and see that the constant
 expression has been evaluated!
 
 ```python
 print('after folding:')
-print(ast.dump(folded_syntax_tree))
+print(ast.dump(syntax_tree))
 ```
 
 The output should look like this:
