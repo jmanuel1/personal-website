@@ -1,6 +1,8 @@
 image: ruby:2.7
 
 pages:
+  variables:
+    PAGES_REPO_NWO: jmanuel1/personal-website
   script:
     - gem install bundler
     - bundle install
