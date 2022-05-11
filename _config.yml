@@ -52,12 +52,20 @@ social_media:
   # youtube: your_username
 
 topics:
-  - name: Computational sustainability
-    web_url: https://www.computational-sustainability.org
-
   - name: Front-end web development
     web_url: https://github.com/topics/frontend
 
-  - name: Progressive Web Apps
-    web_url: https://github.com/topics/pwa
-    image_url: https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/pwa/pwa.png
+  - name: Functional programming
+    web_url: https://github.com/topics/functional-programming
+
+  - name: Programming languages and compilers
+    web_url: https://github.com/topics/compiler
+
+  - name: Type theory
+    web_url: https://github.com/topics/type-theory
+
+  - name: Dependent types
+    web_url: https://github.com/topics/dependent-types
+
+  - name: Computational sustainability
+    web_url: https://github.com/topics/computational-sustainability
