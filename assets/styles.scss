@@ -73,6 +73,7 @@ body {
     sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol !important;
   background: var(--github-component-bg-color);
   border: var(--github-component-border);
+  overflow-wrap: break-word;
 
   img {
     --topic-image-bg-color: #f1f8ff;
