@@ -12,11 +12,11 @@
   <!-- Masthead access key -->
   <a href="#masthead" accesskey="0" id="masthead" tabindex="-1">
     <h1 class="mb-2 lh-condensed p-name">
-      {{ user_name }}
+      {{ user.name }}
     </h1>
   </a>
   <p class="mb-3 f4 p-note">
-    {{ user_bio }}
+    {{ user.bio }}
   </p>
 
   {% if include.metadata %}
@@ -39,11 +39,11 @@
           </a>
         </div>
       {% endif %}
-      {% if user_location %}
+      {% if user.location %}
         <div class="{{ metadata_styles }}">
           {% octicon location height:20 class:"mr-2 v-align-middle"
             aria-label:Location %}
-          <span class="p-country-name">{{ user_location }}</span>
+          <span class="p-country-name">{{ user.location }}</span>
         </div>
       {% endif %}
       {% if site.social_media %}
