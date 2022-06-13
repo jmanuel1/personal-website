@@ -163,13 +163,12 @@ function orderingForce(alpha) {
 
 function gravityForce(layout) {
   var GRAVITY_STRENGTH = 0.125;
-  // TODO: Don't subtract margin
   return layout.force(
       "gravity-x",
-      d3.forceX((width - MARGIN) / 2).strength(GRAVITY_STRENGTH))
+      d3.forceX(width / 2).strength(GRAVITY_STRENGTH))
     .force(
       "gravity-y",
-      d3.forceY((height - MARGIN) / 2).strength(GRAVITY_STRENGTH));
+      d3.forceY(height / 2).strength(GRAVITY_STRENGTH));
 }
 
 // Prevent nodes from being clipped at the bottom edge because users will
