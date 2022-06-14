@@ -9,7 +9,7 @@ var layout;
 
 function onResize() {
   var MD_BREAKPOINT = 768;
-  var BELOW_MD_HEIGHT = 500;
+  let ABOVE_MD_HEIGHT = 500;
   var orderingDirections = {
     ASCENDING_UPWARD: -1,
     ASCENDING_DOWNWARD: 1
@@ -19,10 +19,12 @@ function onResize() {
 
   width = container.parentElement.clientWidth;
   if (window.innerWidth >= MD_BREAKPOINT) {
-    height = BELOW_MD_HEIGHT;
+    height = ABOVE_MD_HEIGHT;
+    document.getElementById("force").style.height = "";
     orderingDirection = orderingDirections.ASCENDING_UPWARD;
   } else {
     height = container.clientHeight;
+    document.getElementById("force").style.height = `${height}px`;
     orderingDirection = orderingDirections.ASCENDING_DOWNWARD;
   }
   hardEdgeDirection = window.innerWidth >= MD_BREAKPOINT ? "top" : "bottom";
