@@ -1,3 +1,5 @@
+# TODO: ADD TESTS
+
 require 'digest'
 require 'kramdown'
 require 'logger'
@@ -181,6 +183,11 @@ module Kramdown::Converter
       @indentation_level = 0
       @list_type = nil
       @is_in_paragraph = false
+      @item_number = 0
+    end
+
+    def word_wrap_length
+      79 - @indentation_level
     end
 
     def convert(element)
@@ -232,7 +239,7 @@ module Kramdown::Converter
         if element.options[:transparent] then
           return text
         end
-        wrap_width = 79 - '# '.length - @indentation_level
+        wrap_width = word_wrap_length - '# '.length
         text = text.fit wrap_width
         lines = text.split "\n"
         # Always have newlines after visible opaque paragraphs.
@@ -265,60 +272,74 @@ module Kramdown::Converter
 
     def convert_details_html_element(element)
       element.children.select { |child| child.type != :text or child.value.strip != '' }.map { |child|
-        child_text = with_suppressed_hash_and_indent {
-          convert(child).strip
-        }
-        # FIXME: Wrap words here. It currently breaks how lists display.
+        child_text = convert(child).strip
         lines = child_text.split "\n"
+        if child.type == :text then
+          wrap_width = word_wrap_length - '# '.length
+          lines = child_text.fit(wrap_width).split("\n").map { |line| " " * @indentation_level + '# ' + line }
+        end
         # Always add a newline after each child in a details element.
-        lines.map { |line| "#{' ' * @indentation_level}\# #{line}" }.join("\n") + "\n"
+        lines.join("\n") + "\n"
       }.join("\n")
     end
 
+    # container, no word wrap
     def convert_summary_html_element(element)
-      element.children.map { |child| convert(child) }.join('').strip
+      hash_and_indent = " " * @indentation_level + '# '
+      element.children.map { |child| hash_and_indent + convert(child) }.join('').strip
     end
 
     def convert_ul(element)
       with_list_type(UNORDERED_LIST) {
         element.children.map { |child|
-          text = with_suppressed_hash_and_indent {
-            convert(child).strip
-          }
-          hash = ''
-          if not @is_in_paragraph then
-            hash = "#{' ' * @indentation_level}\# "
-          end
-          lines = text.split("\n")
-          len = lines.length
-          if len >= 1 then
-            lines[0] = "#{hash}#{lines[0]}"
-          end
-          lines[(1..len)] = lines[(1..len)].map { |line| "#{hash}  #{line}" }
-          lines.join("\n")
-        }.join("\n").strip
+          convert(child).rstrip
+        }.join("\n")
       } + "\n" # Always have a newline after an unordered list.
     end
 
     def convert_li(element)
-      item_number = 1
-      item_text = element.children.map { |child| convert(child) }.join('').strip
-      case @list_type
-      when UNORDERED_LIST
-        '* ' + item_text
-      when ORDERED_LIST
-        text = "#{item_number}. #{item_text}"
-        item_number += 1
-        text
+      hash = ''
+      if not @is_in_paragraph then
+        hash = "#{' ' * @indentation_level}\# "
       end
+      element.children.each_with_index.map { |child, index|
+        case @list_type
+        when UNORDERED_LIST
+          bullet = '* '
+        when ORDERED_LIST
+          @item_number += 1
+          bullet = "#{@item_number}. "
+        end
+
+        original_indentation_level = @indentation_level
+        if child.type == :ul or child.type == :ol then
+          @indentation_level += "\# ".length + bullet.length
+        end
+        element_text = convert(child)
+        @indentation_level = original_indentation_level
+
+        if child.type == :ul or child.type == :ol then
+          text = "\n" + element_text
+        else
+          wrap_width = word_wrap_length - "\# ".length - bullet.length
+          text = element_text.fit(wrap_width).split("\n").join("\n#{hash}" + " " * bullet.length)
+        end
+        if index == 0 then
+          hash + bullet + text
+        else
+          text
+        end
+      }.join('')
     end
 
+    # inline, no word wrap
     def convert_img(element)
       alt_text = element.attr['alt']
       url = File.join(@site_url, element.attr['src'])
       "(See image at #{url}. Image description: #{alt_text})"
     end
 
+    # inline, no word wrap
     def convert_strong(element)
       text = element.children.map { |child| convert(child) }.join('').strip
       "**#{text}**"
@@ -344,7 +365,7 @@ module Kramdown::Converter
 
     def convert_header(element)
       marker = "\#" * (element.options[:level] + 1)
-      wrap_width = 78 - marker.length - @indentation_level
+      wrap_width = word_wrap_length - marker.length
       header_text = element.options[:raw_text].fit wrap_width
       header_lines = header_text.split "\n"
       # Always have a newline after a header.
