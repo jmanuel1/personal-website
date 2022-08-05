@@ -1,3 +1,4 @@
+.approvals
 *.gem
 .bundle
 .sass-cache
