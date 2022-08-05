@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/eggcaker/jekyll-org.git
+  revision: 0bbf76e6202f701bc8f0a0e0b670dc5ef89fdce2
+  specs:
+    jekyll-org (1.1.1)
+      jekyll (>= 3.5.0)
+      json
+      org-ruby (>= 0.9.12)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -45,6 +54,7 @@ GEM
       sass (~> 3.4)
     jekyll-watch (2.2.1)
       listen (~> 3.0)
+    json (2.6.2)
     kramdown (1.17.0)
     liquid (4.0.3)
     listen (3.4.1)
@@ -96,7 +106,7 @@ DEPENDENCIES
   jekyll
   jekyll-github-metadata
   jekyll-octicons
-  org-ruby
+  jekyll-org!
   wdm (>= 0.1.0)
   word_wrap
 
