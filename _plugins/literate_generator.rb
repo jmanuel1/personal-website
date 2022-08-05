@@ -1,6 +1,7 @@
 # TODO: ADD TESTS
 
 require 'digest'
+require 'jekyll'
 require 'kramdown'
 require 'logger'
 require 'word_wrap'

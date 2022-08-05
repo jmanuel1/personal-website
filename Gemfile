@@ -10,3 +10,4 @@ gem "dotenv", "~> 2.7"
 gem "jekyll-org", git: "https://github.com/eggcaker/jekyll-org.git"
 
 gem 'word_wrap'
+gem 'rspec', '~> 3.0'
