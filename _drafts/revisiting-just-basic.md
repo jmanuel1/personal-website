@@ -26,11 +26,10 @@ installer on
 [software.informer](https://just-basic.software.informer.com/download/), a
 website that I've never heard of.
 
-Since I don't have copies of the BASIC programs I wrote a decade ago, I looked
-up example Just BASIC code on GitHub. Then, I installed Just BASIC on to an
-external drive and fired it up. It takes a while to start on my computer for
-some reason, but I'm greeted with a dialog that links to some resources,
-including the tutorial.
+Since I didn't have copies of the BASIC programs I wrote a decade ago readily
+available, I looked up example Just BASIC code on GitHub. Then, I installed Just
+BASIC on to an external drive and fired it up. Upon starting Just BASIC, I'm
+greeted with a dialog that links to some resources, including the tutorial.
 
 ![Just BASIC upon first start up, with links to a tutorial and other
 resources](/assets/revisiting-just-basic/just-basic-start.png)
@@ -123,8 +122,21 @@ of `gosub` in the tutorial's homework solutions. That would explain I remember
 using `gosub` and labels, but not the function nor the subroutine syntax. Oddly,
 the version 2 tutorial introduces function or subroutine definitions either.
 
+## Personal Archeology
 
-<!-- TODO: See if you can get code from parents -->
+While writing this post, I remembered that I once printed out the source of a
+BASIC program during middle school, and that my parents might be able to find it
+in their house. They found two versions, text-mode and GUI, of a program that
+distributes days among months in a hypothetical calendar given the length of the
+year, the length of the day, the number of months in a year, and the days per
+week. If I remember correctly, the goal of the program is to generate imaginary
+calendars for various planets. Here's a [scan of the code with output for an
+Earth-like calendar](/assets/revisiting-just-basic/calendar-basic-ocr.pdf),
+which is hopefully in order, and here's [the code for a GUI version of the
+program](/assets/revisiting-just-basic/calendar-gui.bas). Amazingly, this code
+also runs in Just BASIC v2 depsite being writen for version 1. It has a few
+bugs, and for some reason I use a string as an array of words.
+
 file:///E:/Just%20BASIC%20v2.0/jb2help/JustBASIC_2_web/html/clickNavigation.htm
 file:///E:/Just%20BASIC%20v2.0/jb2help/JustBASIC_2_web/html/memorylimit.htm
 file:///E:/Just%20BASIC%20v2.0/jb2help/JustBASIC_2_web/html/libehtmlhelp.htm
