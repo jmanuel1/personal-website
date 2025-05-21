@@ -47,15 +47,20 @@ from Microsoft.
 ![The table of contents of the Just BASIC tutorial, which is organized into
 weeks](/assets/revisiting-just-basic/tutorial-toc.png)
 
-A part of the tutorial that I recognize is the high-or-low game in `HILO.BAS`.
-It looks like the language hasn't changed much syntactically. You even have to
-append a dollar sign to end of the name of any variable that contains strings!
-(See the Variables chapter in the Help.) Somehow, I remember one of the first
-pages of the tutorial asking you to enter `print "Hello World!"` as my first
-program, but I don't see that at the beginning of the tutorial. So, I downloaded
-Just BASIC 1.01, viewed its tutorial using [a copy of
+I remembered one of the first pages of the tutorial asking me to enter `print
+"Hello World!"` as my first program, but I don't see that at the beginning of
+the tutorial. So, I downloaded Just BASIC 1.01, viewed its tutorial using [a
+copy of
 WinHlp32.exe](https://raxsoft.com/raxccm/software_mirrors.php?pid=1&progid=13),
-and it doesn't start with Hello World either. I guess I made up that memory.
+and that tutorial doesn't start with a Hello World either. Turns out the "Hello
+World!" program is on the "Writing your own Programs" page of the version 1.01
+Help document, so my memory was wrong. Nevertheless, it's nice to see what I'm
+pretty sure is my first program again.
+
+Returning to the version 2 tutorial, part of the it that I recognize is the
+high-or-low game in `HILO.BAS`. It looks like the language hasn't changed much
+syntactically. You even still have to append a dollar sign to ends of names of
+string-typed variables! (See the Variables chapter in Help.)
 
 Something else I noticed from both versions of the tutorial is that they are
 geared towards business use cases. Maybe the version 2 tutorial is more
