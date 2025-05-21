@@ -34,8 +34,9 @@ greeted with a dialog that links to some resources, including the tutorial.
 ![Just BASIC upon first start up, with links to a tutorial and other
 resources](/assets/revisiting-just-basic/just-basic-start.png)
 
-The UI looks very recognizable. Clicking on "Tutorial" takes me to a local web
-page, which used to be a [Windows .hlp
+The UI looks very recognizable. Clicking on "Tutorial," which is a separate
+document from "Help," takes me to a local web page that used to be a [Windows
+.hlp
 file](https://support.microsoft.com/en-us/topic/error-opening-help-in-windows-based-programs-feature-not-included-or-help-not-supported-3c841463-d67c-6062-0ee7-1a149da3973b).
 The Windows Help format (WinHlp32) is a way of packaging documentation for
 Windows programs that isn't supported by modern Windows versions. Based on the
