@@ -37,6 +37,11 @@ resources](/assets/revisiting-just-basic/just-basic-start.png)
 The UI looks very recognizable. Clicking on "Tutorial" takes me to a local web
 page, which used to be a [Windows .hlp
 file](https://support.microsoft.com/en-us/topic/error-opening-help-in-windows-based-programs-feature-not-included-or-help-not-supported-3c841463-d67c-6062-0ee7-1a149da3973b).
+The Windows Help format (WinHlp32) is a way of packaging documentation for
+Windows programs that isn't supported by modern Windows versions. Based on the
+Just BASIC help page titled "Help Files are Converted to HTML," I think the
+documentation was converted to HTML when Windows Vista still had some support
+from Microsoft.
 
 ![The table of contents of the Just BASIC tutorial, which is organized into
 weeks](/assets/revisiting-just-basic/tutorial-toc.png)
@@ -82,8 +87,6 @@ and it's creator is Bennett Cyphers. You can find it on
 [GitHub](https://github.com/bcyphers/justBASIC). It seems to work without
 modification, so I suppose Shoptalk Systems maintained some level compatibility
 between versions 1 and 2.
-
-<!-- TODO: Uhh run it -->
 
 As I look at the code, there are some oddities about the language that I didn't
 notice before. I didn't notice these when I first used the language, since it is
@@ -136,9 +139,5 @@ which is hopefully in order, and here's [the code for a GUI version of the
 program](/assets/revisiting-just-basic/calendar-gui.bas). Amazingly, this code
 also runs in Just BASIC v2 depsite being writen for version 1. It has a few
 bugs, and for some reason I use a string as an array of words.
-
-file:///E:/Just%20BASIC%20v2.0/jb2help/JustBASIC_2_web/html/clickNavigation.htm
-file:///E:/Just%20BASIC%20v2.0/jb2help/JustBASIC_2_web/html/memorylimit.htm
-file:///E:/Just%20BASIC%20v2.0/jb2help/JustBASIC_2_web/html/libehtmlhelp.htm
 
 <!-- TODO: Conclude somehow -->
