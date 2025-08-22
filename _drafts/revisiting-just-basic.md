@@ -19,12 +19,9 @@ was a long time ago. The first game that I wrote is the high-or-low game from
 the language's tutorial.
 
 Recently, I decided to revisit Just BASIC to see how it's changed. Just BASIC is
-still actively developed. In fact, version 2.0 was released in November 2022. As a child, I
-used version 1, which I learned is still hosted on [the Just BASIC
-website](https://justbasic.com/jbwin101.exe) after finding the filename of the
-installer on
-[software.informer](https://just-basic.software.informer.com/download/), a
-website that I've never heard of.
+still actively developed. In fact, version 2.0 was released in November 2022. As
+a child, I used version 1, but I haven't kept up with updates to Just BASIC
+since I was a teenager.
 
 Since I didn't have copies of the BASIC programs I wrote a decade ago readily
 available, I looked up example Just BASIC code on GitHub. Then, I installed Just
@@ -49,8 +46,13 @@ weeks](/assets/revisiting-just-basic/tutorial-toc.png)
 
 I remembered one of the first pages of the tutorial asking me to enter `print
 "Hello World!"` as my first program, but I don't see that at the beginning of
-the tutorial. So, I downloaded Just BASIC 1.01, viewed its tutorial using [a
-copy of
+the tutorial. So, I downloaded Just BASIC v1.01, which I learned is still hosted
+on [the Just BASIC website](https://justbasic.com/jbwin101.exe) after finding
+the filename of the installer on
+[software.informer](https://just-basic.software.informer.com/download/), a
+website that I've never heard of. (To be clear, if you want version 1, I
+recommend downloading it from the Just BASIC website.) Then I viewed the version
+1 tutorial using [a copy of
 WinHlp32.exe](https://raxsoft.com/raxccm/software_mirrors.php?pid=1&progid=13),
 and that tutorial doesn't start with a Hello World either. Turns out the "Hello
 World!" program is on the "Writing your own Programs" page of the version 1.01
