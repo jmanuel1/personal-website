@@ -54,7 +54,8 @@ weeks](/assets/revisiting-just-basic/tutorial-toc.png)
 I remembered one of the first pages of the tutorial asking me to enter `print
 "Hello World!"` as my first program, but I don't see that at the beginning of
 the tutorial. So, I downloaded Just BASIC v1.01, which I learned is still hosted
-on [the Just BASIC website](https://justbasic.com/jbwin101.exe) after finding
+on [the Just BASIC
+website](https://justbasic.com/jbwin101.exe)[^just-basic-archived] after finding
 the filename of the installer on
 [software.informer](https://just-basic.software.informer.com/download/), a
 website that I've never heard of. (To be clear, if you want version 1, I
@@ -65,6 +66,11 @@ and that tutorial doesn't start with a Hello World either. Turns out the "Hello
 World!" program is on the "Writing your own Programs" page of the version 1.01
 Help document, so my memory was wrong. Nevertheless, it's nice to see what I'm
 pretty sure is my first program again.
+
+[^just-basic-archived]:
+    [Just BASIC v1 can be downloaded from the Wayback
+    Machine](https://web.archive.org/web/20060815024630/http://www.justbasic.com/jbwin101.exe),
+    too.
 
 Returning to the version 2 tutorial, part of the it that I recognize is the
 high-or-low game in `HILO.BAS`. It looks like the language hasn't changed much
@@ -209,3 +215,5 @@ me is being able to save some of my earliest code, not just to learn from it,
 but as a keepsake.
 
 <!-- TODO: Conclude somehow -->
+
+## Footnotes
