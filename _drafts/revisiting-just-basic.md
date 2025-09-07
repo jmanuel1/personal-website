@@ -172,7 +172,15 @@ calendar](/assets/revisiting-just-basic/calendar-basic-ocr.pdf), which is
 hopefully in order, and here's [the code for a GUI version of the
 program](/assets/revisiting-just-basic/calendar-gui.bas). Amazingly, this code
 also runs in Just BASIC v2 depsite being writen for version 1. It has a few
-bugs, and for some reason I use a string as an array of words.
+bugs, though.
+
+A funny thing about my code is that I use a string as an array of words. I think
+I did that because the language lacks dynamically-sized arrays. (According to
+the "Arrays" page in Help, arrays cannot be resized without clearing them of
+data.) The trick of using a string as an array is well-known in [the Just BASIC
+forum (this link goes to a page that might require completing a
+CAPTCHA)](https://justbasiccom.proboards.com/search/results?captcha_id=captcha_search&what_exact_phrase=dynamic+array),
+so I think I got the idea from the forum.
 
 ## Takeaways
 
