@@ -214,6 +214,11 @@ largely compatible with it, so maybe that's not as important. More important to
 me is being able to save some of my earliest code, not just to learn from it,
 but as a keepsake.
 
-<!-- TODO: Conclude somehow -->
+## Conclusion
+
+It turns out that Just BASIC hasn't changed all that much, and that it still has
+an active community. It's nice to see that sort of stability and longevity.
+Let's hope that it'll last another decade, and for even longer--and that the
+world never loses access to this fun piece of software.
 
 ## Footnotes
