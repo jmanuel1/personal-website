@@ -4,7 +4,7 @@ pages:
   variables:
     PAGES_REPO_NWO: jmanuel1/personal-website
   script:
-    - gem install bundler
+    - gem install bundler -v 2.4.22
     - bundle install
     - bundle exec jekyll build -d public
   artifacts:
