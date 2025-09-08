@@ -2,7 +2,6 @@
 .bundle
 .sass-cache
 _site/
-**/.ruby-version
 .env
 .org/
 .jekyll-cache/
