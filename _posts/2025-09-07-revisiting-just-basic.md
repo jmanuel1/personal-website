@@ -2,8 +2,7 @@
 layout: post
 title: Revisiting Just BASIC
 slug: revisiting-just-basic
-# date: '2020-07-21 16:20:53-07:00'
-# last_modified_at: '2020-08-23 22:36:00-07:00'
+date: '2025-09-07 21:33:00-07:00'
 ---
 
 Just BASIC is a freeware product providing a programming language and IDE for
