@@ -11,6 +11,7 @@ plugins:
 
 exclude:
   - .literate-output/
+  - vendor/ # excluded for CI (bundler gems caching)
 
 permalink: /:year/:month/:day/:title/
 
