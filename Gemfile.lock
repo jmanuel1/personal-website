@@ -94,7 +94,7 @@ GEM
     sawyer (0.8.2)
       addressable (>= 2.3.5)
       faraday (> 0.8, < 2.0)
-    wdm (0.1.1)
+    wdm (0.2.0)
     word_wrap (1.0.0)
 
 PLATFORMS
@@ -107,7 +107,7 @@ DEPENDENCIES
   jekyll-github-metadata
   jekyll-octicons
   jekyll-org!
-  wdm (>= 0.1.0)
+  wdm (>= 0.2.0)
   word_wrap
 
 BUNDLED WITH
