@@ -4,6 +4,8 @@ style: dark # prefer to light
 
 url: http://jason-manuel.com
 
+repository: jmanuel1/personal-website
+
 plugins:
   - jekyll-octicons
   - jekyll-github-metadata
