@@ -2,7 +2,8 @@ debug: false
 layout: sidebar # prefer to stacked
 style: dark # prefer to light
 
-url: http://jason-manuel.com
+url: https://jason-manuel.com
+baseurl: ""
 
 repository: jmanuel1/personal-website
 
