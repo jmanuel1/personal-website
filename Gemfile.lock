@@ -31,6 +31,7 @@ GEM
     faraday-retry (2.3.2)
       faraday (~> 2.0)
     ffi (1.17.2-x64-mingw-ucrt)
+    fiddle (1.1.6)
     forwardable-extended (2.6.0)
     google-protobuf (4.32.0-x64-mingw-ucrt)
       bigdecimal
@@ -116,6 +117,7 @@ PLATFORMS
 DEPENDENCIES
   dotenv (~> 2.7)
   faraday-retry
+  fiddle
   jekyll
   jekyll-github-metadata
   jekyll-octicons
