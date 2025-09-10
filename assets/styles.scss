@@ -1,9 +1,9 @@
 ---
 ---
+@use 'highlight-syntax';
+@use 'collatz';
+@use 'python-ast';
 @import url('https://unpkg.com/primer/build/build.css');
-@import 'highlight-syntax';
-@import 'collatz';
-@import 'python-ast';
 
 $primer-bg-gray: #f6f8fa;
 
