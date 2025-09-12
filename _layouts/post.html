@@ -33,12 +33,7 @@ name: post
         <ul class="d-flex d-sm-block list-style-none">
           {% for service in shareable_social_media %}
             <li class="mt-sm-3">
-              <a href="
-                {{ service.share_url_prefix }}
-                {{ page.url
-                  | prepend: site.url
-                  | prepend: site.baseurl
-                  | url_encode }}"
+              <a href="{{ service.share_url_prefix }}{{ page.url | prepend: site.baseurl | prepend: site.url }}"
                 title="Share on {{ service.name }}"
                 aria-label="Share this post on {{ service.name }}"
                 class="d-flex flex-items-center"
