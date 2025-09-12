@@ -1,6 +1,7 @@
 debug: false
 layout: sidebar # prefer to stacked
 style: dark # prefer to light
+timezone: America/Phoenix
 
 url: https://jason-manuel.com
 baseurl: ""
