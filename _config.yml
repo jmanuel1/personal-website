@@ -16,6 +16,11 @@ plugins:
 exclude:
   - .literate-output/
   - vendor/ # excluded for CI (bundler gems caching)
+  - node_modules/
+  - assets/my-music-catalog/index.js
+
+keep_files:
+  - assets/my-music-catalog/index.js
 
 permalink: /:year/:month/:day/:title/
 
