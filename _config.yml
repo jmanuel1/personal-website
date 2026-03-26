@@ -21,6 +21,19 @@ exclude:
 
 keep_files:
   - assets/my-music-catalog/index.js
+  # https://github.com/jekyll/jekyll/issues/6586
+  - assets/tau-prolog/modules/charsio.js
+  - assets/tau-prolog/modules/concurrent.js
+  - assets/tau-prolog/modules/core.js
+  - assets/tau-prolog/modules/dom.js
+  - assets/tau-prolog/modules/format.js
+  - assets/tau-prolog/modules/js.js
+  - assets/tau-prolog/modules/lists.js
+  - assets/tau-prolog/modules/os.js
+  - assets/tau-prolog/modules/promises.js
+  - assets/tau-prolog/modules/random.js
+  - assets/tau-prolog/modules/statistics.js
+  - assets/tau-prolog/LICENSE.txt
 
 permalink: /:year/:month/:day/:title/
 

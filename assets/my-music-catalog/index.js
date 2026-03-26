@@ -1,7 +1,6 @@
-import * as P from "tau-prolog/modules/core";
-import promisifyProlog from "tau-prolog/modules/promises";
-promisifyProlog(P);
 import { parse } from "csv-parse/browser/esm";
+
+const P = globalThis.pl;
 
 const cds = await (await fetch("/assets/my-music-catalog/music-catalog - CDs.csv")).text();
 parse(cds, (err, data) => {
@@ -23,13 +22,38 @@ async function onParse(rows) {
 
   const session = P.create();
   try {
-    await session.promiseConsult(facts.join('\n'));
+    await session.promiseConsult(':- use_module(library(dom)).\n:- use_module(library(js)).\n' + tablePl + facts.join('\n'));
   } catch (err) {
     console.error('during consult', err.toString());
     throw err;
   }
-  await session.promiseQuery("album(Artists, Name).");
-  for await (const answer of session.promiseAnswers()) {
-    console.log(session.format_answer(answer));
+  for (const warning in session.get_warnings()) {
+    console.warn('consult warnings', warning.toString());
+  }
+  await session.promiseQuery("album(Artists, Name), table([Artists, Name]).");
+  try {
+    for await (const answer of session.promiseAnswers()) {
+      console.log(session.format_answer(answer));
+    }
+  } catch (err) {
+    console.error('during answers', err.toString());
+    throw err;
+  }
+  for (const warning in session.get_warnings()) {
+    console.warn('query warnings', warning.toString());
   }
 }
+
+const tablePl = `
+  table(Row) :-
+    get_by_id(prolog_results, TableElement),
+    create(tr, RowElement),
+    row(RowElement, Row),
+    append_child(TableElement, RowElement).
+  row(_, []).
+  row(Element, [Datum | Data]) :-
+    create(td, DataElement),
+    inner_text(DataElement, Datum),
+    append_child(Element, DataElement),
+    row(Element, Data).
+  inner_text(Element, Text) :- set_prop(Element, innerText, Text).`;
