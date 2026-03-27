@@ -173,8 +173,21 @@ a {
   overflow-y: hidden;
 }
 
+// TODO: Upgrade primer.css
+.ml-auto {
+  margin-left: auto;
+}
+
 code, pre {
   font-size: inherit;
+}
+
+textarea, button {
+  color: black;
+}
+
+form {
+  clear: both;
 }
 
 @media (min-width: 768px) {
