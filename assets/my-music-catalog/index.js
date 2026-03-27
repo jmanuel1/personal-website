@@ -11,6 +11,15 @@ parse(cds, (err, data) => {
 });
 
 async function onParse(rows) {
+  const form = document.getElementById("prolog_form");
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    const query = form.elements["prolog_query"].value;
+    runQuery(rows, query);
+  });
+}
+
+async function runQuery(rows, query) {
   const facts = [];
   for (const data of rows) {
     const [artists, albumName] = data;
@@ -30,7 +39,7 @@ async function onParse(rows) {
   for (const warning in session.get_warnings()) {
     console.warn('consult warnings', warning.toString());
   }
-  await session.promiseQuery("album(Artists, Name), table([Artists, Name]).");
+  await session.promiseQuery(query);
   try {
     for await (const answer of session.promiseAnswers()) {
       console.log(session.format_answer(answer));
