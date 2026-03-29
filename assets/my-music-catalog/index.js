@@ -10,16 +10,29 @@ parse(cds, (err, data) => {
   onParse(data);
 });
 
+const form = document.getElementById("prolog_form");
+
+form.elements["prolog_query"].addEventListener("input", event => {
+  event.target.setCustomValidity("");
+});
+
 async function onParse(rows) {
-  const form = document.getElementById("prolog_form");
   form.addEventListener("submit", event => {
     event.preventDefault();
-    const query = form.elements["prolog_query"].value;
-    runQuery(rows, query);
+    const queryFormElement = form.elements["prolog_query"];
+    const query = queryFormElement.value;
+    runQuery(rows, query, queryFormElement);
   });
 }
 
-async function runQuery(rows, query) {
+async function runQuery(rows, query, queryFormElement) {
+  const diagsElement = document.getElementById("prolog_diagnostics");
+  const diagsHeading = diagsElement.querySelector("h2");
+  const diagsElementLastChild = diagsElement.lastElementChild;
+  let diagnosticsMessagesElement = document.createElement("p");
+  diagnosticsMessagesElement.innerText = "No warnings and no errors.";
+  queryFormElement.setCustomValidity("");
+
   const facts = [];
   for (const data of rows) {
     const [artists, albumName] = data;
@@ -39,17 +52,45 @@ async function runQuery(rows, query) {
   for (const warning in session.get_warnings()) {
     console.warn('consult warnings', warning.toString());
   }
-  await session.promiseQuery(query);
+  const diagnosticsMessages = [];
+  let errorMessage;
   try {
-    for await (const answer of session.promiseAnswers()) {
-      console.log(session.format_answer(answer));
-    }
+    await session.promiseQuery(query);
   } catch (err) {
-    console.error('during answers', err.toString());
-    throw err;
+    errorMessage = err.toString();
+    queryFormElement.setCustomValidity("Invalid Prolog query. Check for syntax errors.");
   }
   for (const warning in session.get_warnings()) {
-    console.warn('query warnings', warning.toString());
+    diagnosticsMessages.push(warning.toString());
+  }
+  if (errorMessage) {
+    displayDiagnostics();
+    return;
+  }
+
+  try {
+    for await (const answer of session.promiseAnswers()) {
+      // empty
+    }
+  } catch (err) {
+    errorMessage = err.toString();
+  }
+  for (const warning in session.get_warnings()) {
+    diagnosticsMessages.push(warning.toString());
+  }
+  displayDiagnostics();
+
+  function displayDiagnostics() {
+    errorMessage && diagnosticsMessages.push(errorMessage);
+    if (diagnosticsMessages.length !== 0) {
+      diagnosticsMessagesElement = document.createElement("ol");
+      for (const message of diagnosticsMessages) {
+        const el = document.createElement("li");
+        el.innerText = message;
+        diagnosticsMessagesElement.appendChild(el);
+      }
+    }
+    diagsElement.replaceChild(diagnosticsMessagesElement, diagsElementLastChild);
   }
 }
 

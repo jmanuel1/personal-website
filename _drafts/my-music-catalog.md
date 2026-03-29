@@ -12,6 +12,11 @@ slug: my-music-catalog
 <button type="submit" class="ml-auto d-block mb-1 mt-1">Submit</button>
 </form>
 
+<div id="prolog_diagnostics">
+  <h2>Warnings and Errors</h2>
+  <p>No warnings and no errors.</p>
+</div>
+
 <table id="prolog_results"></table>
 
 <script src="/assets/tau-prolog/modules/core.js"></script>
