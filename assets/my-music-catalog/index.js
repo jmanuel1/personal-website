@@ -25,6 +25,36 @@ async function onParse(rows) {
   });
 }
 
+function createPrologResultsTableElement() {
+  const el = document.createElement("table");
+  el.id = "prolog_results";
+  return el;
+}
+
+let prologResultsTable = createPrologResultsTableElement();
+
+new P.type.Module(
+  "app",
+  {
+    "prolog_results_table/1": function (thread, point, atom) {
+      const el = atom.args[0];
+      thread.prepend([
+        new P.type.State(
+          point.goal.replace(
+            new P.type.Term("=", [el, P.fromJavaScript.apply(prologResultsTable)]),
+          ),
+          point.substitution,
+          point,
+        ),
+      ]);
+    },
+  },
+  ["prolog_results_table/1"],
+  {
+    dependencies: [],
+  },
+);
+
 async function runQuery(rows, query, queryFormElement) {
   const diagsElement = document.getElementById("prolog_diagnostics");
   const diagsHeading = diagsElement.querySelector("h2");
@@ -32,6 +62,7 @@ async function runQuery(rows, query, queryFormElement) {
   let diagnosticsMessagesElement = document.createElement("p");
   diagnosticsMessagesElement.innerText = "No warnings and no errors.";
   queryFormElement.setCustomValidity("");
+  const tableElement = prologResultsTable;
 
   const facts = [];
   for (const data of rows) {
@@ -80,6 +111,9 @@ async function runQuery(rows, query, queryFormElement) {
   }
   displayDiagnostics();
 
+  document.getElementById("prolog_results").replaceWith(tableElement);
+  prologResultsTable = createPrologResultsTableElement();
+
   function displayDiagnostics() {
     errorMessage && diagnosticsMessages.push(errorMessage);
     if (diagnosticsMessages.length !== 0) {
@@ -95,8 +129,10 @@ async function runQuery(rows, query, queryFormElement) {
 }
 
 const tablePl = `
+  :- use_module(library(app)).
+
   table(Row) :-
-    get_by_id(prolog_results, TableElement),
+    prolog_results_table(TableElement),
     create(tr, RowElement),
     row(RowElement, Row),
     append_child(TableElement, RowElement).
