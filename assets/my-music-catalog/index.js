@@ -147,7 +147,7 @@ const tablePl = `
     prolog_results_table(TableElement),
     get_by_tag(TableElement, thead, THeadElement),
     get_by_tag(THeadElement, tr, THeadRowElement),
-    findall(TDataElement, get_by_tag(THeadRowElement, td, TDataElement), TDataElements),
+    findall(TDataElement, get_by_tag(THeadRowElement, th, TDataElement), TDataElements),
     fill_table_row(Titles, TDataElements, THeadRowElement).
 
   row(_, []).
@@ -159,7 +159,7 @@ const tablePl = `
 
   fill_table_row([], [], _).
   fill_table_row([Datum | Data], [], ParentElement) :-
-    create(td, TDataElement),
+    create(th, TDataElement),
     inner_text(TDataElement, Datum),
     append_child(ParentElement, TDataElement),
     fill_table_row(Data, [], ParentElement).
