@@ -28,6 +28,12 @@ async function onParse(rows) {
 function createPrologResultsTableElement() {
   const el = document.createElement("table");
   el.id = "prolog_results";
+  const head = document.createElement("thead");
+  const headRow = document.createElement("tr");
+  head.appendChild(headRow);
+  el.appendChild(head);
+  const body = document.createElement("tbody");
+  el.appendChild(body);
   return el;
 }
 
@@ -131,15 +137,34 @@ async function runQuery(rows, query, queryFormElement) {
 const tablePl = `
   :- use_module(library(app)).
 
-  table(Row) :-
+  table_row(Row) :-
     prolog_results_table(TableElement),
+    get_by_tag(TableElement, tbody, TBodyElement),
     create(tr, RowElement),
     row(RowElement, Row),
-    append_child(TableElement, RowElement).
+    append_child(TBodyElement, RowElement).
+  table_header(Titles) :-
+    prolog_results_table(TableElement),
+    get_by_tag(TableElement, thead, THeadElement),
+    get_by_tag(THeadElement, tr, THeadRowElement),
+    findall(TDataElement, get_by_tag(THeadRowElement, td, TDataElement), TDataElements),
+    fill_table_row(Titles, TDataElements, THeadRowElement).
+
   row(_, []).
   row(Element, [Datum | Data]) :-
     create(td, DataElement),
     inner_text(DataElement, Datum),
     append_child(Element, DataElement),
     row(Element, Data).
+
+  fill_table_row([], [], _).
+  fill_table_row([Datum | Data], [], ParentElement) :-
+    create(td, TDataElement),
+    inner_text(TDataElement, Datum),
+    append_child(ParentElement, TDataElement),
+    fill_table_row(Data, [], ParentElement).
+  fill_table_row([Datum | Data], [Element | Elements], ParentElement) :-
+    inner_text(Element, Datum),
+    fill_table_row(Data, Elements, ParentElement).
+
   inner_text(Element, Text) :- set_prop(Element, innerText, Text).`;
