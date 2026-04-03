@@ -39,9 +39,49 @@ function createPrologResultsTableElement() {
 
 let prologResultsTable = createPrologResultsTableElement();
 
+function parseProlog(rules) {
+  const session = P.create();
+  session.consult(rules);
+  return session.rules;
+}
+
+const tablePl = `
+  table_row(Row) :-
+    prolog_results_table(TableElement),
+    get_by_tag(TableElement, tbody, TBodyElement),
+    create(tr, RowElement),
+    row(RowElement, Row),
+    append_child(TBodyElement, RowElement).
+  table_header(Titles) :-
+    prolog_results_table(TableElement),
+    get_by_tag(TableElement, thead, THeadElement),
+    get_by_tag(THeadElement, tr, THeadRowElement),
+    findall(TDataElement, get_by_tag(THeadRowElement, th, TDataElement), TDataElements),
+    fill_table_row(Titles, TDataElements, THeadRowElement).
+
+  row(_, []).
+  row(Element, [Datum | Data]) :-
+    create(td, DataElement),
+    inner_text(DataElement, Datum),
+    append_child(Element, DataElement),
+    row(Element, Data).
+
+  fill_table_row([], [], _).
+  fill_table_row([Datum | Data], [], ParentElement) :-
+    create(th, TDataElement),
+    inner_text(TDataElement, Datum),
+    append_child(ParentElement, TDataElement),
+    fill_table_row(Data, [], ParentElement).
+  fill_table_row([Datum | Data], [Element | Elements], ParentElement) :-
+    inner_text(Element, Datum),
+    fill_table_row(Data, Elements, ParentElement).
+
+  inner_text(Element, Text) :- set_prop(Element, innerText, Text).`;
+
 new P.type.Module(
   "app",
   {
+    ...parseProlog(tablePl),
     "prolog_results_table/1": function (thread, point, atom) {
       const el = atom.args[0];
       thread.prepend([
@@ -55,9 +95,9 @@ new P.type.Module(
       ]);
     },
   },
-  ["prolog_results_table/1"],
+  ["table_row/1", "table_header/1"],
   {
-    dependencies: [],
+    dependencies: ["dom", "js"],
   },
 );
 
@@ -81,7 +121,7 @@ async function runQuery(rows, query, queryFormElement) {
 
   const session = P.create();
   try {
-    await session.promiseConsult(':- use_module(library(dom)).\n:- use_module(library(js)).\n' + tablePl + facts.join('\n'));
+    await session.promiseConsult(':- use_module(library(app)).\n' + facts.join('\n'));
   } catch (err) {
     console.error('during consult', err.toString());
     throw err;
@@ -133,38 +173,3 @@ async function runQuery(rows, query, queryFormElement) {
     diagsElement.replaceChild(diagnosticsMessagesElement, diagsElementLastChild);
   }
 }
-
-const tablePl = `
-  :- use_module(library(app)).
-
-  table_row(Row) :-
-    prolog_results_table(TableElement),
-    get_by_tag(TableElement, tbody, TBodyElement),
-    create(tr, RowElement),
-    row(RowElement, Row),
-    append_child(TBodyElement, RowElement).
-  table_header(Titles) :-
-    prolog_results_table(TableElement),
-    get_by_tag(TableElement, thead, THeadElement),
-    get_by_tag(THeadElement, tr, THeadRowElement),
-    findall(TDataElement, get_by_tag(THeadRowElement, th, TDataElement), TDataElements),
-    fill_table_row(Titles, TDataElements, THeadRowElement).
-
-  row(_, []).
-  row(Element, [Datum | Data]) :-
-    create(td, DataElement),
-    inner_text(DataElement, Datum),
-    append_child(Element, DataElement),
-    row(Element, Data).
-
-  fill_table_row([], [], _).
-  fill_table_row([Datum | Data], [], ParentElement) :-
-    create(th, TDataElement),
-    inner_text(TDataElement, Datum),
-    append_child(ParentElement, TDataElement),
-    fill_table_row(Data, [], ParentElement).
-  fill_table_row([Datum | Data], [Element | Elements], ParentElement) :-
-    inner_text(Element, Datum),
-    fill_table_row(Data, Elements, ParentElement).
-
-  inner_text(Element, Text) :- set_prop(Element, innerText, Text).`;
