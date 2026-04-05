@@ -10,12 +10,13 @@ import "./index.css";
 const P = globalThis.pl;
 
 const cds = await (await fetch("/assets/my-music-catalog/music-catalog - CDs.csv")).text();
-parse(cds, (err, data) => {
+const rows = await new Promise((resolve, reject) => parse(cds, (err, data) => {
   if (err) {
-    throw err;
+    reject(err);
+    return;
   }
-  onParse(data);
-});
+  resolve(data);
+}));
 
 const form = document.getElementById("prolog_form");
 
@@ -23,24 +24,31 @@ form.elements["prolog_query"].addEventListener("input", event => {
   event.target.setCustomValidity("");
 });
 
-async function onParse(rows) {
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-    const queryFormElement = form.elements["prolog_query"];
-    const query = queryFormElement.value;
-    runQuery(rows, query, queryFormElement);
-  });
-}
+form.addEventListener("submit", event => {
+  event.preventDefault();
+  const queryFormElement = form.elements["prolog_query"];
+  const query = queryFormElement.value;
+  runQuery(rows, query, queryFormElement);
+});
 
 function PrologResultsTable() {
   useSignals();
 
+  const columns = tableHeaders.value.map((header, index) => ({ header, field: index.toString() }));
+
   return (
     <Table.Container>
-      <DataTable
-        data={tableData.value}
-        columns={tableHeaders.value.map((header, index) => ({ header, field: index.toString() }))}
-      />
+      {
+        isTableDataLoading.value ?
+          <Table.Skeleton
+            rows={rows.length/2}
+            columns={columns}
+          />
+        : <DataTable
+            data={tableData.value}
+            columns={columns}
+          />
+      }
     </Table.Container>
   );
 }
@@ -52,6 +60,7 @@ function parseProlog(rules) {
 }
 
 const tableData = signal([]);
+const isTableDataLoading = signal(false);
 const tableHeaders = signal([]);
 
 new P.type.Module(
@@ -116,7 +125,9 @@ async function runQuery(rows, query, queryFormElement) {
     return;
   }
 
+  tableHeaders.value = [];
   tableData.value = [];
+  isTableDataLoading.value = true;
 
   try {
     for await (const answer of session.promiseAnswers()) {
@@ -125,6 +136,9 @@ async function runQuery(rows, query, queryFormElement) {
   } catch (err) {
     errorMessage = err.toString();
   }
+
+  isTableDataLoading.value = false;
+
   for (const warning in session.get_warnings()) {
     diagnosticsMessages.push(warning.toString());
   }
