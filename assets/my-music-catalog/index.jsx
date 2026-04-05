@@ -1,7 +1,7 @@
 import { parse } from "csv-parse/browser/esm";
 import {BaseStyles, ThemeProvider} from '@primer/react';
 import {Table, DataTable} from '@primer/react/experimental';
-import { signal } from "@preact/signals-react";
+import { signal, computed } from "@preact/signals-react";
 import { useSignals } from "@preact/signals-react/runtime";
 import { render } from "preact";
 import '@primer/primitives/dist/css/functional/themes/dark.css';
@@ -34,7 +34,16 @@ form.addEventListener("submit", event => {
 function PrologResultsTable() {
   useSignals();
 
-  const columns = tableHeaders.value.map((header, index) => ({ header, field: index.toString() }));
+  const columns = computed(() => tableHeaders.value.map((header, index) => ({ header, field: index.toString() })));
+
+  const data = computed(() => tableData.value.map(row => {
+    return row.map(datum => {
+      if (datum instanceof Array) {
+        return datum.join(", ");
+      }
+      return datum;
+    });
+  }));
 
   return (
     <Table.Container>
@@ -42,11 +51,11 @@ function PrologResultsTable() {
         isTableDataLoading.value ?
           <Table.Skeleton
             rows={rows.length/2}
-            columns={columns}
+            columns={columns.value}
           />
         : <DataTable
-            data={tableData.value}
-            columns={columns}
+            data={data.value}
+            columns={columns.value}
           />
       }
     </Table.Container>
