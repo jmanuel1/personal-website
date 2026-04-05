@@ -18,9 +18,11 @@ exclude:
   - vendor/ # excluded for CI (bundler gems caching)
   - node_modules/
   - assets/my-music-catalog/index.js
+  - assets/my-music-catalog/index.css
 
 keep_files:
   - assets/my-music-catalog/index.js
+  - assets/my-music-catalog/index.css
   # https://github.com/jekyll/jekyll/issues/6586
   - assets/tau-prolog/modules/charsio.js
   - assets/tau-prolog/modules/concurrent.js

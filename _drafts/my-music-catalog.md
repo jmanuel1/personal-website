@@ -2,6 +2,7 @@
 layout: post
 title: music
 slug: my-music-catalog
+extra_css: /assets/my-music-catalog/index.css
 ---
 
 <form id="prolog_form">
@@ -17,7 +18,7 @@ slug: my-music-catalog
   <p>No warnings and no errors.</p>
 </div>
 
-<table id="prolog_results"></table>
+<div id="prolog_preact"></div>
 
 <script src="/assets/tau-prolog/modules/core.js"></script>
 <script src="/assets/tau-prolog/modules/promises.js"></script>

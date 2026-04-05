@@ -4,11 +4,17 @@ const args = process.argv.slice(2);
 const watch = args.includes("--watch");
 
 const context = await esbuild.context({
-  entryPoints: ['assets/my-music-catalog/index.js'],
+  entryPoints: ['assets/my-music-catalog/index.jsx'],
   bundle: true,
   outdir: '_site/assets/my-music-catalog/',
   format: 'esm',
-  external: ['fs', 'child_process', 'path', 'os', 'crypto']
+  alias: {
+    'react': 'preact/compat',
+    'react-dom': 'preact/compat',
+  },
+  jsxFactory: 'h',         // Use Preact's h function
+  jsxFragment: 'Fragment', // Use Preact's Fragment
+  inject: ['./preact-shim.js'], // Optional: avoid importing 'h' in every file
 });
 
 import * as fs from 'node:fs/promises';

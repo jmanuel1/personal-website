@@ -1,0 +1,11 @@
+/* Manipulate table background color so that background doesn't appear to go
+   past border. It seems Primer React assumes that the background color of the
+   table is the background color of the page. */
+
+.Table {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.Table tbody {
+  background-color: var(--bgColor-default,var(--color-canvas-default));
+}

@@ -1,4 +1,11 @@
 import { parse } from "csv-parse/browser/esm";
+import {BaseStyles, ThemeProvider} from '@primer/react';
+import {Table, DataTable} from '@primer/react/experimental';
+import { signal } from "@preact/signals-react";
+import { useSignals } from "@preact/signals-react/runtime";
+import { render } from "preact";
+import '@primer/primitives/dist/css/functional/themes/dark.css';
+import "./index.css";
 
 const P = globalThis.pl;
 
@@ -25,19 +32,18 @@ async function onParse(rows) {
   });
 }
 
-function createPrologResultsTableElement() {
-  const el = document.createElement("table");
-  el.id = "prolog_results";
-  const head = document.createElement("thead");
-  const headRow = document.createElement("tr");
-  head.appendChild(headRow);
-  el.appendChild(head);
-  const body = document.createElement("tbody");
-  el.appendChild(body);
-  return el;
-}
+function PrologResultsTable() {
+  useSignals();
 
-let prologResultsTable = createPrologResultsTableElement();
+  return (
+    <Table.Container>
+      <DataTable
+        data={tableData.value}
+        columns={tableHeaders.value.map((header, index) => ({ header, field: index.toString() }))}
+      />
+    </Table.Container>
+  );
+}
 
 function parseProlog(rules) {
   const session = P.create();
@@ -45,54 +51,20 @@ function parseProlog(rules) {
   return session.rules;
 }
 
-const tablePl = `
-  table_row(Row) :-
-    prolog_results_table(TableElement),
-    get_by_tag(TableElement, tbody, TBodyElement),
-    create(tr, RowElement),
-    row(RowElement, Row),
-    append_child(TBodyElement, RowElement).
-  table_header(Titles) :-
-    prolog_results_table(TableElement),
-    get_by_tag(TableElement, thead, THeadElement),
-    get_by_tag(THeadElement, tr, THeadRowElement),
-    findall(TDataElement, get_by_tag(THeadRowElement, th, TDataElement), TDataElements),
-    fill_table_row(Titles, TDataElements, THeadRowElement).
-
-  row(_, []).
-  row(Element, [Datum | Data]) :-
-    create(td, DataElement),
-    inner_text(DataElement, Datum),
-    append_child(Element, DataElement),
-    row(Element, Data).
-
-  fill_table_row([], [], _).
-  fill_table_row([Datum | Data], [], ParentElement) :-
-    create(th, TDataElement),
-    inner_text(TDataElement, Datum),
-    append_child(ParentElement, TDataElement),
-    fill_table_row(Data, [], ParentElement).
-  fill_table_row([Datum | Data], [Element | Elements], ParentElement) :-
-    inner_text(Element, Datum),
-    fill_table_row(Data, Elements, ParentElement).
-
-  inner_text(Element, Text) :- set_prop(Element, innerText, Text).`;
+const tableData = signal([]);
+const tableHeaders = signal([]);
 
 new P.type.Module(
   "app",
   {
-    ...parseProlog(tablePl),
-    "prolog_results_table/1": function (thread, point, atom) {
-      const el = atom.args[0];
-      thread.prepend([
-        new P.type.State(
-          point.goal.replace(
-            new P.type.Term("=", [el, P.fromJavaScript.apply(prologResultsTable)]),
-          ),
-          point.substitution,
-          point,
-        ),
-      ]);
+    "table_row/1": function (thread, point, atom) {
+      const row = atom.args[0];
+      tableData.value = [...tableData.value, row.toJavaScript()];
+      thread.success(point);
+    },
+    "table_header/1": function (thread, point, atom) {
+      tableHeaders.value = atom.args[0].toJavaScript();
+      thread.success(point);
     },
   },
   ["table_row/1", "table_header/1"],
@@ -108,7 +80,6 @@ async function runQuery(rows, query, queryFormElement) {
   let diagnosticsMessagesElement = document.createElement("p");
   diagnosticsMessagesElement.innerText = "No warnings and no errors.";
   queryFormElement.setCustomValidity("");
-  const tableElement = prologResultsTable;
 
   const facts = [];
   for (const data of rows) {
@@ -145,6 +116,8 @@ async function runQuery(rows, query, queryFormElement) {
     return;
   }
 
+  tableData.value = [];
+
   try {
     for await (const answer of session.promiseAnswers()) {
       // empty
@@ -156,9 +129,6 @@ async function runQuery(rows, query, queryFormElement) {
     diagnosticsMessages.push(warning.toString());
   }
   displayDiagnostics();
-
-  document.getElementById("prolog_results").replaceWith(tableElement);
-  prologResultsTable = createPrologResultsTableElement();
 
   function displayDiagnostics() {
     errorMessage && diagnosticsMessages.push(errorMessage);
@@ -173,3 +143,15 @@ async function runQuery(rows, query, queryFormElement) {
     diagsElement.replaceChild(diagnosticsMessagesElement, diagsElementLastChild);
   }
 }
+
+function Root() {
+  return (
+    <ThemeProvider colorMode="night">
+      <BaseStyles>
+        <PrologResultsTable />
+      </BaseStyles>
+    </ThemeProvider>
+  );
+}
+
+render(<Root />, document.getElementById("prolog_preact"));
