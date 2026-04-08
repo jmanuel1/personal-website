@@ -21,13 +21,14 @@ can be a function of values, based on
 [LambdaPi](https://www.andres-loeh.de/LambdaPi/LambdaPi.pdf). The idea of
 getting Recalc to work on the web entertained me, since the Recalc backend is
 written in [Haskell](https://www.haskell.org/). Plus, a spreadsheet is an easy
-way to keep track of albums. Thus, I tried compiling the Recalc backend to JS
-and to a WebAssembly System Interface (WASI) program. Unfortunately, I
-encountered linker errors that I didn't understand with [the Glasgow Haskell
-Compiler (GHC)'s](https://www.haskell.org/ghc/) JS backend, and I didn't feel
-like trying to get the WASM program to accept input asynchronously. I had
-trouble quickly understanding the Haskell code, so I decided to move on instead
-of dealing with the issues I had with WASM (specifically WASI).
+way to keep track of albums, which gave me an excuse to try using Recalc. Thus,
+I tried compiling the Recalc backend to JS, then to a WebAssembly System Interface
+(WASI) program. Unfortunately, I encountered linker errors that I didn't
+understand with [the Glasgow Haskell Compiler
+(GHC)'s](https://www.haskell.org/ghc/) JS backend, and I didn't feel like trying
+to get the WASM program to accept input asynchronously. I had trouble quickly
+understanding the Haskell code, so I decided to move on instead of dealing with
+the issues I had with WASM (specifically WASI).
 
 <!-- TODO: improve clickbait using AI -->
 <!-- TODO: discuss options I looked at -->
