@@ -1,7 +1,7 @@
 import { parse } from "csv-parse/browser/esm";
-import {BaseStyles, ThemeProvider} from '@primer/react';
+import {BaseStyles, ThemeProvider, FormControl, Textarea, Button} from '@primer/react';
 import {Table, DataTable} from '@primer/react/experimental';
-import { signal, computed } from "@preact/signals-react";
+import { signal, computed, useComputed, useSignal } from "@preact/signals-react";
 import { useSignals } from "@preact/signals-react/runtime";
 import { render } from "preact";
 import '@primer/primitives/dist/css/functional/themes/dark.css';
@@ -18,25 +18,48 @@ const rows = await new Promise((resolve, reject) => parse(cds, (err, data) => {
   resolve(data);
 }));
 
-const form = document.getElementById("prolog_form");
-
-form.elements["prolog_query"].addEventListener("input", event => {
-  event.target.setCustomValidity("");
-});
-
-form.addEventListener("submit", event => {
+function prologFormOnSubmit(event) {
   event.preventDefault();
+  event.stopImmediatePropagation();
+  const form = event.target;
   const queryFormElement = form.elements["prolog_query"];
   const query = queryFormElement.value;
   runQuery(rows, query, queryFormElement);
-});
+}
+
+const prologQueryValidationMessage = signal();
+
+
+function PrologForm() {
+  useSignals();
+
+  const prologQuery = useSignal("album(Artists, Name), table_header(['Artists', 'Album']), table_row([Artists, Name]).");
+
+  function onPrologFormInput(event) {
+    prologQueryValidationMessage.value = null;
+    prologQuery.value = event.target.value;
+  }
+
+  return (
+    <form onSubmit={prologFormOnSubmit}>
+      <FormControl>
+        <FormControl.Label>Prolog query</FormControl.Label>
+        {/* Textarea is controlled so that rerenders due to validation don't clear input. */}
+        <Textarea name="prolog_query" block onInput={onPrologFormInput} value={prologQuery.value} />
+        {/* I don't use Show because then textarea is not styled for invalid state. */}
+        {prologQueryValidationMessage.value && <FormControl.Validation variant="error">{prologQueryValidationMessage.value}</FormControl.Validation>}
+      </FormControl>
+      <Button variant="primary" type="submit">Submit</Button>
+    </form>
+  );
+}
 
 function PrologResultsTable() {
   useSignals();
 
-  const columns = computed(() => tableHeaders.value.map((header, index) => ({ header, field: index.toString() })));
+  const columns = useComputed(() => tableHeaders.value.map((header, index) => ({ header, field: index.toString() })));
 
-  const data = computed(() => tableData.value.map(row => {
+  const data = useComputed(() => tableData.value.map(row => {
     return row.map(datum => {
       if (datum instanceof Array) {
         return datum.join(", ");
@@ -97,7 +120,6 @@ async function runQuery(rows, query, queryFormElement) {
   const diagsElementLastChild = diagsElement.lastElementChild;
   let diagnosticsMessagesElement = document.createElement("p");
   diagnosticsMessagesElement.innerText = "No warnings and no errors.";
-  queryFormElement.setCustomValidity("");
 
   const facts = [];
   for (const data of rows) {
@@ -124,7 +146,7 @@ async function runQuery(rows, query, queryFormElement) {
     await session.promiseQuery(query);
   } catch (err) {
     errorMessage = err.toString();
-    queryFormElement.setCustomValidity("Invalid Prolog query. Check for syntax errors.");
+    prologQueryValidationMessage.value = "Invalid Prolog query. Check for syntax errors.";
   }
   for (const warning in session.get_warnings()) {
     diagnosticsMessages.push(warning.toString());
@@ -171,6 +193,7 @@ function Root() {
   return (
     <ThemeProvider colorMode="night">
       <BaseStyles>
+        <PrologForm />
         <PrologResultsTable />
       </BaseStyles>
     </ThemeProvider>

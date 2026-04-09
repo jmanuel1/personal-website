@@ -45,14 +45,6 @@ You can change the headers of the table using the `table_header/1` predicate.
 You can add rows to the table using the `table_row/1` predicate. Both of these
 predicates are imperative. There is already an example query in the form.
 
-<form id="prolog_form">
-<label for="prolog_query" class="width-full mb-1 d-block">
-  Prolog query:
-</label>
-<textarea id="prolog_query" name="prolog_query" class="width-full text-mono">album(Artists, Name), table_header(['Artists', 'Album']), table_row([Artists, Name]).</textarea>
-<button type="submit" class="ml-auto d-block mb-1 mt-1">Submit</button>
-</form>
-
 <div id="prolog_diagnostics">
   <h2>Warnings and Errors</h2>
   <p>No warnings and no errors.</p>
