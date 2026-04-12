@@ -1,11 +1,9 @@
 ---
 layout: post
-title: music
+title: Using "AI Technology" to Keep Track of My Music Collection
 slug: my-music-catalog
 extra_css: /assets/my-music-catalog/index.css
 ---
-
-<!-- TODO: clickbait title -->
 
 I recently decided to start keeping track of what music I own copies of because
 I started to have trouble remembering what I haven't bought yet. Additionally, I
