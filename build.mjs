@@ -15,6 +15,7 @@ const context = await esbuild.context({
   jsxFactory: 'h',         // Use Preact's h function
   jsxFragment: 'Fragment', // Use Preact's Fragment
   inject: ['./preact-shim.js'], // Optional: avoid importing 'h' in every file
+  sourcemap: true,
 });
 
 import * as fs from 'node:fs/promises';
