@@ -78,11 +78,6 @@ You can change the headers of the table using the `table_header/1` predicate.
 You can add rows to the table using the `table_row/1` predicate. Both of these
 predicates are imperative. There is already an example query in the form.
 
-<div id="prolog_diagnostics">
-  <h2>Warnings and Errors</h2>
-  <p>No warnings and no errors.</p>
-</div>
-
 <div id="prolog_preact"></div>
 
 <script src="/assets/tau-prolog/modules/core.js"></script>

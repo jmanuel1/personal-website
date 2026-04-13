@@ -4,6 +4,7 @@ import {Table, DataTable} from '@primer/react/experimental';
 import { signal, computed, useComputed, useSignal } from "@preact/signals-react";
 import { useSignals } from "@preact/signals-react/runtime";
 import { render } from "preact";
+import "@primer/primitives/dist/css/primitives.css";
 import '@primer/primitives/dist/css/functional/themes/dark.css';
 import "./index.css";
 
@@ -114,13 +115,9 @@ new P.type.Module(
   },
 );
 
-async function runQuery(rows, query, queryFormElement) {
-  const diagsElement = document.getElementById("prolog_diagnostics");
-  const diagsHeading = diagsElement.querySelector("h2");
-  const diagsElementLastChild = diagsElement.lastElementChild;
-  let diagnosticsMessagesElement = document.createElement("p");
-  diagnosticsMessagesElement.innerText = "No warnings and no errors.";
+const diagnostics = signal([]);
 
+async function runQuery(rows, query, queryFormElement) {
   const facts = [];
   for (const data of rows) {
     const [artists, albumName] = data;
@@ -177,16 +174,24 @@ async function runQuery(rows, query, queryFormElement) {
 
   function displayDiagnostics() {
     errorMessage && diagnosticsMessages.push(errorMessage);
-    if (diagnosticsMessages.length !== 0) {
-      diagnosticsMessagesElement = document.createElement("ol");
-      for (const message of diagnosticsMessages) {
-        const el = document.createElement("li");
-        el.innerText = message;
-        diagnosticsMessagesElement.appendChild(el);
-      }
-    }
-    diagsElement.replaceChild(diagnosticsMessagesElement, diagsElementLastChild);
+    diagnostics.value = diagnosticsMessages;
   }
+}
+
+function Diagnostics() {
+  useSignals();
+
+  return (
+    <>
+      <h3>Warnings and errors</h3>
+      {/* TODO: distinguish between warnings and errors */}
+      {/* TODO: Announce change to assistive technology? */}
+      {diagnostics.value.length
+        // not sure what to use as key
+        ? <ol>{diagnostics.value.map(m => <li style={{"font-family": "var(--fontStack-monospace)"}}>{m}</li>)}</ol>
+        : <p>No warnings and no errors.</p>}
+    </>
+  );
 }
 
 function Root() {
@@ -194,6 +199,9 @@ function Root() {
     <ThemeProvider colorMode="night">
       <BaseStyles>
         <PrologForm />
+        <Diagnostics />
+        <h3>Results</h3>
+        {/* TODO: show default results */}
         <PrologResultsTable />
       </BaseStyles>
     </ThemeProvider>
