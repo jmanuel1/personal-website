@@ -71,7 +71,9 @@ Anyway, the technology is called [Prolog](https://en.wikipedia.org/wiki/Prolog).
 
 ## How to browse my collection
 
-Enter in a Prolog query in the form below to change what results are displayed.
+<!-- TODO: album predicate -->
+
+Enter a Prolog query into the form below to change which results are displayed.
 You can change the headers of the table using the `table_header/1` predicate.
 You can add rows to the table using the `table_row/1` predicate. Both of these
 predicates are imperative. There is already an example query in the form.
