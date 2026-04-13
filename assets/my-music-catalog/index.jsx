@@ -1,5 +1,5 @@
 import { parse } from "csv-parse/browser/esm";
-import {BaseStyles, ThemeProvider, FormControl, Textarea, Button} from '@primer/react';
+import {BaseStyles, ThemeProvider, FormControl, Textarea, Button, Stack} from '@primer/react';
 import {Table, DataTable} from '@primer/react/experimental';
 import { signal, computed, useComputed, useSignal } from "@preact/signals-react";
 import { useSignals } from "@preact/signals-react/runtime";
@@ -42,7 +42,7 @@ function PrologForm() {
   }
 
   return (
-    <form onSubmit={prologFormOnSubmit}>
+    <Stack as="form" onSubmit={prologFormOnSubmit}>
       <FormControl>
         <FormControl.Label>Prolog query</FormControl.Label>
         {/* Textarea is controlled so that rerenders due to validation don't clear input. */}
@@ -50,8 +50,8 @@ function PrologForm() {
         {/* I don't use Show because then textarea is not styled for invalid state. */}
         {prologQueryValidationMessage.value && <FormControl.Validation variant="error">{prologQueryValidationMessage.value}</FormControl.Validation>}
       </FormControl>
-      <Button variant="primary" type="submit">Submit</Button>
-    </form>
+      <Button variant="primary" type="submit" style={{"margin-left": "auto"}}>Submit</Button>
+    </Stack>
   );
 }
 
