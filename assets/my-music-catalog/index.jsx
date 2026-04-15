@@ -45,7 +45,7 @@ function PrologForm() {
       <FormControl>
         <FormControl.Label>Prolog query</FormControl.Label>
         {/* Textarea is controlled so that rerenders due to validation don't clear input. */}
-        <Textarea name="prolog_query" block onInput={onPrologFormInput} value={prologQuery.value} />
+        <Textarea name="prolog_query" block onInput={onPrologFormInput} value={prologQuery.value} style={{"font-family": "var(--fontStack-monospace)"}} />
         {/* I don't use Show because then textarea is not styled for invalid state. */}
         {prologQueryValidationMessage.value && <FormControl.Validation variant="error">{prologQueryValidationMessage.value}</FormControl.Validation>}
       </FormControl>
