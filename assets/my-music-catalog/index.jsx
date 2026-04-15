@@ -3,7 +3,6 @@ import {BaseStyles, ThemeProvider, FormControl, Textarea, Button, Stack} from '@
 import {Table, DataTable} from '@primer/react/experimental';
 import { signal, computed, useComputed, useSignal } from "@preact/signals-react";
 import { useSignals } from "@preact/signals-react/runtime";
-// TODO: remap import at npm level, too
 import { render } from "preact";
 import "@primer/primitives/dist/css/primitives.css";
 import '@primer/primitives/dist/css/functional/themes/dark.css';
