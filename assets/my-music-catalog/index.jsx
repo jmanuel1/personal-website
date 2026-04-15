@@ -21,7 +21,6 @@ const rows = await new Promise((resolve, reject) => parse(cds, (err, data) => {
 
 function prologFormOnSubmit(event) {
   event.preventDefault();
-  event.stopImmediatePropagation();
   const form = event.target;
   const queryFormElement = form.elements["prolog_query"];
   const query = queryFormElement.value;
