@@ -9,26 +9,24 @@ I recently decided to start keeping track of what music I own copies of because
 I started to have trouble remembering what I haven't bought yet. Additionally, I
 was about to move, so I was going to have to look at all my CDs anyway. I wanted
 a way to catalog my music using software that is offline and that doesn't have
-vendor lock-in.
-
-However, several months ago, I learned about this spreadsheet program called
-[Recalc](https://b4er.github.io/recalc/). Recalc is a [*dependently
+vendor lock-in. Contemporaneously, I learned about this spreadsheet program
+called [Recalc](https://b4er.github.io/recalc/). Recalc is a [*dependently
 typed*](https://en.wikipedia.org/wiki/Dependent_type) spreadsheet, which is to
 say, its formula language is a small dependently typed language, in which types
 can be a function of values, based on
 [LambdaPi](https://www.andres-loeh.de/LambdaPi/LambdaPi.pdf). The idea of
 getting Recalc to work on the web entertained me, since the Recalc backend is
 written in [Haskell](https://www.haskell.org/). Plus, a spreadsheet is an easy
-way to keep track of albums, which gave me an excuse to try using Recalc. Thus,
-I tried compiling the Recalc backend to JS, then to a WebAssembly System Interface
-(WASI) program. Unfortunately, I encountered linker errors that I didn't
-understand with [the Glasgow Haskell Compiler
+way to keep track of albums, which gave me an excuse to try using Recalc.
+
+Thus, I tried compiling the Recalc backend to JS, then to a WebAssembly System
+Interface (WASI) program. Unfortunately, I encountered linker errors that I
+didn't understand with [the Glasgow Haskell Compiler
 (GHC)'s](https://www.haskell.org/ghc/) JS backend, and I didn't feel like trying
 to get the WASM program to accept input asynchronously. I had trouble quickly
 understanding the Haskell code, so I decided to move on instead of dealing with
 the issues I had with WASM (specifically WASI).
 
-<!-- TODO: improve flow of clickbait -->
 <!-- TODO: discuss options I looked at -->
 Still, I wanted a spreadsheet/data grid interface with an unusual choice of
 query or formula language. Among all the available options, I settled upon a
@@ -87,6 +85,9 @@ predicates are imperative. There is already an example query in the form.
 <script type="module" src="/assets/my-music-catalog/index.js"></script>
 
 <!-- TODO: implementation notes -->
+
+<!-- TODO: Conclusion -->
+<!-- TODO: pictures -->
 
 ## Acknowledgments
 
