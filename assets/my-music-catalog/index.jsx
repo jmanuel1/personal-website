@@ -3,6 +3,7 @@ import {BaseStyles, ThemeProvider, FormControl, Textarea, Button, Stack} from '@
 import {Table, DataTable} from '@primer/react/experimental';
 import { signal, computed, useComputed, useSignal } from "@preact/signals-react";
 import { useSignals } from "@preact/signals-react/runtime";
+// TODO: remap import at npm level, too
 import { render } from "preact";
 import "@primer/primitives/dist/css/primitives.css";
 import '@primer/primitives/dist/css/functional/themes/dark.css';
@@ -24,16 +25,16 @@ function prologFormOnSubmit(event) {
   const form = event.target;
   const queryFormElement = form.elements["prolog_query"];
   const query = queryFormElement.value;
-  runQuery(rows, query, queryFormElement);
+  runQuery(rows, query);
 }
 
 const prologQueryValidationMessage = signal();
-
+const defaultQuery = "album(Artists, Name), table_header(['Artists', 'Album']), table_row([Artists, Name]).";
 
 function PrologForm() {
   useSignals();
 
-  const prologQuery = useSignal("album(Artists, Name), table_header(['Artists', 'Album']), table_row([Artists, Name]).");
+  const prologQuery = useSignal(defaultQuery);
 
   function onPrologFormInput(event) {
     prologQueryValidationMessage.value = null;
@@ -116,7 +117,7 @@ new P.type.Module(
 
 const diagnostics = signal([]);
 
-async function runQuery(rows, query, queryFormElement) {
+async function runQuery(rows, query) {
   const facts = [];
   for (const data of rows) {
     const [artists, albumName] = data;
@@ -200,11 +201,11 @@ function Root() {
         <PrologForm />
         <Diagnostics />
         <h3>Results</h3>
-        {/* TODO: show default results */}
         <PrologResultsTable />
       </BaseStyles>
     </ThemeProvider>
   );
 }
 
+runQuery(rows, defaultQuery);
 render(<Root />, document.getElementById("prolog_preact"));
