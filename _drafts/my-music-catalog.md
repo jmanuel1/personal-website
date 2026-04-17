@@ -118,3 +118,4 @@ allowfullscreen></iframe>
 ## Acknowledgments
 
 - [Tau Prolog license](/assets/tau-prolog/LICENSE.txt)
+- [Licenses for other dependencies](/assets/my-music-catalog/dependencies.txt)

@@ -1,7 +1,22 @@
 import * as esbuild from 'esbuild';
+import esbuildPluginLicense from 'esbuild-plugin-license';
 
 const args = process.argv.slice(2);
 const watch = args.includes("--watch");
+
+const licensePluginOptions = {
+  banner: `/*! <%= pkg.name %> v<%= pkg.version %> | <%= pkg.license %> */`,
+  thirdParty: {
+    includePrivate: false,
+    output: {
+      file: 'dependencies.txt',
+      // Template function that can be defined to customize report output
+      template(dependencies) {
+        return dependencies.map((dependency) => `${dependency.packageJson.name}:${dependency.packageJson.version} -- ${dependency.packageJson.license}\n${dependency.licenseText}`).join('\n');
+      },
+    }
+  }
+};
 
 const context = await esbuild.context({
   entryPoints: ['assets/my-music-catalog/index.jsx'],
@@ -16,6 +31,7 @@ const context = await esbuild.context({
   jsxFragment: 'Fragment', // Use Preact's Fragment
   inject: ['./preact-shim.js'], // Optional: avoid importing 'h' in every file
   sourcemap: true,
+  plugins: [esbuildPluginLicense(licensePluginOptions)],
 });
 
 import * as fs from 'node:fs/promises';

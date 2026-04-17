@@ -309,6 +309,11 @@ deepmerge@^4.3.1:
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.3.1.tgz#44b5f2147cd3b00d4b56137685966f26fd25dd4a"
   integrity sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==
 
+esbuild-plugin-license@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/esbuild-plugin-license/-/esbuild-plugin-license-1.2.3.tgz#4fde9b0ce257516e3fcec459f401d9e8df19554d"
+  integrity sha512-/ovWsIFHYIRqapsPCojMRHFppCgU3jFTVSu9r6MjpUArCWukL64+NwYJkX28ZXzYtw/cOYkGmbC3EhX0qwnn9w==
+
 esbuild@^0.27.4:
   version "0.27.4"
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.27.4.tgz#b9591dd7e0ab803a11c9c3b602850403bef22f00"
