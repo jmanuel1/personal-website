@@ -7,27 +7,35 @@ extra_css: /assets/my-music-catalog/index.css
 
 I recently decided to start keeping track of what music I own copies of because
 I started to have trouble remembering what I haven't bought yet. Additionally, I
-was about to move, so I was going to have to look at all my CDs anyway. I wanted
-a way to catalog my music using software that is offline and that doesn't have
-vendor lock-in. Contemporaneously, I learned about this spreadsheet program
-called [Recalc](https://b4er.github.io/recalc/). Recalc is a [*dependently
-typed*](https://en.wikipedia.org/wiki/Dependent_type) spreadsheet, which is to
-say, its formula language is a small dependently typed language, in which types
-can be a function of values, based on
-[LambdaPi](https://www.andres-loeh.de/LambdaPi/LambdaPi.pdf). The idea of
-getting Recalc to work on the web entertained me, since the Recalc backend is
-written in [Haskell](https://www.haskell.org/). Plus, a spreadsheet is an easy
-way to keep track of albums, which gave me an excuse to try using Recalc.
+was about to move, so I was going to have to look at all my CDs anyway. Here's a
+photo of most of my CDs:
+
+![A view of my CD collection.](/assets/my-music-catalog/cds.jpg)
+
+I wanted a way to catalog my music using software that can run offline and that
+doesn't have vendor lock-in. Contemporaneously, I learned about this spreadsheet
+program called [Recalc](https://b4er.github.io/recalc/). Recalc is a
+[*dependently typed*](https://en.wikipedia.org/wiki/Dependent_type) spreadsheet,
+which is to say, its formula language is a small dependently typed language, in
+which types can be a function of values, based on
+[LambdaPi](https://www.andres-loeh.de/LambdaPi/LambdaPi.pdf).
+
+![A demo of Recalc showing the use of functions and a type
+error.](https://b4er.github.io/recalc/gifs/demo.gif)
+
+The idea of getting Recalc to work on the web entertained me, since the Recalc
+backend is written in [Haskell](https://www.haskell.org/). Plus, a spreadsheet
+is an easy way to keep track of albums, which gave me an excuse to try using
+Recalc.
 
 Thus, I tried compiling the Recalc backend to JS, then to a WebAssembly System
 Interface (WASI) program. Unfortunately, I encountered linker errors that I
 didn't understand with [the Glasgow Haskell Compiler
 (GHC)'s](https://www.haskell.org/ghc/) JS backend, and I didn't feel like trying
-to get the WASM program to accept input asynchronously. I had trouble quickly
-understanding the Haskell code, so I decided to move on instead of dealing with
-the issues I had with WASM (specifically WASI).
+to work around WASI to get the WASM program to accept input asynchronously. I
+also had trouble quickly understanding the Haskell code, so I decided to move on
+from Recalc.
 
-<!-- TODO: discuss options I looked at -->
 Still, I wanted a spreadsheet/data grid interface with an unusual choice of
 query or formula language. Among all the available options, I settled upon a
 well-known traditional AI technology. After all, AI is all the rage these days.
@@ -67,6 +75,8 @@ actual, consistent reasoning instead of just very convincing guessing.
 Anyway, the technology is called [Prolog](https://en.wikipedia.org/wiki/Prolog).
 (The above Prolog clickbait was written with the assistance of ChatGPT.)
 
+![LLMs? Just write horn clauses, bro.](https://i.redd.it/ilnze7wjnwc51.jpg)
+
 ## How to browse my collection
 
 <!-- TODO: album predicate -->
@@ -86,8 +96,24 @@ predicates are imperative. There is already an example query in the form.
 
 <!-- TODO: implementation notes -->
 
+<!-- TODO: discuss options I looked at -->
+
+
+<!-- https://www.google.com/books/edition/Practical_Aspects_of_Declarative_Languag/whBPEQAAQBAJ?hl=en&gbpv=1&pg=PA146&printsec=frontcover -->
+![Haskcell (Ballesteros et al., 2025) defines a formula language based on
+Haskell. This is an example of a Haskcell spreadsheet for calculating student
+grades.](/assets/my-music-catalog/haskcell-figure-2.png)
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/if1Psu6RJbs?si=hdjo2CLzPGrvgnIK"
+title="YouTube video about Forth Spreadsheets" frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;
+picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
+allowfullscreen></iframe>
+
+![Scheme In A Grid](https://siag.nu/siag/siag.gif)
+
 <!-- TODO: Conclusion -->
-<!-- TODO: pictures -->
 
 ## Acknowledgments
 
