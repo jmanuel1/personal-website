@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Using "AI Technology" to Keep Track of My Music Collection
+title: Using "AI" to Keep Track of My Music Collection
 slug: my-music-catalog
 extra_css: /assets/my-music-catalog/index.css
 ---
