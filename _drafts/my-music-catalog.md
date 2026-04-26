@@ -5,6 +5,10 @@ slug: my-music-catalog
 extra_css: /assets/my-music-catalog/index.css
 ---
 
+<!-- TODO: Change slug -->
+
+<!-- TODO: Check asset sizes -->
+
 I recently decided to start keeping track of what music I own copies of because
 I started to have trouble remembering what I haven't bought yet. Additionally, I
 was about to move, so I was going to have to look at all my CDs anyway. Here's a
@@ -94,7 +98,25 @@ predicates are imperative. There is already an example query in the form.
 <script src="/assets/tau-prolog/modules/js.js"></script>
 <script type="module" src="/assets/my-music-catalog/index.js"></script>
 
-<!-- TODO: implementation notes -->
+# How this works
+
+The Prolog implementation I'm using is [Tau Prolog](http://tau-prolog.org/),
+which is a Prolog interpreter written in JS. Unfortunately, not all of Tau
+Prolog is properly modularized in a way that supports transpilation to ES
+modules by esbuild, so I load Tau Prolog globally using `script` elements.
+
+I wanted to use GitHub's data grid and form components based on their Primer
+design system since those fit better with the look of my site than what my CSS
+produced with plain elements. Those components are React components. [React is a
+bit much for my
+purposes](https://infrequently.org/2024/11/if-not-react-then-what), so I'm using
+[Preact](https://preactjs.com/) instead. I also wanted to try Preact and
+[signals](https://preactjs.com/guide/v10/signals/) anyway. Signals are used to
+manage state within the form and data grid.
+
+The `table_header/1` and `table_row/1` predicates are implemented in JS and set
+the values of signals. Actually, the UI is written in JS and not in Prolog,
+although some of it was written in Prolog originally.
 
 <!-- TODO: discuss options I looked at -->
 
