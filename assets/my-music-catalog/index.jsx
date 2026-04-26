@@ -1,6 +1,7 @@
 import { parse } from "csv-parse/browser/esm";
 import {BaseStyles, ThemeProvider, FormControl, Textarea, Button, Stack} from '@primer/react';
 import {Table, DataTable} from '@primer/react/experimental';
+import {CircleSlashIcon, AlertFillIcon} from '@primer/octicons-react';
 import { signal, computed, useComputed, useSignal } from "@preact/signals-react";
 import { useSignals } from "@preact/signals-react/runtime";
 import { render } from "preact";
@@ -133,7 +134,7 @@ async function runQuery(rows, query) {
     console.error('during consult', err.toString());
     throw err;
   }
-  for (const warning in session.get_warnings()) {
+  for (const warning of session.get_warnings()) {
     console.warn('consult warnings', warning.toString());
   }
   const diagnosticsMessages = [];
@@ -144,9 +145,7 @@ async function runQuery(rows, query) {
     errorMessage = err.toString();
     prologQueryValidationMessage.value = "Invalid Prolog query. Check for syntax errors.";
   }
-  for (const warning in session.get_warnings()) {
-    diagnosticsMessages.push(warning.toString());
-  }
+  pushWarnings();
   if (errorMessage) {
     displayDiagnostics();
     return;
@@ -158,22 +157,28 @@ async function runQuery(rows, query) {
 
   try {
     for await (const answer of session.promiseAnswers()) {
-      // empty
+      // warnings are reset every time you ask for another answer
+      pushWarnings();
     }
   } catch (err) {
     errorMessage = err.toString();
+    // Catch any remaining warnings
+    pushWarnings();
   }
 
   isTableDataLoading.value = false;
 
-  for (const warning in session.get_warnings()) {
-    diagnosticsMessages.push(warning.toString());
-  }
   displayDiagnostics();
 
   function displayDiagnostics() {
-    errorMessage && diagnosticsMessages.push(errorMessage);
+    errorMessage && diagnosticsMessages.push({level: 'Error', msg: errorMessage});
     diagnostics.value = diagnosticsMessages;
+  }
+
+  function pushWarnings() {
+    for (const warning of session.get_warnings()) {
+      diagnosticsMessages.push({level: 'Warning', msg: warning.toString()});
+    }
   }
 }
 
@@ -187,10 +192,27 @@ function Diagnostics() {
       {/* TODO: Announce change to assistive technology? */}
       {diagnostics.value.length
         // not sure what to use as key
-        ? <ol>{diagnostics.value.map(m => <li style={{"font-family": "var(--fontStack-monospace)"}}>{m}</li>)}</ol>
+        ? <ol>{diagnostics.value.map(m => <li><DiagnosticIcon level={m.level} /> {m.level}: <span style={{"font-family": "var(--fontStack-monospace)"}}>{m.msg}</span></li>)}</ol>
         : <p>No warnings and no errors.</p>}
     </>
   );
+}
+
+function DiagnosticIcon({level}) {
+  switch (level) {
+    case 'Warning':
+      return (
+        <AlertFillIcon size={16} />
+      );
+    case 'Error':
+      return (
+        <CircleSlashIcon size={16} />
+      );
+      break;
+    default:
+      console.warn(`Unknown diagnostic level: ${level}`);
+      return null;
+  }
 }
 
 function Root() {

@@ -10,3 +10,16 @@
 .Table tbody td {
   background-color: var(--bgColor-default, var(--color-canvas-default));
 }
+
+/* I would follow the suggestion at
+   https://primer.style/octicons/code/#fill-color to use inherited color, but
+   there's other CSS interfering to the point that using the icon components'
+   fill prop doesn't work. */
+
+.octicon.octicon-circle-slash {
+  fill: var(--fgColor-danger);
+}
+
+.octicon.octicon-alert-fill {
+  fill: var(--fgColor-attention);
+}
