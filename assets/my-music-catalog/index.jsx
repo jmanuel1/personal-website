@@ -115,8 +115,12 @@ new P.type.Module(
       tableHeaders.value = atom.args[0].toJavaScript();
       thread.success(point);
     },
+    "warning_/1": function (thread, point, atom) {
+      thread.throw_warning(new P.type.Term("warning", [new P.type.Term("generic", [atom.args[0]])]));
+      thread.success(point);
+    },
   },
-  ["table_row/1", "table_header/1"],
+  ["table_row/1", "table_header/1", "warning_/1"],
   {
     dependencies: ["dom", "js"],
   },
