@@ -50,7 +50,12 @@ function PrologForm() {
         {/* I don't use Show because then textarea is not styled for invalid state. */}
         {prologQueryValidationMessage.value && <FormControl.Validation variant="error">{prologQueryValidationMessage.value}</FormControl.Validation>}
       </FormControl>
-      <Button variant="primary" type="submit" style={{"margin-left": "auto"}}>Submit</Button>
+      <Stack direction="horizontal" align="center">
+        <span aria-live="polite">
+          {isTableDataLoading.value ? "" : "Query finished. Results are shown under the 'Results' heading."}
+        </span>
+        <Button variant="primary" type="submit" style={{"margin-left": "auto"}}>Submit</Button>
+      </Stack>
     </Stack>
   );
 }
