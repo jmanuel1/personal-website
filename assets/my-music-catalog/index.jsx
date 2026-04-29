@@ -25,6 +25,7 @@ function prologFormOnSubmit(event) {
   const form = event.target;
   const queryFormElement = form.elements["prolog_query"];
   const query = queryFormElement.value;
+  isUserQuery.value = true;
   runQuery(rows, query);
 }
 
@@ -51,7 +52,7 @@ function PrologForm() {
         {prologQueryValidationMessage.value && <FormControl.Validation variant="error">{prologQueryValidationMessage.value}</FormControl.Validation>}
       </FormControl>
       <Stack direction="horizontal" align="center">
-        <span aria-live="polite">
+        <span aria-live={isUserQuery.value ? "polite" : "off"}>
           {isTableDataLoading.value ? "" : "Query finished. Results are shown under the 'Results' heading."}
         </span>
         <Button variant="primary" type="submit" style={{"margin-left": "auto"}}>Submit</Button>
@@ -99,6 +100,7 @@ function parseProlog(rules) {
 
 const tableData = signal([]);
 const isTableDataLoading = signal(false);
+const isUserQuery = signal(false);
 const tableHeaders = signal([]);
 
 new P.type.Module(
