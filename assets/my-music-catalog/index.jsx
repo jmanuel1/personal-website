@@ -193,18 +193,23 @@ async function runQuery(rows, query) {
   }
 }
 
-function Diagnostics() {
+function Diagnostics({level}) {
   useSignals();
+
+  const messages = useComputed(() => {
+    return diagnostics.value.filter(d => d.level === level).map(d => d.msg);
+  });
 
   return (
     <>
-      <h3>Warnings and errors</h3>
-      {/* TODO: distinguish between warnings and errors */}
+      <h3>{level}s</h3>
       {/* TODO: Announce change to assistive technology? */}
-      {diagnostics.value.length
+      {messages.value.length
         // not sure what to use as key
-        ? <ol>{diagnostics.value.map(m => <li><DiagnosticIcon level={m.level} /> {m.level}: <span style={{"font-family": "var(--fontStack-monospace)"}}>{m.msg}</span></li>)}</ol>
-        : <p>No warnings and no errors.</p>}
+        ? <ol>
+          {messages.value.map(m => <li><DiagnosticIcon level={level} /> {level}: <span style={{"font-family": "var(--fontStack-monospace)"}}>{m}</span></li>)}
+        </ol>
+        : <p>No {level.toLowerCase()}s.</p>}
     </>
   );
 }
@@ -231,7 +236,8 @@ function Root() {
     <ThemeProvider colorMode="night">
       <BaseStyles>
         <PrologForm />
-        <Diagnostics />
+        <Diagnostics level='Error' />
+        <Diagnostics level='Warning' />
         <h3>Results</h3>
         <PrologResultsTable />
       </BaseStyles>
