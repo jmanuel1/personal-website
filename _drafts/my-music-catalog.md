@@ -118,22 +118,41 @@ The `table_header/1` and `table_row/1` predicates are implemented in JS and set
 the values of signals. Actually, the UI is written in JS and not in Prolog,
 although some of it was written in Prolog originally.
 
-<!-- TODO: discuss options I looked at -->
+# What other programming languages did I consider?
 
+Well, many, but here are a select few. I wanted to find "prior art" that I might
+be able to adapt or be inspired by. In the process, I learned of the following
+projects.
+
+First, we have [Haskcell](https://doi.org/10.1007/978-3-031-84924-4_10), which
+is like Haskell but with syntax for spreadsheet features such as cell
+references.
 
 <!-- https://www.google.com/books/edition/Practical_Aspects_of_Declarative_Languag/whBPEQAAQBAJ?hl=en&gbpv=1&pg=PA146&printsec=frontcover -->
 ![Haskcell (Ballesteros et al., 2025) defines a formula language based on
 Haskell. This is an example of a Haskcell spreadsheet for calculating student
 grades.](/assets/my-music-catalog/haskcell-figure-2.png)
 
-<iframe width="560" height="315"
+Second, we have [Scheme In A Grid](https://siag.nu/siag/), which is spreadsheet
+software that, to my understanding, uses Scheme as both a formula and extension
+language.
+
+![A spreadsheet open in Scheme In A Grid, although not obviously displaying any
+scheme-based features.](https://siag.nu/siag/siag.gif)
+
+The third project is actually one I learned about back in 2023,
+<!-- 11/20/2023 6:41 PM -->
+but I rediscovered it while working on this blog post. The goal of
+this project is to embed Forth in a spreadsheet interface, where the spreadsheet
+is generated from a Forth program instead of having editable cells that can
+contain Forth code.
+
+<iframe width="560" height="315" style="display: block; margin-inline: auto;"
 src="https://www.youtube.com/embed/if1Psu6RJbs?si=hdjo2CLzPGrvgnIK"
 title="YouTube video about Forth Spreadsheets" frameborder="0"
 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;
 picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
 allowfullscreen></iframe>
-
-![Scheme In A Grid](https://siag.nu/siag/siag.gif)
 
 <!-- TODO: Conclusion -->
 
